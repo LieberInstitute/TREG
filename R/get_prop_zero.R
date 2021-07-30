@@ -4,7 +4,7 @@
 #' @param sce
 #' @param group_col
 #'
-#' @return data.frame containing proption of zero counts, genes as rows, groups as columns
+#' @return data.frame containing proportion of zero counts, genes as rows, groups as columns
 #' @export
 #'
 #' @examples

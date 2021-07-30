@@ -10,7 +10,7 @@ get_prop_zero(sce, group_col = "cellType")
 \item{group_col}{}
 }
 \value{
-data.frame containing proption of zero counts, genes as rows, groups as columns
+data.frame containing proportion of zero counts, genes as rows, groups as columns
 }
 \description{
 Get the Proption of Zero Counts for Each Gene in Each Group
