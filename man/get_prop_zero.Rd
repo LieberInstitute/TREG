@@ -7,7 +7,9 @@
 get_prop_zero(sce, group_col = "cellType")
 }
 \arguments{
-\item{group_col}{}
+\item{sce}{SingleCellExperiment Object}
+
+\item{group_col}{name of the column in the colData of sce that defines the group of interest}
 }
 \value{
 data.frame containing proportion of zero counts, genes as rows, groups as columns

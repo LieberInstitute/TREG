@@ -1,8 +1,8 @@
 
 #' Get the Proption of Zero Counts for Each Gene in Each Group
 #'
-#' @param sce
-#' @param group_col
+#' @param sce SingleCellExperiment Object
+#' @param group_col name of the column in the colData of sce that defines the group of interest
 #'
 #' @return data.frame containing proportion of zero counts, genes as rows, groups as columns
 #' @export
@@ -16,9 +16,9 @@
 get_prop_zero <- function(sce, group_col = "cellType"){
 
   gene_propZero <- purrr::map_dfc(rafalib::splitit(sce[[group_col]]), function(indx){
-    sce_temp <- sce[,indx]
-    # message(ncol(sce_temp))
-    prop_zero <- rowSums(as.matrix(assays(sce_temp)$counts) == 0)/ncol(sce_temp)
+    sce_group <- sce[,indx]
+    # message(ncol(sce_group))
+    prop_zero <- rowSums(as.matrix(assays(sce_group)$counts) == 0)/ncol(sce_group)
     return(prop_zero)
   })
   gene_propZero <- as.data.frame(gene_propZero)
