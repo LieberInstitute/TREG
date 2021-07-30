@@ -18,7 +18,7 @@ combo <- paste0(pd$cellType, "_", pd$region)
 counts <- matrix(data = c(rep(0, 100),
                           rep(c(1,0), 50),
                           sample(1:100, 100),
-                          c(rep(1, 25), rep(0, 25), rep(1, 25), rep(0,25)),
+                          c(rep(1,50), rep(0, 50)),
                           c(rbinom(25, 1, 0.2),rbinom(25, 1, 0.4),rbinom(25, 1, 0.6),rbinom(25, 1, 0.8))),
                  ncol = 100,
                  dimnames = list(c("g100","g50","g0","gOffOn", 'gVar'), rownames(pd)),
@@ -30,5 +30,6 @@ sce_zero_test <- SingleCellExperiment(list(counts = counts),
 
 assays(sce_zero_test)$logcounts <- log(assays(sce_zero_test)$counts+1)
 
+sce_zero_test$group <- paste0(sce_zero_test$cellType, "_" ,sce_zero_test$region)
 
 usethis::use_data(sce_zero_test, overwrite = TRUE)
