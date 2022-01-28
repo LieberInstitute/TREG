@@ -7,7 +7,7 @@
 get_prop_zero(sce, group_col = "cellType")
 }
 \arguments{
-\item{sce}{SingleCellExperiment Object}
+\item{sce}{\link[SingleCellExperiment:SingleCellExperiment]{SingleCellExperiment-class} Object}
 
 \item{group_col}{name of the column in the colData of sce that defines the group of interest}
 }
