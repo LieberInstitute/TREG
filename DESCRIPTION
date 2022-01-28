@@ -1,5 +1,5 @@
 Package: TREG
-Title: Find evenly expressed genes, across groups, in single nucleus data.
+Title: Tools for finding Total RNA Expression Genes in single nucleus data.
 Version: 0.99.0
 Date: 2021-07-30
 Authors@R: 

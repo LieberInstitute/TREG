@@ -20,7 +20,10 @@ knitr::opts_chunk$set(
 [![BioC status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/TREG)
 <!-- badges: end -->
 
-The goal of `TREG` is to ...
+The goal of `TREG` is to help find finding Total RNA Expression Genes (TREGs)
+in single nucleus RNA-seq data.
+
+![RI Flow](man/figures/Figure1.png)
 
 ## Installation instructions
 
@@ -41,28 +44,26 @@ BiocManager::install("LieberInstitute/TREG")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+### Proption Zero Filtering  
+A Good TREG candidate gene will be expressed in almost every cell. So the list of
+genes should be filtered by proportion of zeros across groups of cells.
 
-```{r example, eval = requireNamespace('TREG')}
+```{r calc_prop_zero, eval = requireNamespace('TREG')}
 library("TREG")
-## basic example code
+## Calclualte Proportion Zero
+prop_zero <- get_prop_zero(sce = sce_zero_test, group_col = "cellType")
+(canidate_genes <- filter_prop_zero(prop_zero))
+```
+### Evaluate RI for Example Data
+
+```{r run_RI, eval = requireNamespace('TREG')}
+
+sce_filter <- sce_zero_test[canidate_genes,]
+dim(sce_filter)
+rank_invariance_express(sce_filter)
+
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
 
 ## Citation
 
