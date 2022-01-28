@@ -1,16 +1,22 @@
 
 #' Calculate the Rank Invariance of Each Gene from Cell and Group Ranks
 #'
-#' @param group_rank
-#' @param cell_rank
+#' @param group_rank data.frame from \link[TREG]{rank_group}
+#' @param cell_rank data.frame from  \link[TREG]{rank_cells}
 #'
 #' @return rank of invariance for each gene
 #' @export
 #'
 #' @examples
+#' ## Get the rank of the gene in each group
 #' group_rank_test <- rank_group(sce_zero_test, group_col = "group")
+#'
+#' ## Get the rank of the gene for each cell
 #' cell_rank_test <- rank_cells(sce_zero_test, group_col = "group")
+#'
+#' ## Use both rankings to calculate rank_invariance
 #' rank_invar_test <- rank_invariance(group_rank_test, cell_rank_test)
+#'
 #' @family invariance functions
 #' @importFrom purrr map2 map_dfc
 rank_invariance <- function(group_rank, cell_rank) {
@@ -30,16 +36,19 @@ rank_invariance <- function(group_rank, cell_rank) {
 
 #' Calculate the Rank Invariance of Each Gene from SCE object w/ groups
 #'
-#' @param sce SingleCellExperiment Object with logcount assay
-#' @param group_col name of the column in the colData of sce that defines the group of interest
+#' @inheritParams rank_cells
 #'
 #' @return rank of invariance for each gene
 #' @export
 #'
 #' @examples
-#' rank_invariance2(sce_zero_test, group_col = "group")
+#' ## Calulate RI for the sce object
+#' rank_invariance_express(sce_zero_test, group_col = "group")
 #' @family invariance functions
-rank_invariance2 <- function(sce, group_col = "cellType") {
+rank_invariance_express <- function(sce, group_col = "cellType", assay = "logcounts") {
+    stopifnot(group_col %in% colnames(colData(sce)))
+    stopifnot(assay %in% assayNames(sce))
+
     rank_diff <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx) {
         sce_group <- sce[, indx]
         group_ranks <- rank(rowMeans(SummarizedExperiment::assays(sce_group)$logcounts))

@@ -7,7 +7,9 @@
 rank_invariance(group_rank, cell_rank)
 }
 \arguments{
-\item{cell_rank}{}
+\item{group_rank}{data.frame from \link[TREG]{rank_group}}
+
+\item{cell_rank}{data.frame from  \link[TREG]{rank_cells}}
 }
 \value{
 rank of invariance for each gene
@@ -16,12 +18,18 @@ rank of invariance for each gene
 Calculate the Rank Invariance of Each Gene from Cell and Group Ranks
 }
 \examples{
+## Get the rank of the gene in each group
 group_rank_test <- rank_group(sce_zero_test, group_col = "group")
+
+## Get the rank of the gene for each cell
 cell_rank_test <- rank_cells(sce_zero_test, group_col = "group")
+
+## Use both rankings to calculate rank_invariance
 rank_invar_test <- rank_invariance(group_rank_test, cell_rank_test)
+
 }
 \seealso{
 Other invariance functions: 
-\code{\link{rank_invariance2}()}
+\code{\link{rank_invariance_express}()}
 }
 \concept{invariance functions}

@@ -18,6 +18,8 @@ list of gene names that are under the cutoff
 Filter Genes for by Max Proportion Zero Among Groups
 }
 \examples{
+## Get proportion zero df
 prop_zero <- get_prop_zero(sce_zero_test, group_col = "group")
+## Filter with cutoff = 0.9
 filter_prop_zero(prop_zero, cutoff = 0.59)
 }

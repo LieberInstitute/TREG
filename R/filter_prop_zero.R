@@ -7,7 +7,9 @@
 #' @export
 #'
 #' @examples
+#' ## Get proportion zero df
 #' prop_zero <- get_prop_zero(sce_zero_test, group_col = "group")
+#' ## Filter with cutoff = 0.9
 #' filter_prop_zero(prop_zero, cutoff = 0.59)
 filter_prop_zero <- function(prop_zero_df, cutoff = 0.9) {
     stopifnot(is.data.frame(prop_zero_df))

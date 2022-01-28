@@ -4,12 +4,14 @@
 \alias{rank_group}
 \title{Get the Rank of the Mean logcount for each Gene in each Group}
 \usage{
-rank_group(sce, group_col = "cellType")
+rank_group(sce, group_col = "cellType", assay = "logcounts")
 }
 \arguments{
 \item{sce}{SingleCellExperiment Object with logcount assay}
 
 \item{group_col}{name of the column in the colData of sce that defines the group of interest}
+
+\item{assay}{name of the assay in the sce object to use to rank}
 }
 \value{
 Named list of ranks for each gene
@@ -18,6 +20,6 @@ Named list of ranks for each gene
 Get the Rank of the Mean logcount for each Gene in each Group
 }
 \examples{
-## TODO add comments
+## Rank the genes for each group defined by "group" column
 rank_group(sce_zero_test, group_col = "group")
 }

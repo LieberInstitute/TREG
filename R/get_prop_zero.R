@@ -8,12 +8,19 @@
 #' @export
 #'
 #' @examples
-#' rowSums(assays(sce_zero_test)$counts)
+#' ## Basic Proportion counts == 0
+#' rowSums(assays(sce_zero_test)$counts == 0)/nrow(sce_zero_test)
+#'
+#' ## Get proportion by cell type
 #' get_prop_zero(sce_zero_test)
+#'
+#' ## Get proption by defined group
 #' get_prop_zero(sce_zero_test, group_col = "group")
+#'
 #' @importFrom rafalib splitit
 #' @importFrom purrr map_dfc
 get_prop_zero <- function(sce, group_col = "cellType") {
+    ## Error checks
     stopifnot(inherits(sce, "SummarizedExperiment"))
     stopifnot("counts" %in% assayNames(sce))
     stopifnot(group_col %in% colnames(colData(sce)))
