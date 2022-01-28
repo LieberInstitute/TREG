@@ -3,7 +3,7 @@ Title: Find evenly expressed genes, across groups, in single nucleus data.
 Version: 0.99.0
 Date: 2021-07-30
 Authors@R: 
-    person(given = "Lousie",
+    person(given = "Louise",
            family = "Huuki",
            role = c("aut", "cre"),
            email = "lahuuki@gmail.com",
@@ -18,7 +18,11 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1),
+    SingleCellExperiment
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Imports: 
+    rafalib,
+    purrr

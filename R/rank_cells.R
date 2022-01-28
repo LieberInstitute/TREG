@@ -8,13 +8,13 @@
 #' @export
 #'
 #' @examples
-#' get_cell_gene_rank(sce_zero_test, group_col = "group")
+#' rank_cells(sce_zero_test, group_col = "group")
 #' @importFrom purrr map
 #' @importFrom rafalib splitit
 #' @importFrom SummarizedExperiment assays
-get_cell_gene_rank <- function(sce, group_col = "cellType") {
+rank_cells <- function(sce, group_col = "cellType") {
     group_cell_rank <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx) {
-        sce_group <- sce[, indx]
+        sce_group <- sce[, indx, drop = FALSE]
         cell_rank <- apply(SummarizedExperiment::assays(sce_group)$logcounts, 2, rank)
         return(cell_rank)
     })

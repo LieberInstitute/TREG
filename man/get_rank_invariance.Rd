@@ -17,6 +17,6 @@ Calculate the Rank Invariance of Each Gene from Cell and Group Ranks
 }
 \examples{
 group_rank_test <- get_group_gene_rank(sce_zero_test, group_col = "group")
-cell_rank_test <- get_cell_gene_rank(sce_zero_test, group_col = "group")
+cell_rank_test <- rank_cells(sce_zero_test, group_col = "group")
 rank_invar_test <- get_rank_invariance(group_rank_test, cell_rank_test)
 }

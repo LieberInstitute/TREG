@@ -10,6 +10,9 @@
 #' prop_zero <- get_prop_zero(sce_zero_test, group_col = "group")
 #' filter_prop_zero(prop_zero, cutoff = 0.59)
 filter_prop_zero <- function(prop_zero_df, cutoff = 0.9) {
+    stopifnot(is.data.frame(prop_zero_df))
+    stopifnot(!is.null(rownames(prop_zero_df)))
+
     max_prop_zero <- apply(prop_zero_df, 1, max)
     filter_prop <- max_prop_zero[max_prop_zero < cutoff]
     return(names(filter_prop))
