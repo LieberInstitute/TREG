@@ -8,12 +8,12 @@
 #' @export
 #'
 #' @examples
-#' group_rank_test <- get_group_gene_rank(sce_zero_test, group_col = "group")
+#' group_rank_test <- rank_group(sce_zero_test, group_col = "group")
 #' cell_rank_test <- rank_cells(sce_zero_test, group_col = "group")
-#' rank_invar_test <- get_rank_invariance(group_rank_test, cell_rank_test)
+#' rank_invar_test <- rank_invariance(group_rank_test, cell_rank_test)
 #' @family invariance functions
 #' @importFrom purrr map2 map_dfc
-get_rank_invariance <- function(group_rank, cell_rank) {
+rank_invariance <- function(group_rank, cell_rank) {
 
     # message(length(group_rank[[1]]) == nrow(cell_rank[[1]]))
     rank_diff <- purrr::map2(cell_rank, group_rank, ~ sweep(.x, 1, STATS = .y, FUN = "-"))
@@ -37,9 +37,9 @@ get_rank_invariance <- function(group_rank, cell_rank) {
 #' @export
 #'
 #' @examples
-#' get_rank_invariance_express(sce_zero_test, group_col = "group")
+#' rank_invariance2(sce_zero_test, group_col = "group")
 #' @family invariance functions
-get_rank_invariance_express <- function(sce, group_col = "cellType") {
+rank_invariance2 <- function(sce, group_col = "cellType") {
     rank_diff <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx) {
         sce_group <- sce[, indx]
         group_ranks <- rank(rowMeans(SummarizedExperiment::assays(sce_group)$logcounts))
