@@ -9,17 +9,15 @@
 #' @examples
 #'
 #' get_group_gene_rank(sce_zero_test, group_col = "group")
-#'
 #' @importFrom purrr map
 #' @importFrom rafalib splitit
 #' @importFrom SummarizedExperiment assays
-get_group_gene_rank <- function(sce, group_col = "cellType"){
+get_group_gene_rank <- function(sce, group_col = "cellType") {
+    group_gene_rank <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx) {
+        sce_group <- sce[, indx]
+        group_ranks <- rank(rowMeans(SummarizedExperiment::assays(sce_group)$logcounts))
+        return(group_ranks)
+    })
 
-  group_gene_rank <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx){
-    sce_group <- sce[,indx]
-    group_ranks <- rank(rowMeans(SummarizedExperiment::assays(sce_group)$logcounts))
-    return(group_ranks)
-  })
-
-  return(group_gene_rank)
+    return(group_gene_rank)
 }

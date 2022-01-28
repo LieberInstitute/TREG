@@ -13,38 +13,38 @@ knitr::opts_chunk$set(
 )
 ```
 
-# EvenExpress
+# TREG
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![BioC status](http://www.bioconductor.org/shields/build/release/bioc/EvenExpress.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/EvenExpress)
+[![BioC status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/TREG)
 <!-- badges: end -->
 
-The goal of `EvenExpress` is to ...
+The goal of `TREG` is to ...
 
 ## Installation instructions
 
-Get the latest stable `R` release from [CRAN](http://cran.r-project.org/). Then install `EvenExpress` using from [Bioconductor](http://bioconductor.org/) the following code:
+Get the latest stable `R` release from [CRAN](http://cran.r-project.org/). Then install `TREG` using from [Bioconductor](http://bioconductor.org/) the following code:
 
 ```{r 'install', eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
 }
 
-BiocManager::install("EvenExpress")
+BiocManager::install("TREG")
 ```
 
-And the development version from [GitHub](https://github.com/LieberInstitute/EvenExpress) with:
+And the development version from [GitHub](https://github.com/LieberInstitute/TREG) with:
 
 ```{r 'install_dev', eval = FALSE}
-BiocManager::install("LieberInstitute/EvenExpress")
+BiocManager::install("LieberInstitute/TREG")
 ```
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example, eval = requireNamespace('EvenExpress')}
-library("EvenExpress")
+```{r example, eval = requireNamespace('TREG')}
+library("TREG")
 ## basic example code
 ```
 
@@ -66,24 +66,24 @@ In that case, don't forget to commit and push the resulting figure files, so the
 
 ## Citation
 
-Below is the citation output from using `citation('EvenExpress')` in R. Please
-run this yourself to check for any updates on how to cite __EvenExpress__.
+Below is the citation output from using `citation('TREG')` in R. Please
+run this yourself to check for any updates on how to cite __TREG__.
 
-```{r 'citation', eval = requireNamespace('EvenExpress')}
-print(citation('EvenExpress'), bibtex = TRUE)
+```{r 'citation', eval = requireNamespace('TREG')}
+print(citation("TREG"), bibtex = TRUE)
 ```
 
-Please note that the `EvenExpress` was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.
+Please note that the `TREG` was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.
 
 ## Code of Conduct
 
-Please note that the `EvenExpress` project is released with a [Contributor Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
+Please note that the `TREG` project is released with a [Contributor Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
 ## Development tools
 
 * Continuous code testing is possible thanks to [GitHub actions](https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/)  through `r BiocStyle::CRANpkg('usethis')`, `r BiocStyle::CRANpkg('remotes')`, and `r BiocStyle::CRANpkg('rcmdcheck')` customized to use [Bioconductor's docker containers](https://www.bioconductor.org/help/docker/) and `r BiocStyle::Biocpkg('BiocCheck')`.
 * Code coverage assessment is possible thanks to [codecov](https://codecov.io/gh) and `r BiocStyle::CRANpkg('covr')`.
-* The [documentation website](http://LieberInstitute.github.io/EvenExpress) is automatically updated thanks to `r BiocStyle::CRANpkg('pkgdown')`.
+* The [documentation website](http://LieberInstitute.github.io/TREG) is automatically updated thanks to `r BiocStyle::CRANpkg('pkgdown')`.
 * The code is styled automatically thanks to `r BiocStyle::CRANpkg('styler')`.
 * The documentation is formatted thanks to `r BiocStyle::CRANpkg('devtools')` and `r BiocStyle::CRANpkg('roxygen2')`.
 

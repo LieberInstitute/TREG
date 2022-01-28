@@ -19,5 +19,4 @@ Get the Rank of the Mean logcount for each Gene in each Cell
 }
 \examples{
 get_cell_gene_rank(sce_zero_test, group_col = "group")
-
 }

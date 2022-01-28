@@ -1,4 +1,4 @@
-Package: EvenExpress
+Package: TREG
 Title: Find evenly expressed genes, across groups, in single nucleus data.
 Version: 0.99.0
 Date: 2021-07-30
@@ -10,8 +10,8 @@ Authors@R:
            comment = c(ORCID = "0000-0001-5148-3602"))
 Description: What the package does (one paragraph). TODO.
 License: Artistic-2.0
-URL: https://github.com/LieberInstitute/EvenExpress
-BugReports: https://support.bioconductor.org/t/EvenExpress
+URL: https://github.com/LieberInstitute/TREG
+BugReports: https://support.bioconductor.org/t/TREG
 biocViews: Software
 Encoding: UTF-8
 LazyData: true

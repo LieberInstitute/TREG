@@ -1,4 +1,4 @@
 library(testthat)
-library(EvenExpress)
+library(TREG)
 
-test_check("EvenExpress")
+test_check("TREG")

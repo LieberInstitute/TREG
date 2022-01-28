@@ -13,15 +13,14 @@
 #' get_prop_zero(sce_zero_test, group_col = "group")
 #' @importFrom rafalib splitit
 #' @importFrom purrr map_dfc
-get_prop_zero <- function(sce, group_col = "cellType"){
-
-  gene_propZero <- purrr::map_dfc(rafalib::splitit(sce[[group_col]]), function(indx){
-    sce_group <- sce[,indx]
-    # message(ncol(sce_group))
-    prop_zero <- rowSums(as.matrix(assays(sce_group)$counts) == 0)/ncol(sce_group)
-    return(prop_zero)
-  })
-  gene_propZero <- as.data.frame(gene_propZero)
-  rownames(gene_propZero) <- rownames(sce)
-  return(gene_propZero)
+get_prop_zero <- function(sce, group_col = "cellType") {
+    gene_propZero <- purrr::map_dfc(rafalib::splitit(sce[[group_col]]), function(indx) {
+        sce_group <- sce[, indx]
+        # message(ncol(sce_group))
+        prop_zero <- rowSums(as.matrix(assays(sce_group)$counts) == 0) / ncol(sce_group)
+        return(prop_zero)
+    })
+    gene_propZero <- as.data.frame(gene_propZero)
+    rownames(gene_propZero) <- rownames(sce)
+    return(gene_propZero)
 }

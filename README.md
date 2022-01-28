@@ -1,37 +1,37 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# EvenExpress
+# TREG
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![BioC
-status](http://www.bioconductor.org/shields/build/release/bioc/EvenExpress.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/EvenExpress)
+status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/TREG)
 <!-- badges: end -->
 
-The goal of `EvenExpress` is to …
+The goal of `TREG` is to …
 
 ## Installation instructions
 
 Get the latest stable `R` release from
-[CRAN](http://cran.r-project.org/). Then install `EvenExpress` using
-from [Bioconductor](http://bioconductor.org/) the following code:
+[CRAN](http://cran.r-project.org/). Then install `TREG` using from
+[Bioconductor](http://bioconductor.org/) the following code:
 
 ``` r
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
 }
 
-BiocManager::install("EvenExpress")
+BiocManager::install("TREG")
 ```
 
 And the development version from
-[GitHub](https://github.com/LieberInstitute/EvenExpress) with:
+[GitHub](https://github.com/LieberInstitute/TREG) with:
 
 ``` r
-BiocManager::install("LieberInstitute/EvenExpress")
+BiocManager::install("LieberInstitute/TREG")
 ```
 
 ## Example
@@ -39,7 +39,7 @@ BiocManager::install("LieberInstitute/EvenExpress")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-library("EvenExpress")
+library("TREG")
 ## basic example code
 ```
 
@@ -69,39 +69,37 @@ files, so they display on GitHub!
 
 ## Citation
 
-Below is the citation output from using `citation('EvenExpress')` in R.
-Please run this yourself to check for any updates on how to cite
-**EvenExpress**.
+Below is the citation output from using `citation('TREG')` in R. Please
+run this yourself to check for any updates on how to cite **TREG**.
 
 ``` r
-print(citation('EvenExpress'), bibtex = TRUE)
+print(citation("TREG"), bibtex = TRUE)
 #> 
-#> To cite package 'EvenExpress' in publications use:
+#> To cite package 'TREG' in publications use:
 #> 
-#>   Lousie Huuki (2021). EvenExpress: Find evenly expressed genes, across
+#>   Lousie Huuki (2021). TREG: Find evenly expressed genes, across
 #>   groups, in single nucleus data.. R package version 0.99.0.
-#>   https://github.com/LieberInstitute/EvenExpress
+#>   https://github.com/LieberInstitute/TREG
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
-#>     title = {EvenExpress: Find evenly expressed genes, across groups, in single nucleus data.},
+#>     title = {TREG: Find evenly expressed genes, across groups, in single nucleus data.},
 #>     author = {Lousie Huuki},
 #>     year = {2021},
 #>     note = {R package version 0.99.0},
-#>     url = {https://github.com/LieberInstitute/EvenExpress},
+#>     url = {https://github.com/LieberInstitute/TREG},
 #>   }
 ```
 
-Please note that the `EvenExpress` was only made possible thanks to many
-other R and bioinformatics software authors, which are cited either in
-the vignettes and/or the paper(s) describing this package.
+Please note that the `TREG` was only made possible thanks to many other
+R and bioinformatics software authors, which are cited either in the
+vignettes and/or the paper(s) describing this package.
 
 ## Code of Conduct
 
-Please note that the `EvenExpress` project is released with a
-[Contributor Code of
-Conduct](http://bioconductor.org/about/code-of-conduct/). By
+Please note that the `TREG` project is released with a [Contributor Code
+of Conduct](http://bioconductor.org/about/code-of-conduct/). By
 contributing to this project, you agree to abide by its terms.
 
 ## Development tools
@@ -117,9 +115,8 @@ contributing to this project, you agree to abide by its terms.
 -   Code coverage assessment is possible thanks to
     [codecov](https://codecov.io/gh) and
     *[covr](https://CRAN.R-project.org/package=covr)*.
--   The [documentation
-    website](http://LieberInstitute.github.io/EvenExpress) is
-    automatically updated thanks to
+-   The [documentation website](http://LieberInstitute.github.io/TREG)
+    is automatically updated thanks to
     *[pkgdown](https://CRAN.R-project.org/package=pkgdown)*.
 -   The code is styled automatically thanks to
     *[styler](https://CRAN.R-project.org/package=styler)*.
