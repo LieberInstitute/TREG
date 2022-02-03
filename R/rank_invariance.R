@@ -16,7 +16,6 @@
 #'
 #' ## Use both rankings to calculate rank_invariance
 #' rank_invar_test <- rank_invariance(group_rank_test, cell_rank_test)
-#'
 #' @family invariance functions
 #' @importFrom purrr map2 map_dfc
 rank_invariance <- function(group_rank, cell_rank) {
