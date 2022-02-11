@@ -139,20 +139,21 @@ run this yourself to check for any updates on how to cite **TREG**.
 ``` r
 print(citation("TREG"), bibtex = TRUE)
 #> 
-#> To cite package 'TREG' in publications use:
-#> 
-#>   Louise Huuki (2021). TREG: Tools for finding Total RNA Expression
-#>   Genes in single nucleus data.. R package version 0.99.0.
-#>   https://github.com/LieberInstitute/TREG
+#> Huuki-Myers LA, Maynard KR, Hicks SC, Collado-Torres L (2022). _TREG: a
+#> R/Bioconductor package to identify Total RNA Expression Genes_. doi:
+#> 10.18129/B9.bioc.TREG (URL: https://doi.org/10.18129/B9.bioc.TREG),
+#> https://github.com/LieberInstitute/TREG/TREG - R package version
+#> 0.99.0, <URL: http://www.bioconductor.org/packages/TREG>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
-#>     title = {TREG: Tools for finding Total RNA Expression Genes in single nucleus data.},
-#>     author = {Louise Huuki},
-#>     year = {2021},
-#>     note = {R package version 0.99.0},
-#>     url = {https://github.com/LieberInstitute/TREG},
+#>     title = {TREG: a R/Bioconductor package to identify Total RNA Expression Genes},
+#>     author = {Louise A. Huuki-Myers and Kristen R. Maynard and Stephanie C. Hicks and Leonardo Collado-Torres},
+#>     year = {2022},
+#>     url = {http://www.bioconductor.org/packages/TREG},
+#>     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 0.99.0},
+#>     doi = {10.18129/B9.bioc.TREG},
 #>   }
 ```
 
