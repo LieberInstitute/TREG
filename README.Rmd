@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![BioC status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/TREG)
+[![R-CMD-check-bioc](https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/LieberInstitute/TREG/actions)
 <!-- badges: end -->
 
 The goal of `TREG` is to help find finding Total RNA Expression Genes (TREGs)
