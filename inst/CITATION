@@ -1,0 +1,22 @@
+pkgVer <- function(pkg) {
+    if (!exists("meta") || is.null(meta)) meta <- packageDescription(pkg)
+    ver <- meta$Version
+    paste0('https://github.com/LieberInstitute/TREG/', pkg, ' - R package version ', ver)
+}
+
+c(
+
+        bibentry(bibtype="manual",
+        title = "TREG: a R/Bioconductor package to identify Total RNA Expression Genes",
+        author = personList(
+            as.person("Louise A. Huuki-Myers"),
+            as.person("Kristen R. Maynard"),
+            as.person("Stephanie C. Hicks"),
+            as.person("Leonardo Collado-Torres")
+        ),
+        year = format(Sys.Date(), "%Y"),
+        url = "http://www.bioconductor.org/packages/TREG",
+        note = pkgVer('TREG'),
+        doi = '10.18129/B9.bioc.TREG'
+    )
+)
