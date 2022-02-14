@@ -17,7 +17,7 @@ rank_group <- function(sce, group_col = "cellType", assay = "logcounts") {
 
     group_gene_rank <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx) {
         sce_group <- sce[, indx, drop = FALSE]
-        group_ranks <- rank(rowMeans(SummarizedExperiment::assays(sce_group)$logcounts))
+        group_ranks <- rank(rowMeans(assays(sce_group)$logcounts))
         return(group_ranks)
     })
 
