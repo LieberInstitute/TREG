@@ -19,12 +19,11 @@ Get the Proption of Zero Counts for Each Gene in Each Group
 }
 \examples{
 ## Basic Proportion counts == 0
-rowSums(assays(sce_zero_test)$counts == 0)/nrow(sce_zero_test)
+rowSums(assays(sce_zero_test)$counts == 0) / nrow(sce_zero_test)
 
 ## Get proportion by cell type
 get_prop_zero(sce_zero_test)
 
 ## Get proption by defined group
 get_prop_zero(sce_zero_test, group_col = "group")
-
 }

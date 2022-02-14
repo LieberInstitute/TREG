@@ -22,7 +22,7 @@
 get_prop_zero <- function(sce, group_col = "cellType") {
     ## Error checks
     stopifnot(inherits(sce, "SummarizedExperiment"))
-    stopifnot("counts" %in% assayNames(sce))
+    stopifnot("counts" %in% SummarizedExperiment::assayNames(sce))
     stopifnot(group_col %in% colnames(colData(sce)))
 
     gene_propZero <- purrr::map_dfc(rafalib::splitit(sce[[group_col]]), function(indx) {
