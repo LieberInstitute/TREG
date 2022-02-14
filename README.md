@@ -27,27 +27,49 @@ the total RNA expression of the cell. The shape defined by the TREG
 puncta would help define the shape and size of a cell.
 
 The motivation of this work is to collect data via smFISH in to help
-build better deconvolution algorithms. But there are many application
+build better deconvolution algorithms. But may be many other application
 for TREGs in experimental design!
 
 ### What makes a gene a good TREG?
 
-1.  The gene must have non-zero expression in most cells across
-    different tissue and cell types. This is facilitated with the
-    functions `get_prop_zero` and `filter_prop_zero`
+1.  The gene must have **non-zero expression in most cells** across
+    different tissue and cell types.
 
 2.  A TREG should also be expressed at a constant level in respect to
-    other genes across different cell types or have *high rank
-    invariance*. Genes in a dataset can be evaluated for their
-    invariance with the `rank_invariance_express`. Genes with high
-    invatiance are good candidate TREGs.
+    other genes across different cell types or have **high rank
+    invariance**.
 
-3.  Be measurable as a continuous metric in the experimental assay, for
-    example have a dynamic range of puncta when observed in RANscope.
-    This will need to be considered for the canidate TREGs, and may need
-    to be validated experimentally.
+3.  Be **measurable as a continuous metric** in the experimental assay,
+    for example have a dynamic range of puncta when observed in
+    RANscope. This will need to be considered for the canidate TREGs,
+    and may need to be validated experimentally.
 
-![RI Flow](man/figures/Figure1.png)
+![Distribution of ranks of a gene of High and Low
+Invariance](man/figures/rank_violin_demo.png)
+
+### How to find canidate TREGs with `TREG`
+
+![Overview of the Rank Invariance Process](man/figures/RI_flow.png)
+
+1.  **Filter for low proportion zero genes snRAN-seq dataset:** This is
+    facilitated with the functions `get_prop_zero` and
+    `filter_prop_zero`. snRNA-seq data is notoriously sparse, these
+    functions enrich for genes with more universal expression.
+
+2.  **Evaluate genes for Rank Invariance** The nuclei are grouped only
+    by cell type. Within each cell type, the mean expression for each
+    gene is ranked, the result is a vector (length is the number of
+    genes). Then the expression of each gene is ranked for each nucleus,
+    the result is a matrix (the number of nuclei x number of genes).
+    Then the absolute difference between the rank of each nucleus and
+    the mean expression is found, from here the mean of the differences
+    for each gene is calculated, then ranked. These steps are repeated
+    for each group, the result is a matrix of ranks, (number of cell
+    types x number of genes). From here the sum of the ranks for each
+    gene are reversed ranked, so there is one final value for each gene,
+    the “rank invariance” The genes with the highest rank-invariance are
+    considered good candidates as TREGs. **This process is implemented
+    by: `rank_invariance_express`.**
 
 ## Installation instructions
 
@@ -72,93 +94,44 @@ BiocManager::install("LieberInstitute/TREG")
 
 ## Example
 
-### Proption Zero Filtering
-
-A Good TREG candidate gene will be expressed in almost every cell. So
-the list of genes should be filtered by proportion of zeros across
-groups of cells.
-
 ``` r
+## Load packages
 library("TREG")
-#> Loading required package: SingleCellExperiment
-#> Loading required package: SummarizedExperiment
-#> Loading required package: MatrixGenerics
-#> Loading required package: matrixStats
-#> 
-#> Attaching package: 'MatrixGenerics'
-#> The following objects are masked from 'package:matrixStats':
-#> 
-#>     colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
-#>     colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
-#>     colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
-#>     colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
-#>     colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
-#>     colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
-#>     colWeightedMeans, colWeightedMedians, colWeightedSds,
-#>     colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
-#>     rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
-#>     rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
-#>     rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
-#>     rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
-#>     rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
-#>     rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
-#>     rowWeightedSds, rowWeightedVars
-#> Loading required package: GenomicRanges
-#> Loading required package: stats4
-#> Loading required package: BiocGenerics
-#> Loading required package: parallel
-#> 
-#> Attaching package: 'BiocGenerics'
-#> The following objects are masked from 'package:parallel':
-#> 
-#>     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-#>     clusterExport, clusterMap, parApply, parCapply, parLapply,
-#>     parLapplyLB, parRapply, parSapply, parSapplyLB
-#> The following objects are masked from 'package:stats':
-#> 
-#>     IQR, mad, sd, var, xtabs
-#> The following objects are masked from 'package:base':
-#> 
-#>     anyDuplicated, append, as.data.frame, basename, cbind, colnames,
-#>     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
-#>     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
-#>     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
-#>     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
-#>     union, unique, unsplit, which.max, which.min
-#> Loading required package: S4Vectors
-#> 
-#> Attaching package: 'S4Vectors'
-#> The following objects are masked from 'package:base':
-#> 
-#>     expand.grid, I, unname
-#> Loading required package: IRanges
-#> Loading required package: GenomeInfoDb
-#> Loading required package: Biobase
-#> Welcome to Bioconductor
-#> 
-#>     Vignettes contain introductory material; view with
-#>     'browseVignettes()'. To cite Bioconductor, see
-#>     'citation("Biobase")', and for packages 'citation("pkgname")'.
-#> 
-#> Attaching package: 'Biobase'
-#> The following object is masked from 'package:MatrixGenerics':
-#> 
-#>     rowMedians
-#> The following objects are masked from 'package:matrixStats':
-#> 
-#>     anyMissing, rowMedians
-## Calclualte Proportion Zero
-prop_zero <- get_prop_zero(sce = sce_zero_test, group_col = "cellType")
-(canidate_genes <- filter_prop_zero(prop_zero))
-#> [1] "g50"    "g0"     "gOffOn" "gVar"
 ```
 
-### Evaluate RI for Example Data
+### Proption Zero Filtering
+
+A TREG gene should be expressed in almost every cell. The set of genes
+should be filtered by maximum proportion of zeros within a groups of
+cells.
 
 ``` r
-sce_filter <- sce_zero_test[canidate_genes,]
-dim(sce_filter)
-#> [1]   4 100
+## Calculate Proportion Zero ingroups defined by a column in colData
+(prop_zero <- get_prop_zero(sce = sce_zero_test, group_col = "cellType"))
+#>           A    B
+#> g100   1.00 1.00
+#> g50    0.48 0.52
+#> g0     0.00 0.00
+#> gOffOn 0.50 0.50
+#> gVar   0.52 0.42
+
+## Get list of genes that pass the max proportion zero filter 
+(filtered_genes <- filter_prop_zero(prop_zero, cutoff = 0.9))
+#> [1] "g50"    "g0"     "gOffOn" "gVar"
+
+## Filter sce object to this list of genes
+sce_filter <- sce_zero_test[filtered_genes,]
+```
+
+### Evaluate RI for Filtered SCE Data
+
+The genes with the highest rank-invariance are considered good
+candidates as TREGs. In this example the gene *g0* would be the
+strongest candidate TREG.
+
+``` r
+## Get the Rank Invaraince value for each gene
+## The higest values are the best TREG canidates
 rank_invariance_express(sce_filter)
 #>    g50     g0 gOffOn   gVar 
 #>      1      4      3      2

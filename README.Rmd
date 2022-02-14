@@ -35,25 +35,43 @@ RNA expression of the cell. The shape defined by the TREG puncta would help
 define the shape and size of a cell.
 
 The motivation of this work is to collect data via smFISH in to help build better 
-deconvolution algorithms. But there are many application for TREGs in experimental 
-design!
+deconvolution algorithms. But may be many other application for TREGs in 
+experimental design!
 
 ### What makes a gene a good TREG?  
-1. The gene must have non-zero expression in most cells across different tissue 
-and cell types. This is facilitated with the functions `get_prop_zero` and 
-`filter_prop_zero`
+1. The gene must have **non-zero expression in most cells** across different tissue 
+and cell types.
 
 2. A TREG should also be expressed at a constant level in respect to other genes
-across different cell types or have *high rank invariance*. Genes in a dataset 
-can be evaluated for their invariance with the `rank_invariance_express`. Genes
-with high invatiance are good candidate TREGs.
+across different cell types or have **high rank invariance**. 
 
-3. Be measurable as a continuous metric in the experimental assay, for example
+3. Be **measurable as a continuous metric** in the experimental assay, for example
 have a dynamic range of puncta when observed in RANscope. This will need to be
 considered for the canidate TREGs, and may need to be validated experimentally. 
 
+![Distribution of ranks of a gene of High and Low Invariance](man/figures/rank_violin_demo.png)
 
-![RI Flow](man/figures/Figure1.png)
+### How to find canidate TREGs with `TREG`
+
+![Overview of the Rank Invariance Process](man/figures/RI_flow.png)
+
+1. **Filter for low proportion zero genes snRAN-seq dataset:** This is 
+facilitated with the functions `get_prop_zero` and `filter_prop_zero`.
+snRNA-seq data is notoriously sparse, these functions enrich for genes with more
+universal expression.
+
+2. **Evaluate genes for Rank Invariance** The nuclei are grouped only by cell 
+type. Within each cell type, the mean expression for each gene is ranked, the 
+result is a vector (length is the number of genes). Then the expression of each 
+gene is ranked for each nucleus, the result is a matrix (the number of nuclei x 
+number of genes). Then the absolute difference between the rank of each nucleus 
+and the mean expression is found, from here the mean of the differences for each
+gene is calculated, then ranked. These steps are repeated for each group, the 
+result is a matrix of ranks, (number of cell types x number of genes). From here
+the sum of the ranks for each gene are reversed ranked, so there is one final 
+value for each gene, the “rank invariance”  The genes with the highest 
+rank-invariance are considered good candidates as TREGs.  **This process is
+implemented by: `rank_invariance_express`.**
 
 ## Installation instructions
 
@@ -74,22 +92,33 @@ BiocManager::install("LieberInstitute/TREG")
 ```
 ## Example
 
+```{r `libraries`, message = FALSE}
+## Load packages
+library("TREG")
+```
+
+
 ### Proption Zero Filtering  
-A Good TREG candidate gene will be expressed in almost every cell. So the list of
-genes should be filtered by proportion of zeros across groups of cells.
+A  TREG gene should be expressed in almost every cell. The set of
+genes should be filtered by maximum proportion of zeros within a groups of cells.
 
 ```{r calc_prop_zero, eval = requireNamespace('TREG')}
-library("TREG")
-## Calclualte Proportion Zero
-prop_zero <- get_prop_zero(sce = sce_zero_test, group_col = "cellType")
-(canidate_genes <- filter_prop_zero(prop_zero))
+## Calculate Proportion Zero ingroups defined by a column in colData
+(prop_zero <- get_prop_zero(sce = sce_zero_test, group_col = "cellType"))
+
+## Get list of genes that pass the max proportion zero filter 
+(filtered_genes <- filter_prop_zero(prop_zero, cutoff = 0.9))
+
+## Filter sce object to this list of genes
+sce_filter <- sce_zero_test[filtered_genes,]
 ```
-### Evaluate RI for Example Data
 
+### Evaluate RI for Filtered SCE Data
+The genes with the highest rank-invariance are considered good candidates as TREGs.
+In this example the gene *g0* would be the strongest candidate TREG.
 ```{r run_RI, eval = requireNamespace('TREG')}
-
-sce_filter <- sce_zero_test[canidate_genes,]
-dim(sce_filter)
+## Get the Rank Invaraince value for each gene
+## The higest values are the best TREG canidates
 rank_invariance_express(sce_filter)
 
 ```
