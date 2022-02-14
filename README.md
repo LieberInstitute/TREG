@@ -12,8 +12,40 @@ status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https:
 [![R-CMD-check-bioc](https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/LieberInstitute/TREG/actions)
 <!-- badges: end -->
 
-The goal of `TREG` is to help find finding Total RNA Expression Genes
-(TREGs) in single nucleus RNA-seq data.
+The goal of `TREG` is to help find find candidate **Total RNA Expression
+Genes (TREGs)** in single nucleus RNA-seq data.
+
+### Why are TREGs useful?
+
+The expression of a TREG is proportional to the the overall RNA
+expression in a cell. This relationship can be used to estimate total
+RNA content in cells in assays where only a few genes can be measured,
+such as single-molecule fluorescent in situ hybridization (smFISH).
+
+In a smFISH experiment the number of TREG puncta can be used to infer
+the total RNA expression of the cell. The shape defined by the TREG
+puncta would help define the shape and size of a cell.
+
+The motivation of this work is to collect data via smFISH in to help
+build better deconvolution algorithms. But there are many application
+for TREGs in experimental design!
+
+### What makes a gene a good TREG?
+
+1.  The gene must have non-zero expression in most cells across
+    different tissue and cell types. This is facilitated with the
+    functions `get_prop_zero` and `filter_prop_zero`
+
+2.  A TREG should also be expressed at a constant level in respect to
+    other genes across different cell types or have *high rank
+    invariance*. Genes in a dataset can be evaluated for their
+    invariance with the `rank_invariance_express`. Genes with high
+    invatiance are good candidate TREGs.
+
+3.  Be measurable as a continuous metric in the experimental assay, for
+    example have a dynamic range of puncta when observed in RANscope.
+    This will need to be considered for the canidate TREGs, and may need
+    to be validated experimentally.
 
 ![RI Flow](man/figures/Figure1.png)
 
