@@ -13,7 +13,7 @@
 #' rank_cells(sce_zero_test, group_col = "group")
 #' @importFrom purrr map
 #' @importFrom rafalib splitit
-#' @importFrom SummarizedExperiment assays
+#' @importFrom SummarizedExperiment assays assayNames colData
 rank_cells <- function(sce, group_col = "cellType", assay = "logcounts") {
     stopifnot(group_col %in% colnames(colData(sce)))
     stopifnot(assay %in% assayNames(sce))

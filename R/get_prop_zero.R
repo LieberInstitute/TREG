@@ -18,6 +18,7 @@
 #' get_prop_zero(sce_zero_test, group_col = "group")
 #' @importFrom rafalib splitit
 #' @importFrom purrr map_dfc
+#' @importFrom SummarizedExperiment assasys assayNames colData
 get_prop_zero <- function(sce, group_col = "cellType") {
     ## Error checks
     stopifnot(inherits(sce, "SummarizedExperiment"))
