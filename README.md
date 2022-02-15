@@ -44,8 +44,9 @@ for TREGs in experimental design!
     RANscope. This will need to be considered for the canidate TREGs,
     and may need to be validated experimentally.
 
-![Distribution of ranks of a gene of High and Low
-Invariance](man/figures/fig1_rank_violin_demo.png)
+<figure>
+<img src="man/figures/fig1_rank_violin_demo.png" style="width:50.0%" alt="Distribution of ranks of a gene of High and Low Invariance" /><figcaption aria-hidden="true">Distribution of ranks of a gene of High and Low Invariance</figcaption>
+</figure>
 
 ### How to find canidate TREGs with `TREG`
 

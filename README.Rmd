@@ -49,7 +49,7 @@ across different cell types or have **high rank invariance**.
 have a dynamic range of puncta when observed in RANscope. This will need to be
 considered for the canidate TREGs, and may need to be validated experimentally. 
 
-![Distribution of ranks of a gene of High and Low Invariance](man/figures/fig1_rank_violin_demo.png)
+![Distribution of ranks of a gene of High and Low Invariance](man/figures/fig1_rank_violin_demo.png){width=50%}
 
 ### How to find canidate TREGs with `TREG`
 
