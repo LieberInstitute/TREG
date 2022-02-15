@@ -45,7 +45,7 @@ for TREGs in experimental design!
     and may need to be validated experimentally.
 
 ![Distribution of ranks of a gene of High and Low
-Invariance](man/figures/rank_violin_demo.png)
+Invariance](man/figures/fig1_rank_violin_demo.png)
 
 ### How to find canidate TREGs with `TREG`
 
