@@ -10,6 +10,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![BioC
 status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/TREG)
 [![R-CMD-check-bioc](https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/LieberInstitute/TREG/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/LieberInstitute/TREG/branch/main/graph/badge.svg)](https://codecov.io/gh/LieberInstitute/TREG?branch=main)
 <!-- badges: end -->
 
 The goal of `TREG` is to help find find candidate **Total RNA Expression
