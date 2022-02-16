@@ -26,10 +26,61 @@ bib <- c(
     rafalib = citation("rafalib"),
     purrr = citation("purrr"),
     SingleCellExperiment = citation("SingleCellExperiment"),
-    SummarizedExperiment= citation("SummarizedExperiment")
+    SummarizedExperiment = citation("SummarizedExperiment")
 )
 ```
 
+
 ```{r setup}
+library(SingleCellExperiment)
 library(TREG)
 ```
+
+
+```{r "Download DLPFC data"}
+# Download and save a local cache of the data avlaible at:
+# https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data
+
+bfc <- BiocFileCache::BiocFileCache()
+url <- "https://libd-snrnaseq-pilot.s3.us-east-2.amazonaws.com/SCE_DLPFC-n3_tran-etal.rda"
+data <- BiocFileCache::bfcrpath(url, x = bfc)
+
+load(data, verbose = TRUE)
+```
+
+```{r "data size check", echo=FALSE}
+## Using 1/7 GB
+lobstr::obj_size(sce.dlpfc.tran) / 1024^3
+```
+
+## Prep Data
+Filter and refine data to cell types of interest. We are combining all of the
+Excit, Inhib subtypes. 
+```{r "Define Cell Types"}
+## Explore the dimensions and cell type annotations
+dim(sce.dlpfc.tran)
+table(sce.dlpfc.tran$cellType)
+
+## Use a lower resolution of cell type annotation
+sce.dlpfc.tran$cellType.broad <- gsub("_[A-Z]$", "", sce.dlpfc.tran$cellType)
+(cell_type_tab <- table(sce.dlpfc.tran$cellType.broad))
+```
+
+Drop any groups with < 50 cells.
+```{r "Drop Small Cell Types"}
+## Find cell types with < 50 cells
+ct_drop <- names(cell_type_tab)[cell_type_tab < 50]
+
+## Filter columns of sce object
+sce.dlpfc.tran <- sce.dlpfc.tran[, !sce.dlpfc.tran$cellType.broad %in% ct_drop]
+
+dim(sce.dlpfc.tran)
+```
+
+
+
+### Filter Genes
+
+### Run Rank Invariance
+
+### Evaluate Canidate Genes
