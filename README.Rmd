@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 The goal of `TREG` is to help find find candidate **Total RNA Expression Genes (TREGs)**
-in single nucleus RNA-seq data.
+in single nucleus (or single cell) RNA-seq data.
 
 ### Why are TREGs useful?
 The expression of a TREG is proportional to the the overall RNA expression in a
@@ -38,6 +38,10 @@ The motivation of this work is to collect data via smFISH in to help build bette
 deconvolution algorithms. But may be many other application for TREGs in 
 experimental design!
 
+<p align="center">
+![The Expression of a TREG can inform total RNA content of a cell](man/figures/TREG_concept.png){width=50%}
+</p>
+
 ### What makes a gene a good TREG?  
 1. The gene must have **non-zero expression in most cells** across different tissue 
 and cell types.
@@ -49,11 +53,14 @@ across different cell types or have **high rank invariance**.
 have a dynamic range of puncta when observed in RANscope. This will need to be
 considered for the canidate TREGs, and may need to be validated experimentally. 
 
-![Distribution of ranks of a gene of High and Low Invariance](man/figures/fig1_rank_violin_demo.png){width=50%}
+<p align="center">
+![Distribution of ranks of a gene of High and Low Invariance](man/figures/fig1_rank_violin_demo.png){width=30%}
+</p>
 
 ### How to find canidate TREGs with `TREG`
-
+<p align="center">
 ![Overview of the Rank Invariance Process](man/figures/RI_flow.png)
+</p>
 
 1. **Filter for low proportion zero genes snRAN-seq dataset:** This is 
 facilitated with the functions `get_prop_zero` and `filter_prop_zero`.

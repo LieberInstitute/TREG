@@ -13,7 +13,7 @@ status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https:
 <!-- badges: end -->
 
 The goal of `TREG` is to help find find candidate **Total RNA Expression
-Genes (TREGs)** in single nucleus RNA-seq data.
+Genes (TREGs)** in single nucleus (or single cell) RNA-seq data.
 
 ### Why are TREGs useful?
 
@@ -30,6 +30,10 @@ The motivation of this work is to collect data via smFISH in to help
 build better deconvolution algorithms. But may be many other application
 for TREGs in experimental design!
 
+<p align="center">
+<img src="man/figures/TREG_concept.png" title="fig:" style="width:50.0%" alt="The Expression of a TREG can inform total RNA content of a cell" />
+</p>
+
 ### What makes a gene a good TREG?
 
 1.  The gene must have **non-zero expression in most cells** across
@@ -44,13 +48,16 @@ for TREGs in experimental design!
     RANscope. This will need to be considered for the canidate TREGs,
     and may need to be validated experimentally.
 
-<figure>
-<img src="man/figures/fig1_rank_violin_demo.png" style="width:50.0%" alt="Distribution of ranks of a gene of High and Low Invariance" /><figcaption aria-hidden="true">Distribution of ranks of a gene of High and Low Invariance</figcaption>
-</figure>
+<p align="center">
+<img src="man/figures/fig1_rank_violin_demo.png" title="fig:" style="width:30.0%" alt="Distribution of ranks of a gene of High and Low Invariance" />
+</p>
 
 ### How to find canidate TREGs with `TREG`
 
-![Overview of the Rank Invariance Process](man/figures/RI_flow.png)
+<p align="center">
+![Overview of the Rank Invariance
+Process](man/figures/RI_flow.png "fig:")
+</p>
 
 1.  **Filter for low proportion zero genes snRAN-seq dataset:** This is
     facilitated with the functions `get_prop_zero` and
