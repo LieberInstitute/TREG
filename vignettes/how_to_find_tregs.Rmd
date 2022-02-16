@@ -7,10 +7,26 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>"
+)
+```
+
+```{r vignetteSetup, echo=FALSE, message=FALSE, warning = FALSE}
+## Track time spent on making the vignette
+startTime <- Sys.time()
+## Bib setup
+library("RefManageR")
+## Write bibliography information
+bib <- c(
+    R = citation(),
+    dplyr = ("dplyr"),
+    rafalib = citation("rafalib"),
+    purrr = citation("purrr"),
+    SingleCellExperiment = citation("SingleCellExperiment"),
+    SummarizedExperiment= citation("SummarizedExperiment")
 )
 ```
 
