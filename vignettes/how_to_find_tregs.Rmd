@@ -31,8 +31,10 @@ bib <- c(
 ```
 
 
-```{r "Load Packages}
+```{r "Load Packages"}
+library(pheatmap)
 library(SingleCellExperiment)
+library(tidyverse)
 library(TREG)
 ```
 
@@ -79,12 +81,81 @@ dim(sce.dlpfc.tran)
 
 
 ### Filter Genes
-Single Nucleus data is often very spares (lots of zeros in the count data)
-```{r, "Examine Sparsity}
-assays(sce_zero_test)$counts[1:5,1:5]
+Single Nucleus data is often very sparse (lots of zeros in the count data), this 
+dataset is 88% sparse. We can illistrate this in the heat map which is very blue.
+```{r, "Examine Sparsity"}
+## this data is 88% sparse
+sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
+## lets make a heatmap of the first 1k genes and 500 cells
+count_test <- as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500])
+pheatmap(count_test,
+    cluster_rows = FALSE,
+    cluster_cols = FALSE,
+    show_rownames = FALSE,
+    show_colnames = FALSE
+)
 ```
 
+#### Filter to Top 50% Expression
+Determine the median expression of genes over all rows, drop all the genes that
+are below this limit.
+```{r "Top 50% Filter"}
+row_means <- rowMeans(assays(sce.dlpfc.tran)$logcounts)
+(median_row_means <- median(row_means))
+
+sce.dlpfc.tran <- sce.dlpfc.tran[row_means > median_row_means, ]
+dim(sce.dlpfc.tran)
+```
+
+After this filter lets check sparsity and make a heatmap of the first 1k genes
+and 500 cells. We are seeing more non-blue!
+```{r "Top 50% Filter heatmap"}
+## this data down to 77% sparse
+sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
+
+## replot heatmap
+count_test <- as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500])
+pheatmap::pheatmap(count_test,
+    cluster_rows = FALSE,
+    cluster_cols = FALSE,
+    show_rownames = FALSE,
+    show_colnames = FALSE
+)
+```
+
+#### Calculate the Proption of Zeros and Pick Cutoff
+For each group (let's use `cellType.broad`) get the proportion of zeros for each gene
+```{r "get prop zero"}
+# get prop zero for each gene for each cell type
+prop_zeros <- get_prop_zero(sce.dlpfc.tran, group_col = "cellType.broad")
+head(prop_zeros)
+```
+
+To determine a good cutoff for filtering lets examine the distribution of these
+proportions by group.
+```{r "Prop Zero Distribution"}
+# Need to pivot data
+prop_zero_long <- prop_zeros %>%
+    rownames_to_column("Gene") %>%
+    pivot_longer(!Gene, names_to = "Group", values_to = "prop_zero")
+
+# Plot histograms
+(prop_zero_histogram <- ggplot(
+    data = prop_zero_long,
+    aes(x = prop_zero, fill = Group)
+) +
+    geom_histogram(binwidth = 0.05) +
+    facet_wrap(~Group))
+```
+
+Looks like around 0.92 the densities peak, we'll set that as the cutoff.
+```{r "Pick cutoff"}
+propZero_limit <- 0.92
+
+prop_zero_histogram +
+    geom_vline(xintercept = propZero_limit, color = "red", linetype = "dashed")
+```
 
 
 ### Run Rank Invariance
