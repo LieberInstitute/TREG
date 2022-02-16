@@ -31,7 +31,7 @@ bib <- c(
 ```
 
 
-```{r setup}
+```{r "Load Packages}
 library(SingleCellExperiment)
 library(TREG)
 ```
@@ -78,8 +78,14 @@ dim(sce.dlpfc.tran)
 ```
 
 
-
 ### Filter Genes
+Single Nucleus data is often very spares (lots of zeros in the count data)
+```{r, "Examine Sparsity}
+assays(sce_zero_test)$counts[1:5,1:5]
+
+```
+
+
 
 ### Run Rank Invariance
 
