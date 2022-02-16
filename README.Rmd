@@ -58,6 +58,7 @@ considered for the canidate TREGs, and may need to be validated experimentally.
 </p>
 
 ### How to find canidate TREGs with `TREG`
+
 <p align="center">
 ![Overview of the Rank Invariance Process](man/figures/RI_flow.png)
 </p>
@@ -113,11 +114,11 @@ genes should be filtered by maximum proportion of zeros within a groups of cells
 ## Calculate Proportion Zero ingroups defined by a column in colData
 (prop_zero <- get_prop_zero(sce = sce_zero_test, group_col = "cellType"))
 
-## Get list of genes that pass the max proportion zero filter 
+## Get list of genes that pass the max proportion zero filter
 (filtered_genes <- filter_prop_zero(prop_zero, cutoff = 0.9))
 
 ## Filter sce object to this list of genes
-sce_filter <- sce_zero_test[filtered_genes,]
+sce_filter <- sce_zero_test[filtered_genes, ]
 ```
 
 ### Evaluate RI for Filtered SCE Data
@@ -127,7 +128,6 @@ In this example the gene *g0* would be the strongest candidate TREG.
 ## Get the Rank Invaraince value for each gene
 ## The higest values are the best TREG canidates
 rank_invariance_express(sce_filter)
-
 ```
 
 

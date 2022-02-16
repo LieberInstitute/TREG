@@ -123,12 +123,12 @@ cells.
 #> gOffOn 0.50 0.50
 #> gVar   0.52 0.42
 
-## Get list of genes that pass the max proportion zero filter 
+## Get list of genes that pass the max proportion zero filter
 (filtered_genes <- filter_prop_zero(prop_zero, cutoff = 0.9))
 #> [1] "g50"    "g0"     "gOffOn" "gVar"
 
 ## Filter sce object to this list of genes
-sce_filter <- sce_zero_test[filtered_genes,]
+sce_filter <- sce_zero_test[filtered_genes, ]
 ```
 
 ### Evaluate RI for Filtered SCE Data
