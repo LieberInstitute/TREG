@@ -19,8 +19,15 @@
 #' @family invariance functions
 #' @importFrom purrr map2 map_dfc
 rank_invariance <- function(group_rank, cell_rank) {
+    ## check inputs
+    stopifnot(is.list(group_rank))
+    stopifnot(is.list(cell_rank))
 
-    # message(length(group_rank[[1]]) == nrow(cell_rank[[1]]))
+    if (length(group_rank) != length(cell_rank)) stop("`group_rank` and `cell_rank` lengths don't match. Did you use the same groups to calculate these values?")
+
+    ## Warn if group names don't match
+    if (any(names(group_rank) != names(cell_rank))) warning("`group_rank` and `cell_rank` names don't match")
+
     rank_diff <- purrr::map2(cell_rank, group_rank, ~ sweep(.x, 1, STATS = .y, FUN = "-"))
 
     rank_diff_cell_type <- as.matrix(purrr::map_dfc(rank_diff, ~ rank(rowSums(abs(.x)))))

@@ -14,6 +14,7 @@
 filter_prop_zero <- function(prop_zero_df, cutoff = 0.9) {
     stopifnot(is.data.frame(prop_zero_df))
     stopifnot(!is.null(rownames(prop_zero_df)))
+    stopifnot(type(prop_zero_df) == "double")
 
     max_prop_zero <- apply(prop_zero_df, 1, max)
     filter_prop <- max_prop_zero[max_prop_zero < cutoff]
