@@ -358,11 +358,25 @@
 <div class="section level3">
 <h3 id="run-rank-invariance">Run Rank Invariance<a class="anchor" aria-label="anchor" href="#run-rank-invariance"></a>
 </h3>
+<p>To get the rank invariance (RI), the rank of the genes across the cells in a group, and between groups is considered. One way to calculate RI is to dine the group rank values, and cell rank values separately, then combine them as shown below. The genes with the top RI values are the best canidate TREGs.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; AL669831.5     UBE2J2      CCNL2     CDK11B   SLC35E2B </span>
-<span class="co">#&gt; 0.69380807 0.17471675 0.39285836 0.42423289 0.06226616</span></code></pre></div>
+<code class="sourceCode R"><span class="co">## Get the rank of the gene in each group</span>
+<span class="va">group_rank</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_group.html">rank_group</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span>, group_col <span class="op">=</span> <span class="st">"cellType.broad"</span><span class="op">)</span>
+
+<span class="co">## Get the rank of the gene for each cell</span>
+<span class="va">cell_rank</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_cells.html">rank_cells</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span>, group_col <span class="op">=</span> <span class="st">"cellType.broad"</span><span class="op">)</span>
+
+<span class="co">## Use both rankings to calculate rank_invariance</span>
+<span class="va">rank_invar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_invariance.html">rank_invariance</a></span><span class="op">(</span><span class="va">group_rank</span>, <span class="va">cell_rank</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rank_invar</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">sort.list</a></span><span class="op">(</span><span class="va">rank_invar</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt;  MALAT1  CTNND2     FTX    RERE FAM155A    GNAQ </span>
+<span class="co">#&gt;    4005    4004    4003    4002    4001    4000</span></code></pre></div>
+<p>The <code>rank_invariance_express</code> function combines these three steps into one function, and achieves the same results.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rank_invar2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_invariance_express.html">rank_invariance_express</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span>, group_col <span class="op">=</span> <span class="st">"cellType.broad"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rank_invar2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">sort.list</a></span><span class="op">(</span><span class="va">rank_invar2</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt;  MALAT1  CTNND2     FTX    RERE FAM155A    GNAQ </span>
+<span class="co">#&gt;    4005    4004    4003    4002    4001    4000</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="evaluate-canidate-genes">Evaluate Canidate Genes<a class="anchor" aria-label="anchor" href="#evaluate-canidate-genes"></a>
