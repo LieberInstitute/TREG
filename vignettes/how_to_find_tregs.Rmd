@@ -50,7 +50,7 @@ data <- BiocFileCache::bfcrpath(url, x = bfc)
 load(data, verbose = TRUE)
 ```
 
-```{r "data size check", echo=FALSE}
+```{r "Data Size Check", echo=FALSE}
 ## Using 1/7 GB
 lobstr::obj_size(sce.dlpfc.tran) / 1024^3
 ```
@@ -149,14 +149,20 @@ prop_zero_long <- prop_zeros %>%
     facet_wrap(~Group))
 ```
 
-Looks like around 0.92 the densities peak, we'll set that as the cutoff.
+Looks like around 0.9 the densities peak, we'll set that as the cutoff.
 ```{r "Pick cutoff"}
-propZero_limit <- 0.92
+propZero_limit <- 0.9
 
 prop_zero_histogram +
     geom_vline(xintercept = propZero_limit, color = "red", linetype = "dashed")
 ```
 
+#### Filter by the Max Proption of Zeros
+Use the cutoff to filter the datase. I
+```{r "Filter Prop Zero"}
+filtered_genes <- filter_prop_zero(prop_zeros, cutoff = propZero_limit)
+length(filtered_genes)/nrow(sce.dlpfc.tran)
+```
 
 ### Run Rank Invariance
 
