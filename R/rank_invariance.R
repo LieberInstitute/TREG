@@ -18,6 +18,7 @@
 #' rank_invar_test <- rank_invariance(group_rank_test, cell_rank_test)
 #' @family invariance functions
 #' @importFrom purrr map2 map_dfc
+#' @importFrom Matrix rowMeans
 rank_invariance <- function(group_rank, cell_rank) {
     ## check inputs
     stopifnot(is.list(group_rank))
@@ -50,6 +51,7 @@ rank_invariance <- function(group_rank, cell_rank) {
 #' @examples
 #' ## Calulate RI for the sce object
 #' rank_invariance_express(sce_zero_test, group_col = "group")
+#' rank_invariance_express(sce_zero_test, group_col = "cellType")
 #' @family invariance functions
 rank_invariance_express <- function(sce, group_col = "cellType", assay = "logcounts") {
     stopifnot(group_col %in% colnames(colData(sce)))
@@ -57,9 +59,10 @@ rank_invariance_express <- function(sce, group_col = "cellType", assay = "logcou
 
     rank_diff <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx) {
         sce_group <- sce[, indx]
-        group_ranks <- rank(rowMeans(SummarizedExperiment::assays(sce_group)$logcounts))
+        group_ranks <- rank(Matrix::rowMeans(SummarizedExperiment::assays(sce_group)$logcounts))
         cell_rank <- apply(SummarizedExperiment::assays(sce_group)$logcounts, 2, rank)
         rd <- sweep(cell_rank, 1, STATS = group_ranks, FUN = "-")
+        return(rd)
     })
 
     rank_diff_cell_type <- as.matrix(purrr::map_dfc(rank_diff, ~ rank(rowSums(abs(.x)))))

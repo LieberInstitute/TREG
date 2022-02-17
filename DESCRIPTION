@@ -37,5 +37,6 @@ Imports:
     rafalib,
     purrr,
     SummarizedExperiment,
-    dplyr
+    dplyr,
+    Matrix
 VignetteBuilder: knitr

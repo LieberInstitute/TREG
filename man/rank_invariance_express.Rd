@@ -22,6 +22,7 @@ Calculate the Rank Invariance of Each Gene from SCE object w/ groups
 \examples{
 ## Calulate RI for the sce object
 rank_invariance_express(sce_zero_test, group_col = "group")
+rank_invariance_express(sce_zero_test, group_col = "cellType")
 }
 \seealso{
 Other invariance functions: 

@@ -11,13 +11,14 @@
 #' @importFrom purrr map
 #' @importFrom rafalib splitit
 #' @importFrom SummarizedExperiment assays assayNames colData
+#' @importFrom Matrix rowMeans
 rank_group <- function(sce, group_col = "cellType", assay = "logcounts") {
     stopifnot(group_col %in% colnames(colData(sce)))
     stopifnot(assay %in% assayNames(sce))
 
     group_gene_rank <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx) {
         sce_group <- sce[, indx, drop = FALSE]
-        group_ranks <- rank(rowMeans(assays(sce_group)$logcounts))
+        group_ranks <- rank(Matrix::rowMeans(assays(sce_group)$logcounts))
         return(group_ranks)
     })
 

@@ -193,9 +193,28 @@ pheatmap::pheatmap(count_test,
 ```
 
 ### Run Rank Invariance
-```{r "run_RI"}
+To get the rank invariance (RI), the rank of the genes across the cells in a group,
+and between groups is considered. One way to calculate RI is to dine the group 
+rank values, and cell rank values separately, then combine them as shown below.
+The genes with the top RI values are the best canidate TREGs.
+```{r}
+## Get the rank of the gene in each group
+group_rank <- rank_group(sce.dlpfc.tran, group_col = "cellType.broad")
 
-rowMeans(assays(sce.dlpfc.tran)$logcounts[1:5, 1:5])
+## Get the rank of the gene for each cell
+cell_rank <- rank_cells(sce.dlpfc.tran, group_col = "cellType.broad")
+
+## Use both rankings to calculate rank_invariance
+rank_invar <- rank_invariance(group_rank, cell_rank)
+head(rank_invar[sort.list(rank_invar, decreasing = TRUE)])
+```
+
+The `rank_invariance_express` function combines these three steps into one
+function, and achieves the same results. 
+
+```{r "run_RI_express"}
+rank_invar2 <- rank_invariance_express(sce.dlpfc.tran, group_col = "cellType.broad")
+head(rank_invar2[sort.list(rank_invar2, decreasing = TRUE)])
 ```
 
 
