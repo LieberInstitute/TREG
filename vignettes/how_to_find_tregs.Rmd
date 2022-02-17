@@ -53,7 +53,7 @@ load(data, verbose = TRUE)
 
 ```{r "Data Size Check", echo=FALSE}
 ## Using 1/7 GB
-lobstr::obj_size(sce.dlpfc.tran) / 1024^3
+# lobstr::obj_size(sce.dlpfc.tran) / 1024^3
 ```
 
 ## Prep Data
@@ -159,10 +159,18 @@ prop_zero_histogram +
 ```
 
 #### Filter by the Max Proption of Zeros
-Use the cutoff to filter the datase. I
+Use the cutoff to filter the remaining genes.  Only  4k or ~11% of genes pass with 
+this cutoff. Filter the sce object to this set of genes.
 ```{r "Filter Prop Zero"}
+## get a list of filtered genes
 filtered_genes <- filter_prop_zero(prop_zeros, cutoff = propZero_limit)
+## How many genes pass the filter?
+length(filtered_genes)
+## What % of genes is this
 length(filtered_genes)/nrow(sce.dlpfc.tran)
+
+## Filter the sce object
+
 ```
 
 ### Run Rank Invariance
