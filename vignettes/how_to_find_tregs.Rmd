@@ -31,7 +31,7 @@ bib <- c(
 ```
 
 
-```{r "Load Packages"}
+```{r "load_packages"}
 library(pheatmap)
 library(SingleCellExperiment)
 library(dplyr)
@@ -41,7 +41,7 @@ library(TREG)
 ```
 
 
-```{r "Download DLPFC data"}
+```{r "download_DLPFC_data"}
 # Download and save a local cache of the data avlaible at:
 # https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data
 
@@ -60,7 +60,7 @@ load(data, verbose = TRUE)
 ## Prep Data
 Filter and refine data to cell types of interest. We are combining all of the
 Excit, Inhib subtypes. 
-```{r "Define Cell Types"}
+```{r "define_cell_types"}
 ## Explore the dimensions and cell type annotations
 dim(sce.dlpfc.tran)
 table(sce.dlpfc.tran$cellType)
@@ -71,7 +71,7 @@ sce.dlpfc.tran$cellType.broad <- gsub("_[A-Z]$", "", sce.dlpfc.tran$cellType)
 ```
 
 Drop any groups with < 50 cells.
-```{r "Drop Small Cell Types"}
+```{r "drop_small_cell_types"}
 ## Find cell types with < 50 cells
 ct_drop <- names(cell_type_tab)[cell_type_tab < 50]
 
@@ -85,12 +85,12 @@ dim(sce.dlpfc.tran)
 ### Filter Genes
 Single Nucleus data is often very sparse (lots of zeros in the count data), this 
 dataset is 88% sparse. We can illistrate this in the heat map which is very blue.
-```{r, "Examine Sparsity"}
+```{r, "examine_sparsity"}
 ## this data is 88% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## lets make a heatmap of the first 1k genes and 500 cells
-count_test <- as.integer(as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500]) == 0)
+count_test <- as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500])
 pheatmap(count_test,
     cluster_rows = FALSE,
     cluster_cols = FALSE,
@@ -102,7 +102,7 @@ pheatmap(count_test,
 #### Filter to Top 50% Expression
 Determine the median expression of genes over all rows, drop all the genes that
 are below this limit.
-```{r "Top 50% Filter"}
+```{r "top50_filter"}
 row_means <- rowMeans(assays(sce.dlpfc.tran)$logcounts)
 (median_row_means <- median(row_means))
 
@@ -112,12 +112,12 @@ dim(sce.dlpfc.tran)
 
 After this filter lets check sparsity and make a heatmap of the first 1k genes
 and 500 cells. We are seeing more non-blue!
-```{r "Top 50% Filter heatmap"}
+```{r "top50_filter_heatmap"}
 ## this data down to 77% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## replot heatmap
-count_test <- as.integer(as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500]) == 0)
+count_test <- as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500])
 pheatmap::pheatmap(count_test,
     cluster_rows = FALSE,
     cluster_cols = FALSE,
@@ -128,7 +128,7 @@ pheatmap::pheatmap(count_test,
 
 #### Calculate the Proption of Zeros and Pick Cutoff
 For each group (let's use `cellType.broad`) get the proportion of zeros for each gene
-```{r "get prop zero"}
+```{r "get_prop_zero"}
 # get prop zero for each gene for each cell type
 prop_zeros <- get_prop_zero(sce.dlpfc.tran, group_col = "cellType.broad")
 head(prop_zeros)
@@ -136,7 +136,7 @@ head(prop_zeros)
 
 To determine a good cutoff for filtering lets examine the distribution of these
 proportions by group.
-```{r "Prop Zero Distribution"}
+```{r "prop_zero_distribution"}
 # Need to pivot data
 prop_zero_long <- prop_zeros %>%
     tibble::rownames_to_column("Gene") %>%
@@ -152,7 +152,7 @@ prop_zero_long <- prop_zeros %>%
 ```
 
 Looks like around 0.9 the densities peak, we'll set that as the cutoff.
-```{r "Pick cutoff"}
+```{r "pick_cutoff"}
 propZero_limit <- 0.9
 
 prop_zero_histogram +
@@ -162,26 +162,28 @@ prop_zero_histogram +
 #### Filter by the Max Proption of Zeros
 Use the cutoff to filter the remaining genes.  Only  4k or ~11% of genes pass with 
 this cutoff. Filter the sce object to this set of genes.
-```{r "Filter Prop Zero"}
+```{r "filter_prop_zero"}
 ## get a list of filtered genes
 filtered_genes <- filter_prop_zero(prop_zeros, cutoff = propZero_limit)
 ## How many genes pass the filter?
 length(filtered_genes)
 ## What % of genes is this
-length(filtered_genes)/nrow(sce.dlpfc.tran)
+length(filtered_genes) / nrow(sce.dlpfc.tran)
 
 ## Filter the sce object
-sce.dlpfc.tran <- sce.dlpfc.tran[filtered_genes,]
+sce.dlpfc.tran <- sce.dlpfc.tran[filtered_genes, ]
 ```
 
 One last check of the sparsity and heatmap.
 
-```{r "Prop 0 Filter Heatmap"}
+```{r "prop_zero_filter_heatmap"}
 ## this data down to 50% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## replot heatmap
-count_test <- as.integer(as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500]) == 0)
+count_test <- as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500])
+## Just to help visualization we'll cap the counts at 300
+count_test[count_test > 300] <- 300
 pheatmap::pheatmap(count_test,
     cluster_rows = FALSE,
     cluster_cols = FALSE,
@@ -191,6 +193,10 @@ pheatmap::pheatmap(count_test,
 ```
 
 ### Run Rank Invariance
+```{r "run_RI"}
+
+rowMeans(assays(sce.dlpfc.tran)$logcounts[1:5, 1:5])
+```
 
 
 ### Evaluate Canidate Genes
