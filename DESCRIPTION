@@ -29,7 +29,9 @@ Suggests:
     pheatmap,
     RefManageR,
     ggplot2,
-    BiocFileCache
+    BiocFileCache,
+    tidyr,
+    tibble
 Config/testthat/edition: 3
 Imports: 
     rafalib,

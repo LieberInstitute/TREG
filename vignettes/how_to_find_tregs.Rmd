@@ -36,6 +36,7 @@ library(pheatmap)
 library(SingleCellExperiment)
 library(dplyr)
 library(ggplot2)
+library(tidyr)
 library(TREG)
 ```
 
@@ -89,7 +90,7 @@ dataset is 88% sparse. We can illistrate this in the heat map which is very blue
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## lets make a heatmap of the first 1k genes and 500 cells
-count_test <- as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500])
+count_test <- as.integer(as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500]) == 0)
 pheatmap(count_test,
     cluster_rows = FALSE,
     cluster_cols = FALSE,
@@ -116,7 +117,7 @@ and 500 cells. We are seeing more non-blue!
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## replot heatmap
-count_test <- as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500])
+count_test <- as.integer(as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500]) == 0)
 pheatmap::pheatmap(count_test,
     cluster_rows = FALSE,
     cluster_cols = FALSE,
@@ -138,7 +139,7 @@ proportions by group.
 ```{r "Prop Zero Distribution"}
 # Need to pivot data
 prop_zero_long <- prop_zeros %>%
-    rownames_to_column("Gene") %>%
+    tibble::rownames_to_column("Gene") %>%
     pivot_longer(!Gene, names_to = "Group", values_to = "prop_zero")
 
 # Plot histograms
@@ -170,9 +171,26 @@ length(filtered_genes)
 length(filtered_genes)/nrow(sce.dlpfc.tran)
 
 ## Filter the sce object
+sce.dlpfc.tran <- sce.dlpfc.tran[filtered_genes,]
+```
 
+One last check of the sparsity and heatmap.
+
+```{r "Prop 0 Filter Heatmap"}
+## this data down to 50% sparse
+sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
+
+## replot heatmap
+count_test <- as.integer(as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500]) == 0)
+pheatmap::pheatmap(count_test,
+    cluster_rows = FALSE,
+    cluster_cols = FALSE,
+    show_rownames = FALSE,
+    show_colnames = FALSE
+)
 ```
 
 ### Run Rank Invariance
+
 
 ### Evaluate Canidate Genes
