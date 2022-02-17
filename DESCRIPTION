@@ -28,7 +28,8 @@ Suggests:
     covr,
     pheatmap,
     RefManageR,
-    ggplot2
+    ggplot2,
+    BiocFileCache
 Config/testthat/edition: 3
 Imports: 
     rafalib,
