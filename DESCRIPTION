@@ -25,7 +25,10 @@ Suggests:
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
-    covr
+    covr,
+    pheatmap,
+    RefManageR,
+    ggplot2
 Config/testthat/edition: 3
 Imports: 
     rafalib,
