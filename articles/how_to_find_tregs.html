@@ -89,8 +89,8 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/LieberInstitute/TREG" class="external-link">TREG</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: SingleCellExperiment</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">pheatmap</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">SingleCellExperiment</span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: SummarizedExperiment</span>
 <span class="co">#&gt; Loading required package: MatrixGenerics</span>
 <span class="co">#&gt; Loading required package: matrixStats</span>
@@ -150,12 +150,232 @@
 <span class="co">#&gt;     rowMedians</span>
 <span class="co">#&gt; The following objects are masked from 'package:matrixStats':</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     anyMissing, rowMedians</span></code></pre></div>
+<span class="co">#&gt;     anyMissing, rowMedians</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'dplyr'</span>
+<span class="co">#&gt; The following object is masked from 'package:Biobase':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     combine</span>
+<span class="co">#&gt; The following objects are masked from 'package:GenomicRanges':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, union</span>
+<span class="co">#&gt; The following object is masked from 'package:GenomeInfoDb':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect</span>
+<span class="co">#&gt; The following objects are masked from 'package:IRanges':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     collapse, desc, intersect, setdiff, slice, union</span>
+<span class="co">#&gt; The following objects are masked from 'package:S4Vectors':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     first, intersect, rename, setdiff, setequal, union</span>
+<span class="co">#&gt; The following objects are masked from 'package:BiocGenerics':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     combine, intersect, setdiff, union</span>
+<span class="co">#&gt; The following object is masked from 'package:matrixStats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     count</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'tidyr'</span>
+<span class="co">#&gt; The following object is masked from 'package:S4Vectors':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     expand</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/LieberInstitute/TREG" class="external-link">TREG</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Download and save a local cache of the data avlaible at:</span>
+<span class="co"># https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data</span>
+
+<span class="va">bfc</span> <span class="op">&lt;-</span> <span class="fu">BiocFileCache</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html" class="external-link">BiocFileCache</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://libd-snrnaseq-pilot.s3.us-east-2.amazonaws.com/SCE_DLPFC-n3_tran-etal.rda"</span>
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">BiocFileCache</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html" class="external-link">bfcrpath</a></span><span class="op">(</span><span class="va">url</span>, x <span class="op">=</span> <span class="va">bfc</span><span class="op">)</span>
+<span class="co">#&gt; adding rname 'https://libd-snrnaseq-pilot.s3.us-east-2.amazonaws.com/SCE_DLPFC-n3_tran-etal.rda'</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">data</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Loading objects:</span>
+<span class="co">#&gt;   sce.dlpfc.tran</span></code></pre></div>
+<div class="section level2">
+<h2 id="prep-data">Prep Data<a class="anchor" aria-label="anchor" href="#prep-data"></a>
+</h2>
+<p>Filter and refine data to cell types of interest. We are combining all of the Excit, Inhib subtypes.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Explore the dimensions and cell type annotations</span>
+<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
+<span class="co">#&gt; [1] 33538 11202</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">$</span><span class="va">cellType</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;      Astro    Excit_A    Excit_B    Excit_C    Excit_D    Excit_E    Excit_F </span>
+<span class="co">#&gt;        782        529        773        524        132        187        243 </span>
+<span class="co">#&gt;    Inhib_A    Inhib_B    Inhib_C    Inhib_D    Inhib_E    Inhib_F Macrophage </span>
+<span class="co">#&gt;        333        454        365        413          7          8         10 </span>
+<span class="co">#&gt;      Micro      Mural      Oligo        OPC      Tcell </span>
+<span class="co">#&gt;        388         18       5455        572          9</span>
+
+<span class="co">## Use a lower resolution of cell type annotation</span>
+<span class="va">sce.dlpfc.tran</span><span class="op">$</span><span class="va">cellType.broad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_[A-Z]$"</span>, <span class="st">""</span>, <span class="va">sce.dlpfc.tran</span><span class="op">$</span><span class="va">cellType</span><span class="op">)</span>
+<span class="op">(</span><span class="va">cell_type_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">$</span><span class="va">cellType.broad</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;      Astro      Excit      Inhib Macrophage      Micro      Mural      Oligo </span>
+<span class="co">#&gt;        782       2388       1580         10        388         18       5455 </span>
+<span class="co">#&gt;        OPC      Tcell </span>
+<span class="co">#&gt;        572          9</span></code></pre></div>
+<p>Drop any groups with &lt; 50 cells.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## Find cell types with &lt; 50 cells</span>
+<span class="va">ct_drop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cell_type_tab</span><span class="op">)</span><span class="op">[</span><span class="va">cell_type_tab</span> <span class="op">&lt;</span> <span class="fl">50</span><span class="op">]</span>
+
+<span class="co">## Filter columns of sce object</span>
+<span class="va">sce.dlpfc.tran</span> <span class="op">&lt;-</span> <span class="va">sce.dlpfc.tran</span><span class="op">[</span>, <span class="op">!</span><span class="va">sce.dlpfc.tran</span><span class="op">$</span><span class="va">cellType.broad</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">ct_drop</span><span class="op">]</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
+<span class="co">#&gt; [1] 33538 11165</span></code></pre></div>
+<div class="section level3">
+<h3 id="filter-genes">Filter Genes<a class="anchor" aria-label="anchor" href="#filter-genes"></a>
+</h3>
+<p>Single Nucleus data is often very sparse (lots of zeros in the count data), this dataset is 88% sparse. We can illistrate this in the heat map which is very blue.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## this data is 88% sparse</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.8839022</span>
+
+<span class="co">## lets make a heatmap of the first 1k genes and 500 cells</span>
+<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">count_test</span>,
+    cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,
+    cluster_cols <span class="op">=</span> <span class="cn">FALSE</span>,
+    show_rownames <span class="op">=</span> <span class="cn">FALSE</span>,
+    show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span></code></pre></div>
+<p><img src="how_to_find_tregs_files/figure-html/examine_sparsity-1.png" width="700"></p>
+<div class="section level4">
+<h4 id="filter-to-top-50-expression">Filter to Top 50% Expression<a class="anchor" aria-label="anchor" href="#filter-to-top-50-expression"></a>
+</h4>
+<p>Determine the median expression of genes over all rows, drop all the genes that are below this limit.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">row_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">)</span>
+<span class="op">(</span><span class="va">median_row_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">row_means</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.01405562</span>
+
+<span class="va">sce.dlpfc.tran</span> <span class="op">&lt;-</span> <span class="va">sce.dlpfc.tran</span><span class="op">[</span><span class="va">row_means</span> <span class="op">&gt;</span> <span class="va">median_row_means</span>, <span class="op">]</span>
+<span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
+<span class="co">#&gt; [1] 16769 11165</span></code></pre></div>
+<p>After this filter lets check sparsity and make a heatmap of the first 1k genes and 500 cells. We are seeing more non-blue!</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## this data down to 77% sparse</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.7713423</span>
+
+<span class="co">## replot heatmap</span>
+<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
+<span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">count_test</span>,
+    cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,
+    cluster_cols <span class="op">=</span> <span class="cn">FALSE</span>,
+    show_rownames <span class="op">=</span> <span class="cn">FALSE</span>,
+    show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span></code></pre></div>
+<p><img src="how_to_find_tregs_files/figure-html/top50_filter_heatmap-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="calculate-the-proption-of-zeros-and-pick-cutoff">Calculate the Proption of Zeros and Pick Cutoff<a class="anchor" aria-label="anchor" href="#calculate-the-proption-of-zeros-and-pick-cutoff"></a>
+</h4>
+<p>For each group (let’s use <code>cellType.broad</code>) get the proportion of zeros for each gene</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># get prop zero for each gene for each cell type</span>
+<span class="va">prop_zeros</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_prop_zero.html">get_prop_zero</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span>, group_col <span class="op">=</span> <span class="st">"cellType.broad"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">prop_zeros</span><span class="op">)</span>
+<span class="co">#&gt;                Astro     Excit     Inhib     Micro     Oligo       OPC</span>
+<span class="co">#&gt; AL627309.1 0.9667519 0.7784757 0.8487342 0.9536082 0.9552704 0.9685315</span>
+<span class="co">#&gt; AL669831.5 0.8836317 0.2361809 0.4879747 0.8608247 0.8445463 0.7657343</span>
+<span class="co">#&gt; LINC00115  0.9948849 0.9493300 0.9759494 0.9845361 0.9891842 0.9930070</span>
+<span class="co">#&gt; NOC2L      0.9347826 0.6168342 0.7556962 0.9536082 0.9365720 0.8811189</span>
+<span class="co">#&gt; KLHL17     0.9859335 0.8986600 0.9360759 0.9922680 0.9963336 0.9877622</span>
+<span class="co">#&gt; HES4       0.8695652 0.7357621 0.6892405 0.9974227 0.9906508 0.9737762</span></code></pre></div>
+<p>To determine a good cutoff for filtering lets examine the distribution of these proportions by group.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Need to pivot data</span>
+<span class="va">prop_zero_long</span> <span class="op">&lt;-</span> <span class="va">prop_zeros</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rownames_to_column</a></span><span class="op">(</span><span class="st">"Gene"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+    <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">Gene</span>, names_to <span class="op">=</span> <span class="st">"Group"</span>, values_to <span class="op">=</span> <span class="st">"prop_zero"</span><span class="op">)</span>
+
+<span class="co"># Plot histograms</span>
+<span class="op">(</span><span class="va">prop_zero_histogram</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>
+    data <span class="op">=</span> <span class="va">prop_zero_long</span>,
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">prop_zero</span>, fill <span class="op">=</span> <span class="va">Group</span><span class="op">)</span>
+<span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Group</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="how_to_find_tregs_files/figure-html/prop_zero_distribution-1.png" width="700"></p>
+<p>Looks like around 0.9 the densities peak, we’ll set that as the cutoff.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">propZero_limit</span> <span class="op">&lt;-</span> <span class="fl">0.9</span>
+
+<span class="va">prop_zero_histogram</span> <span class="op">+</span>
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">propZero_limit</span>, color <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></code></pre></div>
+<p><img src="how_to_find_tregs_files/figure-html/pick_cutoff-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="filter-by-the-max-proption-of-zeros">Filter by the Max Proption of Zeros<a class="anchor" aria-label="anchor" href="#filter-by-the-max-proption-of-zeros"></a>
+</h4>
+<p>Use the cutoff to filter the remaining genes. Only 4k or ~11% of genes pass with this cutoff. Filter the sce object to this set of genes.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## get a list of filtered genes</span>
+<span class="va">filtered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_prop_zero.html">filter_prop_zero</a></span><span class="op">(</span><span class="va">prop_zeros</span>, cutoff <span class="op">=</span> <span class="va">propZero_limit</span><span class="op">)</span>
+<span class="co">## How many genes pass the filter?</span>
+<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">filtered_genes</span><span class="op">)</span>
+<span class="co">#&gt; [1] 4005</span>
+<span class="co">## What % of genes is this</span>
+<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">filtered_genes</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.2388336</span>
+
+<span class="co">## Filter the sce object</span>
+<span class="va">sce.dlpfc.tran</span> <span class="op">&lt;-</span> <span class="va">sce.dlpfc.tran</span><span class="op">[</span><span class="va">filtered_genes</span>, <span class="op">]</span></code></pre></div>
+<p>One last check of the sparsity and heatmap.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## this data down to 50% sparse</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.5010587</span>
+
+<span class="co">## replot heatmap</span>
+<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
+<span class="co">## Just to help visualization we'll cap the counts at 300</span>
+<span class="va">count_test</span><span class="op">[</span><span class="va">count_test</span> <span class="op">&gt;</span> <span class="fl">300</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">300</span>
+<span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">count_test</span>,
+    cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,
+    cluster_cols <span class="op">=</span> <span class="cn">FALSE</span>,
+    show_rownames <span class="op">=</span> <span class="cn">FALSE</span>,
+    show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span></code></pre></div>
+<p><img src="how_to_find_tregs_files/figure-html/prop_zero_filter_heatmap-1.png" width="700"></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="run-rank-invariance">Run Rank Invariance<a class="anchor" aria-label="anchor" href="#run-rank-invariance"></a>
+</h3>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt; AL669831.5     UBE2J2      CCNL2     CDK11B   SLC35E2B </span>
+<span class="co">#&gt; 0.69380807 0.17471675 0.39285836 0.42423289 0.06226616</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="evaluate-canidate-genes">Evaluate Canidate Genes<a class="anchor" aria-label="anchor" href="#evaluate-canidate-genes"></a>
+</h3>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
