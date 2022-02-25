@@ -1,8 +1,10 @@
 #' Filter Genes for by Max Proportion Zero Among Groups
 #'
+#' TODO add description.
+#'
 #' @param prop_zero_df data.frame containing proportion of zero counts, genes as
 #' rows, groups as columns.
-#' @param cutoff Cutoff Value for Maximum Proprotion Zero.
+#' @param cutoff Cutoff Value for Maximum Proportion Zero.
 #'
 #' @return A `character()` of gene names that are under the cutoff.
 #' @export

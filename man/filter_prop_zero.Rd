@@ -10,13 +10,13 @@ filter_prop_zero(prop_zero_df, cutoff = 0.9)
 \item{prop_zero_df}{data.frame containing proportion of zero counts, genes as
 rows, groups as columns.}
 
-\item{cutoff}{Cutoff Value for Maximum Proprotion Zero.}
+\item{cutoff}{Cutoff Value for Maximum Proportion Zero.}
 }
 \value{
 A \code{character()} of gene names that are under the cutoff.
 }
 \description{
-Filter Genes for by Max Proportion Zero Among Groups
+TODO add description.
 }
 \examples{
 ## Get proportion zero data.frame

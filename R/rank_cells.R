@@ -1,11 +1,15 @@
-
-#' Get the Rank of the Mean logcount for each Gene in each Cell
+#' Get the Rank of the Mean expression for each Gene in each Cell
 #'
-#' @param sce SingleCellExperiment Object with logcount assay
-#' @param group_col name of the column in the colData of sce that defines the group of interest
-#' @param assay name of the assay in the sce object to use to rank
+#' TODO add a description
 #'
-#' @return
+#' @param sce [SingleCellExperiment::SingleCellExperiment-class] object with
+#' the `assay` (defaults to `logcounts`).
+#' @inheritParams get_prop_zero
+#' @param assay A `character(1)` specifying the name of the `assay()` in the
+#' `sce` object to use to rank expression values. Defaults to `logcounts` since
+#' it typically contains the normalized expression values.
+#'
+#' @return A `list()` of `list()` objects. TODO.
 #' @export
 #'
 #' @examples

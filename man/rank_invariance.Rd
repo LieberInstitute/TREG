@@ -7,15 +7,16 @@
 rank_invariance(group_rank, cell_rank)
 }
 \arguments{
-\item{group_rank}{data.frame from \link[TREG]{rank_group}}
+\item{group_rank}{A \code{data.frame()} created with \code{rank_group()}.}
 
-\item{cell_rank}{data.frame from  \link[TREG]{rank_cells}}
+\item{cell_rank}{A \code{data.frame()} created with \code{rank_cells()}.}
 }
 \value{
-rank of invariance for each gene
+A \code{numeric()} with the rank of invariance for each gene. High values
+represent TODO.
 }
 \description{
-Calculate the Rank Invariance of Each Gene from Cell and Group Ranks
+TODO description
 }
 \examples{
 ## Get the rank of the gene in each group

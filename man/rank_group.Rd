@@ -2,22 +2,27 @@
 % Please edit documentation in R/rank_group.R
 \name{rank_group}
 \alias{rank_group}
-\title{Get the Rank of the Mean logcount for each Gene in each Group}
+\title{Get the Rank of the Mean expression for each Gene in each Group}
 \usage{
 rank_group(sce, group_col = "cellType", assay = "logcounts")
 }
 \arguments{
-\item{sce}{SingleCellExperiment Object with logcount assay}
+\item{sce}{\link[SingleCellExperiment:SingleCellExperiment]{SingleCellExperiment::SingleCellExperiment} object with
+the \code{assay} (defaults to \code{logcounts}).}
 
-\item{group_col}{name of the column in the colData of sce that defines the group of interest}
+\item{group_col}{name of the column in the
+\link[SingleCellExperiment:SingleCellExperiment]{colData()} of \code{sce}
+that defines the group of interest.}
 
-\item{assay}{name of the assay in the sce object to use to rank}
+\item{assay}{A \code{character(1)} specifying the name of the \code{assay()} in the
+\code{sce} object to use to rank expression values. Defaults to \code{logcounts} since
+it typically contains the normalized expression values.}
 }
 \value{
-Named list of ranks for each gene
+Named \code{list()} of ranks for each gene
 }
 \description{
-Get the Rank of the Mean logcount for each Gene in each Group
+TODO description.
 }
 \examples{
 ## Rank the genes for each group defined by "group" column

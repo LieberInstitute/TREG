@@ -1,6 +1,8 @@
 #' Get the Proportion of Zero Counts for Each Gene in Each Group
 #'
-#' @param sce [SingleCellExperiment-class][SingleCellExperiment::SingleCellExperiment-class] Object
+#' TODO add description.
+#'
+#' @param sce [SingleCellExperiment-class][SingleCellExperiment::SingleCellExperiment-class] object
 #' @param group_col name of the column in the
 #' [colData()][SingleCellExperiment::SingleCellExperiment-class] of `sce`
 #' that defines the group of interest.

@@ -1,8 +1,10 @@
-#' Get the Rank of the Mean logcount for each Gene in each Group
+#' Get the Rank of the Mean expression for each Gene in each Group
+#'
+#' TODO description.
 #'
 #' @inheritParams rank_cells
 #'
-#' @return Named list of ranks for each gene
+#' @return Named `list()` of ranks for each gene
 #' @export
 #'
 #' @examples
