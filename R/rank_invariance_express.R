@@ -19,8 +19,8 @@ rank_invariance_express <- function(sce, group_col = "cellType", assay = "logcou
 
     rank_diff <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx) {
         sce_group <- sce[, indx]
-        group_ranks <- rank(Matrix::rowMeans(SummarizedExperiment::assays(sce_group)$logcounts))
-        cell_rank <- apply(SummarizedExperiment::assays(sce_group)$logcounts, 2, rank)
+        group_ranks <- rank(Matrix::rowMeans(SummarizedExperiment::assays(sce_group, assay)))
+        cell_rank <- apply(SummarizedExperiment::assays(sce_group, assay), 2, rank)
         rd <- sweep(cell_rank, 1, STATS = group_ranks, FUN = "-")
         return(rd)
     })
