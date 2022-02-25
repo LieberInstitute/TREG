@@ -5,8 +5,7 @@ pkgVer <- function(pkg) {
 }
 
 c(
-
-        bibentry(bibtype="manual",
+    bibentry(bibtype="manual",
         title = "TREG: a R/Bioconductor package to identify Total RNA Expression Genes",
         author = personList(
             as.person("Louise A. Huuki-Myers"),
@@ -16,5 +15,21 @@ c(
         url = "http://www.bioconductor.org/packages/TREG",
         note = pkgVer('TREG'),
         doi = '10.18129/B9.bioc.TREG'
+    ),
+    bibentry(bibtype="article",
+        title = 'Data Driven Identification of Total RNA Expression Genes "TREGs" for estimation of RNA abundance in heterogeneous cell types',
+        author = personList(
+            as.person("Louise A. Huuki-Myers"),
+            as.person("Kelsey D. Montgomery"),
+            as.person("Sang Ho. Kwon"),
+            as.person("Keri Martinowich"),
+            as.person("Stephanie C. Hicks"),
+            as.person("Kristen R. Maynard"),
+            as.person("Leonardo Collado-Torres")
+        ),
+        year = 2022,
+        journal = "bioRxiv",
+        doi = "10.1101/TODO",
+        url = "https://doi.org/10.1101/TODO"
     )
 )

@@ -170,6 +170,23 @@ print(citation("TREG"), bibtex = TRUE)
 #>     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 0.99.0},
 #>     doi = {10.18129/B9.bioc.TREG},
 #>   }
+#> 
+#> Huuki-Myers LA, Montgomery KD, Kwon SH, Martinowich K, Hicks SC,
+#> Maynard KR, Collado-Torres L (2022). "Data Driven Identification of
+#> Total RNA Expression Genes "TREGs" for estimation of RNA abundance in
+#> heterogeneous cell types." _bioRxiv_. doi: 10.1101/TODO (URL:
+#> https://doi.org/10.1101/TODO), <URL: https://doi.org/10.1101/TODO>.
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Article{,
+#>     title = {Data Driven Identification of Total RNA Expression Genes "TREGs" for estimation of RNA abundance in heterogeneous cell types},
+#>     author = {Louise A. Huuki-Myers and Kelsey D. Montgomery and Sang Ho. Kwon and Keri Martinowich and Stephanie C. Hicks and Kristen R. Maynard and Leonardo Collado-Torres},
+#>     year = {2022},
+#>     journal = {bioRxiv},
+#>     doi = {10.1101/TODO},
+#>     url = {https://doi.org/10.1101/TODO},
+#>   }
 ```
 
 Please note that the `TREG` was only made possible thanks to many other
