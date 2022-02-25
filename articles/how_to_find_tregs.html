@@ -202,16 +202,18 @@
 <span class="co">#&gt; The following object is masked from 'package:S4Vectors':</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     expand</span></code></pre></div>
-<p>Here we download a public data snRNA-seq data that we’ll use as our example (Tran, Maynard, Spangler, et al., 2021).</p>
+<p>Here we download a public data single nucleus RNA-seq (snRNA-seq) data that we’ll use as our example (Tran, Maynard, Spangler, et al., 2021). It takes 1.01 GB of RAM memory to load this object.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Download and save a local cache of the data available at:</span>
 <span class="co"># https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data</span>
-
 <span class="va">bfc</span> <span class="op">&lt;-</span> <span class="fu">BiocFileCache</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html" class="external-link">BiocFileCache</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://libd-snrnaseq-pilot.s3.us-east-2.amazonaws.com/SCE_DLPFC-n3_tran-etal.rda"</span>
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">BiocFileCache</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html" class="external-link">bfcrpath</a></span><span class="op">(</span><span class="va">url</span>, x <span class="op">=</span> <span class="va">bfc</span><span class="op">)</span>
+<span class="va">url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span>
+    <span class="st">"https://libd-snrnaseq-pilot.s3.us-east-2.amazonaws.com/"</span>,
+    <span class="st">"SCE_DLPFC-n3_tran-etal.rda"</span>
+<span class="op">)</span>
+<span class="va">local_data</span> <span class="op">&lt;-</span> <span class="fu">BiocFileCache</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocFileCache/man/BiocFileCache-class.html" class="external-link">bfcrpath</a></span><span class="op">(</span><span class="va">url</span>, x <span class="op">=</span> <span class="va">bfc</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">data</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">local_data</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Loading objects:</span>
 <span class="co">#&gt;   sce.dlpfc.tran</span></code></pre></div>
 <div class="section level3">
@@ -253,14 +255,14 @@
 <div class="section level4">
 <h4 id="filter-genes">Filter Genes<a class="anchor" aria-label="anchor" href="#filter-genes"></a>
 </h4>
-<p>Single Nucleus data is often very sparse (lots of zeros in the count data), this dataset is 88% sparse. We can illustrate this in the heat map which is very blue (Figure @ref(fig:exampleSparsity)).</p>
+<p>Single Nucleus data is often very sparse (lots of zeros in the count data), this dataset is 88% sparse. We can illustrate this in the heat map which is very blue (Figure @ref(fig:example_sparsity)).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data is 88% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.8839022</span>
 
 <span class="co">## lets make a heatmap of the first 1k genes and 500 cells</span>
-<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
+<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">count_test</span>,
     cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,
     cluster_cols <span class="op">=</span> <span class="cn">FALSE</span>,
@@ -268,7 +270,7 @@
     show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="how_to_find_tregs_files/figure-html/examineSparsity-1.png" alt="TODO." width="700"><p class="caption">
+<img src="how_to_find_tregs_files/figure-html/examine_sparsity-1.png" alt="TODO." width="700"><p class="caption">
 TODO.
 </p>
 </div>
@@ -284,21 +286,25 @@ TODO.
 <span class="va">sce.dlpfc.tran</span> <span class="op">&lt;-</span> <span class="va">sce.dlpfc.tran</span><span class="op">[</span><span class="va">row_means</span> <span class="op">&gt;</span> <span class="va">median_row_means</span>, <span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
 <span class="co">#&gt; [1] 16769 11165</span></code></pre></div>
-<p>After this filter lets check sparsity and make a heatmap of the first 1k genes and 500 cells. We are seeing more non-blue!</p>
+<p>After this filter lets check sparsity and make a heatmap of the first 1k genes and 500 cells. We are seeing more non-blue (Figure @ref(fig:top50_filter_heatmap))!</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data down to 77% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.7713423</span>
 
 <span class="co">## replot heatmap</span>
-<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
+<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
 <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">count_test</span>,
     cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,
     cluster_cols <span class="op">=</span> <span class="cn">FALSE</span>,
     show_rownames <span class="op">=</span> <span class="cn">FALSE</span>,
     show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="how_to_find_tregs_files/figure-html/top50_filter_heatmap-1.png" width="700"></p>
+<div class="figure">
+<img src="how_to_find_tregs_files/figure-html/top50_filter_heatmap-1.png" alt="TODO." width="700"><p class="caption">
+TODO.
+</p>
+</div>
 </div>
 <div class="section level5">
 <h5 id="calculate-the-proportion-of-zeros-and-pick-cutoff">Calculate the Proportion of Zeros and Pick Cutoff<a class="anchor" aria-label="anchor" href="#calculate-the-proportion-of-zeros-and-pick-cutoff"></a>
@@ -315,7 +321,7 @@ TODO.
 <span class="co">#&gt; NOC2L      0.9347826 0.6168342 0.7556962 0.9536082 0.9365720 0.8811189</span>
 <span class="co">#&gt; KLHL17     0.9859335 0.8986600 0.9360759 0.9922680 0.9963336 0.9877622</span>
 <span class="co">#&gt; HES4       0.8695652 0.7357621 0.6892405 0.9974227 0.9906508 0.9737762</span></code></pre></div>
-<p>To determine a good cutoff for filtering lets examine the distribution of these proportions by group.</p>
+<p>To determine a good cutoff for filtering lets examine the distribution of these proportions by group (Figure @ref(fig:prop_zero_distribution)).</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Need to pivot data</span>
 <span class="va">prop_zero_long</span> <span class="op">&lt;-</span> <span class="va">prop_zeros</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -329,39 +335,51 @@ TODO.
 <span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Group</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="how_to_find_tregs_files/figure-html/prop_zero_distribution-1.png" width="700"></p>
-<p>Looks like around 0.9 the densities peak, we’ll set that as the cutoff.</p>
+<div class="figure">
+<img src="how_to_find_tregs_files/figure-html/prop_zero_distribution-1.png" alt="TODO." width="700"><p class="caption">
+TODO.
+</p>
+</div>
+<p>Looks like around 0.9 the densities peak, we’ll set that as the cutoff (Figure @ref(fig:pick_cutoff)).</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">propZero_limit</span> <span class="op">&lt;-</span> <span class="fl">0.9</span>
+<code class="sourceCode R"><span class="co">## Specify a cutoff, here we use 0.9</span>
+<span class="va">propZero_limit</span> <span class="op">&lt;-</span> <span class="fl">0.9</span>
 
+<span class="co">## Add a vertical red dashed line where the cutoff is located</span>
 <span class="va">prop_zero_histogram</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">propZero_limit</span>, color <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></code></pre></div>
-<p><img src="how_to_find_tregs_files/figure-html/pick_cutoff-1.png" width="700"></p>
+<div class="figure">
+<img src="how_to_find_tregs_files/figure-html/pick_cutoff-1.png" alt="TODO." width="700"><p class="caption">
+TODO.
+</p>
+</div>
 </div>
 <div class="section level5">
 <h5 id="filter-by-the-max-proportion-of-zeros">Filter by the Max Proportion of Zeros<a class="anchor" aria-label="anchor" href="#filter-by-the-max-proportion-of-zeros"></a>
 </h5>
-<p>Use the cutoff to filter the remaining genes. Only 4k or ~11% of genes pass with this cutoff. Filter the sce object to this set of genes.</p>
+<p>Use the cutoff to filter the remaining genes. Only 4k or ~11% of genes pass with this cutoff. Filter the SCE object to this set of genes.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## get a list of filtered genes</span>
 <span class="va">filtered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_prop_zero.html">filter_prop_zero</a></span><span class="op">(</span><span class="va">prop_zeros</span>, cutoff <span class="op">=</span> <span class="va">propZero_limit</span><span class="op">)</span>
+
 <span class="co">## How many genes pass the filter?</span>
 <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">filtered_genes</span><span class="op">)</span>
 <span class="co">#&gt; [1] 4005</span>
+
 <span class="co">## What % of genes is this</span>
 <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">filtered_genes</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.2388336</span>
 
 <span class="co">## Filter the sce object</span>
 <span class="va">sce.dlpfc.tran</span> <span class="op">&lt;-</span> <span class="va">sce.dlpfc.tran</span><span class="op">[</span><span class="va">filtered_genes</span>, <span class="op">]</span></code></pre></div>
-<p>One last check of the sparsity and heatmap.</p>
+<p>One last check of the sparsity and heatmap (Figure @ref(fig:prop_zero_filter_heatmap)).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data down to 50% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.5010587</span>
 
-<span class="co">## replot heatmap</span>
-<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
+<span class="co">## re-plot heatmap</span>
+<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
 <span class="co">## Just to help visualization we'll cap the counts at 300</span>
 <span class="va">count_test</span><span class="op">[</span><span class="va">count_test</span> <span class="op">&gt;</span> <span class="fl">300</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">300</span>
 <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">count_test</span>,
@@ -370,13 +388,17 @@ TODO.
     show_rownames <span class="op">=</span> <span class="cn">FALSE</span>,
     show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="how_to_find_tregs_files/figure-html/prop_zero_filter_heatmap-1.png" width="700"></p>
+<div class="figure">
+<img src="how_to_find_tregs_files/figure-html/prop_zero_filter_heatmap-1.png" alt="TODO." width="700"><p class="caption">
+TODO.
+</p>
+</div>
 </div>
 </div>
 <div class="section level4">
 <h4 id="run-rank-invariance">Run Rank Invariance<a class="anchor" aria-label="anchor" href="#run-rank-invariance"></a>
 </h4>
-<p>To get the rank invariance (RI), the rank of the genes across the cells in a group, and between groups is considered. One way to calculate RI is to dine the group rank values, and cell rank values separately, then combine them as shown below. The genes with the top RI values are the best candidate TREGs.</p>
+<p>To get the Rank Invariance (RI), the rank of the genes across the cells in a group, and between groups is considered. One way to calculate RI is to dine (TODO: dine??) the group rank values, and cell rank values separately, then combine them as shown below. The genes with the top RI values are the best candidate TREGs.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Get the rank of the gene in each group</span>
 <span class="va">group_rank</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_group.html">rank_group</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span>, group_col <span class="op">=</span> <span class="st">"cellType.broad"</span><span class="op">)</span>
@@ -384,24 +406,31 @@ TODO.
 <span class="co">## Get the rank of the gene for each cell</span>
 <span class="va">cell_rank</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_cells.html">rank_cells</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span>, group_col <span class="op">=</span> <span class="st">"cellType.broad"</span><span class="op">)</span>
 
-<span class="co">## Use both rankings to calculate rank_invariance</span>
+<span class="co">## Use both rankings to calculate rank_invariance()</span>
 <span class="va">rank_invar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_invariance.html">rank_invariance</a></span><span class="op">(</span><span class="va">group_rank</span>, <span class="va">cell_rank</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rank_invar</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">sort.list</a></span><span class="op">(</span><span class="va">rank_invar</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt;  MALAT1  CTNND2     FTX    RERE FAM155A    GNAQ </span>
 <span class="co">#&gt;    4005    4004    4003    4002    4001    4000</span></code></pre></div>
-<p>The <code>rank_invariance_express</code> function combines these three steps into one function, and achieves the same results.</p>
+<p>The <code><a href="../reference/rank_invariance_express.html">rank_invariance_express()</a></code> function combines these three steps into one function, and achieves the same results.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rank_invar2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_invariance_express.html">rank_invariance_express</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span>, group_col <span class="op">=</span> <span class="st">"cellType.broad"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co">## rank_invariance_express() runs the previous functions for you</span>
+<span class="va">rank_invar2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_invariance_express.html">rank_invariance_express</a></span><span class="op">(</span>
+    <span class="va">sce.dlpfc.tran</span>,
+    group_col <span class="op">=</span> <span class="st">"cellType.broad"</span>
+<span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rank_invar2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">sort.list</a></span><span class="op">(</span><span class="va">rank_invar2</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt;  MALAT1  CTNND2     FTX    RERE FAM155A    GNAQ </span>
-<span class="co">#&gt;    4005    4004    4003    4002    4001    4000</span></code></pre></div>
+<span class="co">#&gt;    4005    4004    4003    4002    4001    4000</span>
+
+<span class="co">## Check computationally that the results are identical</span>
+<span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">rank_invar</span>, <span class="va">rank_invar2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
-<p>TODO</p>
+<p>TODO: mention how we validated some TREGs in the paper (Huuki-Myers, Montgomery, Kwon, et al., 2022), how you might want to consider generating this data in your experiments, and how TREGs might be useful for future deconvolution algorithms.</p>
 </div>
 <div class="section level2">
 <h2 id="reproducibility">Reproducibility<a class="anchor" aria-label="anchor" href="#reproducibility"></a>
@@ -452,9 +481,9 @@ TODO.
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"TREG.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code><span class="co">#&gt; [1] "2022-02-25 20:01:27 UTC"</span></code></pre>
+<pre><code><span class="co">#&gt; [1] "2022-02-25 20:08:04 UTC"</span></code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code><span class="co">#&gt; Time difference of 1.436 mins</span></code></pre>
+<pre><code><span class="co">#&gt; Time difference of 1.269 mins</span></code></pre>
 <p><code>R</code> session information.</p>
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span>
