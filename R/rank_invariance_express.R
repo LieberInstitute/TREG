@@ -13,6 +13,7 @@
 #' rank_invariance_express(sce_zero_test, group_col = "group")
 #' rank_invariance_express(sce_zero_test, group_col = "cellType")
 #' @family invariance functions
+#' @import SingleCellExperiment
 rank_invariance_express <- function(sce, group_col = "cellType", assay = "logcounts") {
     stopifnot(group_col %in% colnames(colData(sce)))
     stopifnot(assay %in% assayNames(sce))
