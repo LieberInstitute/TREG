@@ -33,7 +33,8 @@ RoxygenNote: 7.1.2
 Depends: 
     R (>= 4.1),
     SingleCellExperiment
-Suggests: 
+Suggests:
+    dplyr,
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
@@ -49,6 +50,5 @@ Imports:
     rafalib,
     purrr,
     SummarizedExperiment,
-    dplyr,
     Matrix
 VignetteBuilder: knitr
