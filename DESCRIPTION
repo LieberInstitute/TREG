@@ -1,14 +1,26 @@
 Package: TREG
-Title: Tools for finding Total RNA Expression Genes in single nucleus data
+Title: Tools for finding Total RNA Expression Genes in single nucleus RNA-seq
+    data
 Version: 0.99.0
-Date: 2021-07-30
+Date: 2022-02-25
 Authors@R: 
-    person(given = "Louise",
+    c(person(given = "Louise",
            family = "Huuki",
            role = c("aut", "cre"),
            email = "lahuuki@gmail.com",
-           comment = c(ORCID = "0000-0001-5148-3602"))
-Description: What the package does (one paragraph). TODO.
+           comment = c(ORCID = "0000-0001-5148-3602")),
+    person("Leonardo", "Collado-Torres", role = c("ctb"), 
+    email = "lcolladotor@gmail.com", comment = c(ORCID = "0000-0003-2140-308X"))
+    )
+Description: RNA abundance and cell size parameters could improve RNA-seq
+    deconvolution algorithms to more accurately estimate cell type proportions
+    given the different cell type transcription activity levels. A Total RNA
+    Expression Gene (TREG) can facilitate estimating total RNA content using
+    single molecule fluorescent in situ hybridization (smFISH). We developed a
+    data-driven approach using a measure of expression invariance to find
+    candidate TREGs in postmortem human brain single nucleus RNA-seq. This R
+    package implements the method for identifying candidate TREGs from
+    snRNA-seq data.
 License: Artistic-2.0
 URL: https://github.com/LieberInstitute/TREG,
     http://research.libd.org/TREG/

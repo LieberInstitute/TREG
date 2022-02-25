@@ -154,8 +154,8 @@ run this yourself to check for any updates on how to cite **TREG**.
 ``` r
 print(citation("TREG"), bibtex = TRUE)
 #> 
-#> Huuki-Myers LA, Maynard KR, Hicks SC, Collado-Torres L (2022). _TREG: a
-#> R/Bioconductor package to identify Total RNA Expression Genes_. doi:
+#> Huuki-Myers LA, Collado-Torres L (2022). _TREG: a R/Bioconductor
+#> package to identify Total RNA Expression Genes_. doi:
 #> 10.18129/B9.bioc.TREG (URL: https://doi.org/10.18129/B9.bioc.TREG),
 #> https://github.com/LieberInstitute/TREG/TREG - R package version
 #> 0.99.0, <URL: http://www.bioconductor.org/packages/TREG>.
@@ -164,7 +164,7 @@ print(citation("TREG"), bibtex = TRUE)
 #> 
 #>   @Manual{,
 #>     title = {TREG: a R/Bioconductor package to identify Total RNA Expression Genes},
-#>     author = {Louise A. Huuki-Myers and Kristen R. Maynard and Stephanie C. Hicks and Leonardo Collado-Torres},
+#>     author = {Louise A. Huuki-Myers and Leonardo Collado-Torres},
 #>     year = {2022},
 #>     url = {http://www.bioconductor.org/packages/TREG},
 #>     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 0.99.0},
