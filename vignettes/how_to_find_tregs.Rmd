@@ -127,22 +127,24 @@ library("ggplot2")
 library("tidyr")
 ```
 
-Here we download a public data snRNA-seq data that we'll use as our example `r Citep(bib[['tran2021']])`. 
+Here we download a public data single nucleus RNA-seq (snRNA-seq) data that we'll use as our example `r Citep(bib[['tran2021']])`. It takes 1.01 GB of RAM memory to load this object.
 
 
 ```{r "download_DLPFC_data"}
 # Download and save a local cache of the data available at:
 # https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data
-
 bfc <- BiocFileCache::BiocFileCache()
-url <- "https://libd-snrnaseq-pilot.s3.us-east-2.amazonaws.com/SCE_DLPFC-n3_tran-etal.rda"
-data <- BiocFileCache::bfcrpath(url, x = bfc)
+url <- paste0(
+    "https://libd-snrnaseq-pilot.s3.us-east-2.amazonaws.com/",
+    "SCE_DLPFC-n3_tran-etal.rda"
+)
+local_data <- BiocFileCache::bfcrpath(url, x = bfc)
 
-load(data, verbose = TRUE)
+load(local_data, verbose = TRUE)
 ```
 
 ```{r "Data Size Check", echo=FALSE}
-## Using 1/7 GB
+## Using 1.01 GB
 # lobstr::obj_size(sce.dlpfc.tran) / 1024^3
 ```
 
@@ -162,6 +164,7 @@ sce.dlpfc.tran$cellType.broad <- gsub("_[A-Z]$", "", sce.dlpfc.tran$cellType)
 ```
 
 Drop any groups with < 50 cells.
+
 ```{r "drop_small_cell_types"}
 ## Find cell types with < 50 cells
 ct_drop <- names(cell_type_tab)[cell_type_tab < 50]
@@ -176,14 +179,14 @@ dim(sce.dlpfc.tran)
 ### Filter Genes
 
 Single Nucleus data is often very sparse (lots of zeros in the count data), this 
-dataset is 88% sparse. We can illustrate this in the heat map which is very blue (Figure \@ref(fig:exampleSparsity)).
+dataset is 88% sparse. We can illustrate this in the heat map which is very blue (Figure \@ref(fig:example_sparsity)).
 
-```{r "examineSparsity", fig.cap = "TODO."}
+```{r "examine_sparsity", fig.cap = "TODO."}
 ## this data is 88% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## lets make a heatmap of the first 1k genes and 500 cells
-count_test <- as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500])
+count_test <- as.matrix(assays(sce.dlpfc.tran)$logcounts[1:1000, 1:500])
 pheatmap(count_test,
     cluster_rows = FALSE,
     cluster_cols = FALSE,
@@ -193,8 +196,10 @@ pheatmap(count_test,
 ```
 
 #### Filter to Top 50% Expression
+
 Determine the median expression of genes over all rows, drop all the genes that
 are below this limit.
+
 ```{r "top50_filter"}
 row_means <- rowMeans(assays(sce.dlpfc.tran)$logcounts)
 (median_row_means <- median(row_means))
@@ -204,13 +209,14 @@ dim(sce.dlpfc.tran)
 ```
 
 After this filter lets check sparsity and make a heatmap of the first 1k genes
-and 500 cells. We are seeing more non-blue!
-```{r "top50_filter_heatmap"}
+and 500 cells. We are seeing more non-blue (Figure \@ref(fig:top50_filter_heatmap))!
+
+```{r "top50_filter_heatmap", fig.cap = "TODO."}
 ## this data down to 77% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## replot heatmap
-count_test <- as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500])
+count_test <- as.matrix(assays(sce.dlpfc.tran)$logcounts[1:1000, 1:500])
 pheatmap::pheatmap(count_test,
     cluster_rows = FALSE,
     cluster_cols = FALSE,
@@ -220,7 +226,9 @@ pheatmap::pheatmap(count_test,
 ```
 
 #### Calculate the Proportion of Zeros and Pick Cutoff
+
 For each group (let's use `cellType.broad`) get the proportion of zeros for each gene
+
 ```{r "get_prop_zero"}
 # get prop zero for each gene for each cell type
 prop_zeros <- get_prop_zero(sce.dlpfc.tran, group_col = "cellType.broad")
@@ -228,8 +236,9 @@ head(prop_zeros)
 ```
 
 To determine a good cutoff for filtering lets examine the distribution of these
-proportions by group.
-```{r "prop_zero_distribution"}
+proportions by group (Figure \@ref(fig:prop_zero_distribution)).
+
+```{r "prop_zero_distribution", fig.cap = "TODO."}
 # Need to pivot data
 prop_zero_long <- prop_zeros %>%
     tibble::rownames_to_column("Gene") %>%
@@ -244,22 +253,29 @@ prop_zero_long <- prop_zeros %>%
     facet_wrap(~Group))
 ```
 
-Looks like around 0.9 the densities peak, we'll set that as the cutoff.
-```{r "pick_cutoff"}
+Looks like around 0.9 the densities peak, we'll set that as the cutoff (Figure \@ref(fig:pick_cutoff)).
+
+```{r "pick_cutoff", fig.cap = "TODO."}
+## Specify a cutoff, here we use 0.9
 propZero_limit <- 0.9
 
+## Add a vertical red dashed line where the cutoff is located
 prop_zero_histogram +
     geom_vline(xintercept = propZero_limit, color = "red", linetype = "dashed")
 ```
 
 #### Filter by the Max Proportion of Zeros
-Use the cutoff to filter the remaining genes.  Only  4k or ~11% of genes pass with 
-this cutoff. Filter the sce object to this set of genes.
+
+Use the cutoff to filter the remaining genes. Only 4k or ~11% of genes pass with 
+this cutoff. Filter the SCE object to this set of genes.
+
 ```{r "filter_prop_zero"}
 ## get a list of filtered genes
 filtered_genes <- filter_prop_zero(prop_zeros, cutoff = propZero_limit)
+
 ## How many genes pass the filter?
 length(filtered_genes)
+
 ## What % of genes is this
 length(filtered_genes) / nrow(sce.dlpfc.tran)
 
@@ -267,14 +283,14 @@ length(filtered_genes) / nrow(sce.dlpfc.tran)
 sce.dlpfc.tran <- sce.dlpfc.tran[filtered_genes, ]
 ```
 
-One last check of the sparsity and heatmap.
+One last check of the sparsity and heatmap (Figure \@ref(fig:prop_zero_filter_heatmap)).
 
-```{r "prop_zero_filter_heatmap"}
+```{r "prop_zero_filter_heatmap", fig.cap = "TODO."}
 ## this data down to 50% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
-## replot heatmap
-count_test <- as.matrix(assays(sce.dlpfc.tran)$counts[1:1000, 1:500])
+## re-plot heatmap
+count_test <- as.matrix(assays(sce.dlpfc.tran)$logcounts[1:1000, 1:500])
 ## Just to help visualization we'll cap the counts at 300
 count_test[count_test > 300] <- 300
 pheatmap::pheatmap(count_test,
@@ -286,33 +302,42 @@ pheatmap::pheatmap(count_test,
 ```
 
 ### Run Rank Invariance
-To get the rank invariance (RI), the rank of the genes across the cells in a group,
-and between groups is considered. One way to calculate RI is to dine the group 
+
+To get the Rank Invariance (RI), the rank of the genes across the cells in a group,
+and between groups is considered. One way to calculate RI is to dine (TODO: dine??) the group 
 rank values, and cell rank values separately, then combine them as shown below.
 The genes with the top RI values are the best candidate TREGs.
-```{r}
+
+```{r "rank_invariance_stepwise"}
 ## Get the rank of the gene in each group
 group_rank <- rank_group(sce.dlpfc.tran, group_col = "cellType.broad")
 
 ## Get the rank of the gene for each cell
 cell_rank <- rank_cells(sce.dlpfc.tran, group_col = "cellType.broad")
 
-## Use both rankings to calculate rank_invariance
+## Use both rankings to calculate rank_invariance()
 rank_invar <- rank_invariance(group_rank, cell_rank)
 head(rank_invar[sort.list(rank_invar, decreasing = TRUE)])
 ```
 
-The `rank_invariance_express` function combines these three steps into one
+The `rank_invariance_express()` function combines these three steps into one
 function, and achieves the same results. 
 
 ```{r "run_RI_express"}
-rank_invar2 <- rank_invariance_express(sce.dlpfc.tran, group_col = "cellType.broad")
+## rank_invariance_express() runs the previous functions for you
+rank_invar2 <- rank_invariance_express(
+    sce.dlpfc.tran,
+    group_col = "cellType.broad"
+)
 head(rank_invar2[sort.list(rank_invar2, decreasing = TRUE)])
+
+## Check computationally that the results are identical
+stopifnot(identical(rank_invar, rank_invar2))
 ```
 
 # Conclusion
 
-TODO
+TODO: mention how we validated some TREGs in the paper `r Citep(bib[['TREGpaper']])`, how you might want to consider generating this data in your experiments, and how TREGs might be useful for future deconvolution algorithms.
 
 
 # Reproducibility
