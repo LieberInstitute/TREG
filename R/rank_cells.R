@@ -25,7 +25,7 @@ rank_cells <- function(sce, group_col = "cellType", assay = "logcounts") {
 
     group_cell_rank <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx) {
         sce_group <- sce[, indx, drop = FALSE]
-        cell_rank <- apply(SummarizedExperiment::assays(sce_group)[[assay]], 2, rank)
+        cell_rank <- apply(SummarizedExperiment::assay(sce_group, assay), 2, rank)
         return(cell_rank)
     })
 
