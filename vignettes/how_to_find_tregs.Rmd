@@ -113,7 +113,7 @@ In this vignette we'll showcase how you can use the R functions provided by `r B
 
 To get started, please load the `r Biocpkg('TREG')` package.
 
-```{r setup, message = FALSE, warning = FALSE}
+```{r "load_TREG", message = FALSE, warning = FALSE}
 library("TREG")
 ```
 
