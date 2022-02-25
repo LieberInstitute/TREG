@@ -98,17 +98,17 @@
 <ol style="list-style-type: decimal">
 <li><p>The gene must have <strong>non-zero expression in most cells</strong> across different tissue and cell types.</p></li>
 <li><p>A TREG should also be expressed at a constant level in respect to other genes across different cell types or have <strong>high rank invariance</strong>.</p></li>
-<li><p>Be <strong>measurable as a continuous metric</strong> in the experimental assay, for example have a dynamic range of puncta when observed in RANscope. This will need to be considered for the canidate TREGs, and may need to be validated experimentally.</p></li>
+<li><p>Be <strong>measurable as a continuous metric</strong> in the experimental assay, for example have a dynamic range of puncta when observed in RANscope. This will need to be considered for the candidate TREGs, and may need to be validated experimentally.</p></li>
 </ol>
 <p align="center">
 <img src="reference/figures/fig1_rank_violin_demo.png" title="fig:" style="width:30.0%" alt="Distribution of ranks of a gene of High and Low Invariance"></p>
 </div>
 <div class="section level3">
-<h3 id="how-to-find-canidate-tregs-with-treg">How to find canidate TREGs with <code>TREG</code>
-<a class="anchor" aria-label="anchor" href="#how-to-find-canidate-tregs-with-treg"></a>
+<h3 id="how-to-find-candidate-tregs-with-treg">How to find candidate TREGs with <code>TREG</code>
+<a class="anchor" aria-label="anchor" href="#how-to-find-candidate-tregs-with-treg"></a>
 </h3>
 <p align="center">
-<img src="reference/figures/RI_flow.png" title="fig:fig:" alt="Overview of the Rank Invariance Process"></p>
+<img src="reference/figures/RI_flow.png" title="fig:" style="width:100.0%" alt="Overview of the Rank Invariance Process"></p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Filter for low proportion zero genes snRAN-seq dataset:</strong> This is facilitated with the functions <code>get_prop_zero</code> and <code>filter_prop_zero</code>. snRNA-seq data is notoriously sparse, these functions enrich for genes with more universal expression.</p></li>
 <li><p><strong>Evaluate genes for Rank Invariance</strong> The nuclei are grouped only by cell type. Within each cell type, the mean expression for each gene is ranked, the result is a vector (length is the number of genes). Then the expression of each gene is ranked for each nucleus, the result is a matrix (the number of nuclei x number of genes). Then the absolute difference between the rank of each nucleus and the mean expression is found, from here the mean of the differences for each gene is calculated, then ranked. These steps are repeated for each group, the result is a matrix of ranks, (number of cell types x number of genes). From here the sum of the ranks for each gene are reversed ranked, so there is one final value for each gene, the “rank invariance” The genes with the highest rank-invariance are considered good candidates as TREGs. <strong>This process is implemented by: <code>rank_invariance_express</code>.</strong></p></li>
@@ -135,7 +135,7 @@
 <code class="sourceCode R"><span class="co">## Load packages</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/LieberInstitute/TREG" class="external-link">"TREG"</a></span><span class="op">)</span></code></pre></div>
 <div class="section level3">
-<h3 id="proption-zero-filtering">Proption Zero Filtering<a class="anchor" aria-label="anchor" href="#proption-zero-filtering"></a>
+<h3 id="proportion-zero-filtering">Proportion Zero Filtering<a class="anchor" aria-label="anchor" href="#proportion-zero-filtering"></a>
 </h3>
 <p>A TREG gene should be expressed in almost every cell. The set of genes should be filtered by maximum proportion of zeros within a groups of cells.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -161,7 +161,7 @@
 <p>The genes with the highest rank-invariance are considered good candidates as TREGs. In this example the gene <em>g0</em> would be the strongest candidate TREG.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Get the Rank Invaraince value for each gene</span>
-<span class="co">## The higest values are the best TREG canidates</span>
+<span class="co">## The higest values are the best TREG candidates</span>
 <span class="fu"><a href="reference/rank_invariance_express.html">rank_invariance_express</a></span><span class="op">(</span><span class="va">sce_filter</span><span class="op">)</span>
 <span class="co">#&gt;    g50     g0 gOffOn   gVar </span>
 <span class="co">#&gt;      1      4      3      2</span></code></pre></div>
@@ -201,14 +201,14 @@
 <h2 id="development-tools">Development tools<a class="anchor" aria-label="anchor" href="#development-tools"></a>
 </h2>
 <ul>
-<li>Continuous code testing is possible thanks to <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">GitHub actions</a> through <em><a href="https://CRAN.R-project.org/package=usethis" class="external-link">usethis</a></em>, <em><a href="https://CRAN.R-project.org/package=remotes" class="external-link">remotes</a></em>, and <em><a href="https://CRAN.R-project.org/package=rcmdcheck" class="external-link">rcmdcheck</a></em> customized to use <a href="https://www.bioconductor.org/help/docker/" class="external-link">Bioconductor’s docker containers</a> and <em><a href="https://bioconductor.org/packages/3.13/BiocCheck" class="external-link">BiocCheck</a></em>.</li>
+<li>Continuous code testing is possible thanks to <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">GitHub actions</a> through <em><a href="https://CRAN.R-project.org/package=usethis" class="external-link">usethis</a></em>, <em><a href="https://CRAN.R-project.org/package=remotes" class="external-link">remotes</a></em>, and <em><a href="https://CRAN.R-project.org/package=rcmdcheck" class="external-link">rcmdcheck</a></em> customized to use <a href="https://www.bioconductor.org/help/docker/" class="external-link">Bioconductor’s docker containers</a> and <em><a href="https://bioconductor.org/packages/3.14/BiocCheck" class="external-link">BiocCheck</a></em>.</li>
 <li>Code coverage assessment is possible thanks to <a href="https://codecov.io/gh" class="external-link">codecov</a> and <em><a href="https://CRAN.R-project.org/package=covr" class="external-link">covr</a></em>.</li>
 <li>The <a href="http://LieberInstitute.github.io/TREG" class="external-link">documentation website</a> is automatically updated thanks to <em><a href="https://CRAN.R-project.org/package=pkgdown" class="external-link">pkgdown</a></em>.</li>
 <li>The code is styled automatically thanks to <em><a href="https://CRAN.R-project.org/package=styler" class="external-link">styler</a></em>.</li>
 <li>The documentation is formatted thanks to <em><a href="https://CRAN.R-project.org/package=devtools" class="external-link">devtools</a></em> and <em><a href="https://CRAN.R-project.org/package=roxygen2" class="external-link">roxygen2</a></em>.</li>
 </ul>
 <p>For more details, check the <code>dev</code> directory.</p>
-<p>This package was developed using <em><a href="https://bioconductor.org/packages/3.13/biocthis" class="external-link">biocthis</a></em>.</p>
+<p>This package was developed using <em><a href="https://bioconductor.org/packages/3.14/biocthis" class="external-link">biocthis</a></em>.</p>
 </div>
 </div>
   </div>

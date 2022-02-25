@@ -283,7 +283,7 @@
 <p><img src="how_to_find_tregs_files/figure-html/top50_filter_heatmap-1.png" width="700"></p>
 </div>
 <div class="section level4">
-<h4 id="calculate-the-proption-of-zeros-and-pick-cutoff">Calculate the Proption of Zeros and Pick Cutoff<a class="anchor" aria-label="anchor" href="#calculate-the-proption-of-zeros-and-pick-cutoff"></a>
+<h4 id="calculate-the-proportion-of-zeros-and-pick-cutoff">Calculate the Proportion of Zeros and Pick Cutoff<a class="anchor" aria-label="anchor" href="#calculate-the-proportion-of-zeros-and-pick-cutoff"></a>
 </h4>
 <p>For each group (let’s use <code>cellType.broad</code>) get the proportion of zeros for each gene</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -321,7 +321,7 @@
 <p><img src="how_to_find_tregs_files/figure-html/pick_cutoff-1.png" width="700"></p>
 </div>
 <div class="section level4">
-<h4 id="filter-by-the-max-proption-of-zeros">Filter by the Max Proption of Zeros<a class="anchor" aria-label="anchor" href="#filter-by-the-max-proption-of-zeros"></a>
+<h4 id="filter-by-the-max-proportion-of-zeros">Filter by the Max Proportion of Zeros<a class="anchor" aria-label="anchor" href="#filter-by-the-max-proportion-of-zeros"></a>
 </h4>
 <p>Use the cutoff to filter the remaining genes. Only 4k or ~11% of genes pass with this cutoff. Filter the sce object to this set of genes.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -358,7 +358,7 @@
 <div class="section level3">
 <h3 id="run-rank-invariance">Run Rank Invariance<a class="anchor" aria-label="anchor" href="#run-rank-invariance"></a>
 </h3>
-<p>To get the rank invariance (RI), the rank of the genes across the cells in a group, and between groups is considered. One way to calculate RI is to dine the group rank values, and cell rank values separately, then combine them as shown below. The genes with the top RI values are the best canidate TREGs.</p>
+<p>To get the rank invariance (RI), the rank of the genes across the cells in a group, and between groups is considered. One way to calculate RI is to dine the group rank values, and cell rank values separately, then combine them as shown below. The genes with the top RI values are the best candidate TREGs.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Get the rank of the gene in each group</span>
 <span class="va">group_rank</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_group.html">rank_group</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span>, group_col <span class="op">=</span> <span class="st">"cellType.broad"</span><span class="op">)</span>
@@ -379,7 +379,7 @@
 <span class="co">#&gt;    4005    4004    4003    4002    4001    4000</span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="evaluate-canidate-genes">Evaluate Canidate Genes<a class="anchor" aria-label="anchor" href="#evaluate-canidate-genes"></a>
+<h3 id="evaluate-candidate-genes">Evaluate Candidate Genes<a class="anchor" aria-label="anchor" href="#evaluate-candidate-genes"></a>
 </h3>
 </div>
 </div>
