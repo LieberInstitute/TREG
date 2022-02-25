@@ -3,14 +3,15 @@
 \docType{data}
 \name{sce_zero_test}
 \alias{sce_zero_test}
-\title{Toy sce}
+\title{Test SingleCellExperiment data}
 \format{
-A SingleCellExperiment Object with 5 rows and 100 columns
+A SingleCellExperiment Object with 5 rows and 100 columns.
 }
 \usage{
 sce_zero_test
 }
 \description{
-A dataset with a range of proportion of zeros across groups for differnt genes
+A dataset with a range of proportion of zeros across groups for different
+genes which is used as a test and example dataset throughout this package.
 }
 \keyword{datasets}

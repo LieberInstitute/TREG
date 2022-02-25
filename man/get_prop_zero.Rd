@@ -9,10 +9,13 @@ get_prop_zero(sce, group_col = "cellType")
 \arguments{
 \item{sce}{\link[SingleCellExperiment:SingleCellExperiment]{SingleCellExperiment-class} Object}
 
-\item{group_col}{name of the column in the colData of sce that defines the group of interest}
+\item{group_col}{name of the column in the
+\link[SingleCellExperiment:SingleCellExperiment]{colData()} of \code{sce}
+that defines the group of interest.}
 }
 \value{
-data.frame containing proportion of zero counts, genes as rows, groups as columns
+A \code{data.frame()} containing proportion of zero counts, genes as rows,
+groups as columns.
 }
 \description{
 Get the Proportion of Zero Counts for Each Gene in Each Group

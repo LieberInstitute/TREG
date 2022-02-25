@@ -1,10 +1,12 @@
-
 #' Get the Proportion of Zero Counts for Each Gene in Each Group
 #'
 #' @param sce [SingleCellExperiment-class][SingleCellExperiment::SingleCellExperiment-class] Object
-#' @param group_col name of the column in the colData of sce that defines the group of interest
+#' @param group_col name of the column in the
+#' [colData()][SingleCellExperiment::SingleCellExperiment-class] of `sce`
+#' that defines the group of interest.
 #'
-#' @return data.frame containing proportion of zero counts, genes as rows, groups as columns
+#' @return A `data.frame()` containing proportion of zero counts, genes as rows,
+#' groups as columns.
 #' @export
 #'
 #' @examples
