@@ -47,18 +47,17 @@ for TREGs in experimental design!
 
 3.  Be **measurable as a continuous metric** in the experimental assay,
     for example have a dynamic range of puncta when observed in
-    RANscope. This will need to be considered for the canidate TREGs,
+    RANscope. This will need to be considered for the candidate TREGs,
     and may need to be validated experimentally.
 
 <p align="center">
 <img src="man/figures/fig1_rank_violin_demo.png" title="fig:" style="width:30.0%" alt="Distribution of ranks of a gene of High and Low Invariance" />
 </p>
 
-### How to find canidate TREGs with `TREG`
+### How to find candidate TREGs with `TREG`
 
 <p align="center">
-![Overview of the Rank Invariance
-Process](man/figures/RI_flow.png "fig:")
+<img src="man/figures/RI_flow.png" title="fig:" style="width:100.0%" alt="Overview of the Rank Invariance Process" />
 </p>
 
 1.  **Filter for low proportion zero genes snRAN-seq dataset:** This is
@@ -109,7 +108,7 @@ BiocManager::install("LieberInstitute/TREG")
 library("TREG")
 ```
 
-### Proption Zero Filtering
+### Proportion Zero Filtering
 
 A TREG gene should be expressed in almost every cell. The set of genes
 should be filtered by maximum proportion of zeros within a groups of
@@ -141,7 +140,7 @@ strongest candidate TREG.
 
 ``` r
 ## Get the Rank Invaraince value for each gene
-## The higest values are the best TREG canidates
+## The higest values are the best TREG candidates
 rank_invariance_express(sce_filter)
 #>    g50     g0 gOffOn   gVar 
 #>      1      4      3      2
@@ -192,7 +191,7 @@ contributing to this project, you agree to abide by its terms.
     *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)*
     customized to use [Bioconductor’s docker
     containers](https://www.bioconductor.org/help/docker/) and
-    *[BiocCheck](https://bioconductor.org/packages/3.13/BiocCheck)*.
+    *[BiocCheck](https://bioconductor.org/packages/3.14/BiocCheck)*.
 -   Code coverage assessment is possible thanks to
     [codecov](https://codecov.io/gh) and
     *[covr](https://CRAN.R-project.org/package=covr)*.
@@ -208,4 +207,4 @@ contributing to this project, you agree to abide by its terms.
 For more details, check the `dev` directory.
 
 This package was developed using
-*[biocthis](https://bioconductor.org/packages/3.13/biocthis)*.
+*[biocthis](https://bioconductor.org/packages/3.14/biocthis)*.
