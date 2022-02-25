@@ -32,7 +32,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Depends: 
     R (>= 4.1),
-    SingleCellExperiment
+    SummarizedExperiment
 Suggests:
     BiocFileCache,
     BiocStyle,
@@ -50,6 +50,5 @@ Config/testthat/edition: 3
 Imports: 
     Matrix,
     purrr,
-    rafalib,
-    SummarizedExperiment
+    rafalib
 VignetteBuilder: knitr

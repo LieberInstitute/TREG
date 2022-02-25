@@ -7,10 +7,10 @@
 get_prop_zero(sce, group_col = "cellType")
 }
 \arguments{
-\item{sce}{\link[SingleCellExperiment:SingleCellExperiment]{SingleCellExperiment-class} object}
+\item{sce}{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment-class} object}
 
 \item{group_col}{name of the column in the
-\link[SingleCellExperiment:SingleCellExperiment]{colData()} of \code{sce}
+\link[SummarizedExperiment:SummarizedExperiment-class]{colData()} of \code{sce}
 that defines the group of interest.}
 }
 \value{

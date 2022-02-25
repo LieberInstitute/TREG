@@ -3,9 +3,9 @@
 \docType{data}
 \name{sce_zero_test}
 \alias{sce_zero_test}
-\title{Test SingleCellExperiment data}
+\title{Test SummarizedExperiment data}
 \format{
-A SingleCellExperiment Object with 5 rows and 100 columns.
+A SummarizedExperiment Object with 5 rows and 100 columns.
 }
 \usage{
 sce_zero_test

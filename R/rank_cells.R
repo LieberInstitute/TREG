@@ -2,11 +2,11 @@
 #'
 #' TODO add a description
 #'
-#' @param sce [SingleCellExperiment::SingleCellExperiment-class] object with
+#' @param sce [SummarizedExperiment::SummarizedExperiment-class] object with
 #' the `assay` (defaults to `logcounts`).
 #' @inheritParams get_prop_zero
 #' @param assay A `character(1)` specifying the name of the
-#' [assay()][SingleCellExperiment::SingleCellExperiment-class] in the
+#' [assay()][SummarizedExperiment::SummarizedExperiment-class] in the
 #' `sce` object to use to rank expression values. Defaults to `logcounts` since
 #' it typically contains the normalized expression values.
 #'

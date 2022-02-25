@@ -1,6 +1,6 @@
 ## code to prepare `sce_zero_test` dataset goes here
 
-library(SingleCellExperiment)
+library(SummarizedExperiment)
 
 pd <- S4Vectors::DataFrame(
     donor = rep(c("D1", "D2"), each = 50),
@@ -28,7 +28,7 @@ counts <- matrix(
     byrow = TRUE
 )
 
-sce_zero_test <- SingleCellExperiment(list(counts = counts),
+sce_zero_test <- SummarizedExperiment(list(counts = counts),
     colData = pd
 )
 

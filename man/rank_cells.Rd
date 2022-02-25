@@ -7,15 +7,15 @@
 rank_cells(sce, group_col = "cellType", assay = "logcounts")
 }
 \arguments{
-\item{sce}{\link[SingleCellExperiment:SingleCellExperiment]{SingleCellExperiment::SingleCellExperiment} object with
+\item{sce}{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment::SummarizedExperiment} object with
 the \code{assay} (defaults to \code{logcounts}).}
 
 \item{group_col}{name of the column in the
-\link[SingleCellExperiment:SingleCellExperiment]{colData()} of \code{sce}
+\link[SummarizedExperiment:SummarizedExperiment-class]{colData()} of \code{sce}
 that defines the group of interest.}
 
 \item{assay}{A \code{character(1)} specifying the name of the
-\link[SingleCellExperiment:SingleCellExperiment]{assay()} in the
+\link[SummarizedExperiment:SummarizedExperiment-class]{assay()} in the
 \code{sce} object to use to rank expression values. Defaults to \code{logcounts} since
 it typically contains the normalized expression values.}
 }

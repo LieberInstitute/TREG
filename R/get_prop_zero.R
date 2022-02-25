@@ -2,9 +2,9 @@
 #'
 #' TODO add description.
 #'
-#' @param sce [SingleCellExperiment-class][SingleCellExperiment::SingleCellExperiment-class] object
+#' @param sce [SummarizedExperiment-class][SummarizedExperiment::SummarizedExperiment-class] object
 #' @param group_col name of the column in the
-#' [colData()][SingleCellExperiment::SingleCellExperiment-class] of `sce`
+#' [colData()][SummarizedExperiment::SummarizedExperiment-class] of `sce`
 #' that defines the group of interest.
 #'
 #' @return A `data.frame()` containing proportion of zero counts, genes as rows,

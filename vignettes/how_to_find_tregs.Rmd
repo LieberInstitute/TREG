@@ -51,7 +51,6 @@ bib <- c(
     RefManageR = citation("RefManageR")[1],
     rmarkdown = citation("rmarkdown")[1],
     sessioninfo = citation("sessioninfo")[1],
-    SingleCellExperiment = citation("SingleCellExperiment")[1],
     SummarizedExperiment = citation("SummarizedExperiment")[1],
     testthat = citation("testthat")[1],
     tibble = citation("tibble")[1],
@@ -88,7 +87,7 @@ BiocManager::valid()
 
 ## Required knowledge
 
-`r Biocpkg('TREG')` `r Citep(bib[['TREG']])` is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with single cell RNA sequencing data, visualization functions, and interactive data exploration. That is, packages like `r Biocpkg('SingleCellExperiment')` and `r Biocpkg('SummarizedExperiment')` that allow you to store the data.
+`r Biocpkg('TREG')` `r Citep(bib[['TREG']])` is based on many other packages and in particular in those that have implemented the infrastructure needed for dealing with single cell RNA sequencing data, visualization functions, and interactive data exploration. That is, packages like `r Biocpkg('SummarizedExperiment')` that allow you to store the data.
 
 If you are asking yourself the question "Where do I start using Bioconductor?" you might be interested in [this blog post](http://lcolladotor.github.io/2014/10/16/startbioc/#.VkOKbq6rRuU).
 
@@ -333,7 +332,6 @@ The `r Biocpkg('TREG')` package `r Citep(bib[['TREG']])` was made possible thank
 * `r CRANpkg("RefManageR")` `r Citep(bib[["RefManageR"]])`
 * `r CRANpkg('rmarkdown')` `r Citep(bib[['rmarkdown']])`
 * `r CRANpkg('sessioninfo')` `r Citep(bib[['sessioninfo']])`
-* `r Biocpkg('SingleCellExperiment')` `r Citep(bib[['SingleCellExperiment']])`
 * `r Biocpkg('SummarizedExperiment')` `r Citep(bib[['SummarizedExperiment']])`
 * `r CRANpkg('testthat')` `r Citep(bib[['testthat']])`
 * `r CRANpkg('tibble')` `r Citep(bib[['tibble']])`
