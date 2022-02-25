@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_prop_zero.R
 \name{get_prop_zero}
 \alias{get_prop_zero}
-\title{Get the Proption of Zero Counts for Each Gene in Each Group}
+\title{Get the Proportion of Zero Counts for Each Gene in Each Group}
 \usage{
 get_prop_zero(sce, group_col = "cellType")
 }
@@ -15,7 +15,7 @@ get_prop_zero(sce, group_col = "cellType")
 data.frame containing proportion of zero counts, genes as rows, groups as columns
 }
 \description{
-Get the Proption of Zero Counts for Each Gene in Each Group
+Get the Proportion of Zero Counts for Each Gene in Each Group
 }
 \examples{
 ## Basic Proportion counts == 0
@@ -24,6 +24,6 @@ rowSums(assays(sce_zero_test)$counts == 0) / nrow(sce_zero_test)
 ## Get proportion by cell type
 get_prop_zero(sce_zero_test)
 
-## Get proption by defined group
+## Get proportion by defined group
 get_prop_zero(sce_zero_test, group_col = "group")
 }

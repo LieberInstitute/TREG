@@ -1,5 +1,5 @@
 
-#' Get the Proption of Zero Counts for Each Gene in Each Group
+#' Get the Proportion of Zero Counts for Each Gene in Each Group
 #'
 #' @param sce [SingleCellExperiment-class][SingleCellExperiment::SingleCellExperiment-class] Object
 #' @param group_col name of the column in the colData of sce that defines the group of interest
@@ -14,7 +14,7 @@
 #' ## Get proportion by cell type
 #' get_prop_zero(sce_zero_test)
 #'
-#' ## Get proption by defined group
+#' ## Get proportion by defined group
 #' get_prop_zero(sce_zero_test, group_col = "group")
 #' @importFrom rafalib splitit
 #' @importFrom purrr map_dfc

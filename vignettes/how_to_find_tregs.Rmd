@@ -126,7 +126,7 @@ pheatmap::pheatmap(count_test,
 )
 ```
 
-#### Calculate the Proption of Zeros and Pick Cutoff
+#### Calculate the Proportion of Zeros and Pick Cutoff
 For each group (let's use `cellType.broad`) get the proportion of zeros for each gene
 ```{r "get_prop_zero"}
 # get prop zero for each gene for each cell type
@@ -159,7 +159,7 @@ prop_zero_histogram +
     geom_vline(xintercept = propZero_limit, color = "red", linetype = "dashed")
 ```
 
-#### Filter by the Max Proption of Zeros
+#### Filter by the Max Proportion of Zeros
 Use the cutoff to filter the remaining genes.  Only  4k or ~11% of genes pass with 
 this cutoff. Filter the sce object to this set of genes.
 ```{r "filter_prop_zero"}
@@ -196,7 +196,7 @@ pheatmap::pheatmap(count_test,
 To get the rank invariance (RI), the rank of the genes across the cells in a group,
 and between groups is considered. One way to calculate RI is to dine the group 
 rank values, and cell rank values separately, then combine them as shown below.
-The genes with the top RI values are the best canidate TREGs.
+The genes with the top RI values are the best candidate TREGs.
 ```{r}
 ## Get the rank of the gene in each group
 group_rank <- rank_group(sce.dlpfc.tran, group_col = "cellType.broad")
@@ -218,4 +218,4 @@ head(rank_invar2[sort.list(rank_invar2, decreasing = TRUE)])
 ```
 
 
-### Evaluate Canidate Genes
+### Evaluate Candidate Genes
