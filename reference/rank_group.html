@@ -69,14 +69,15 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>sce</dt>
-<dd><p><a href="https://rdrr.io/pkg/SingleCellExperiment/man/SingleCellExperiment.html" class="external-link">SingleCellExperiment::SingleCellExperiment</a> object with
+<dd><p><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">SummarizedExperiment::SummarizedExperiment</a> object with
 the <code>assay</code> (defaults to <code>logcounts</code>).</p></dd>
 <dt>group_col</dt>
 <dd><p>name of the column in the
-<a href="https://rdrr.io/pkg/SingleCellExperiment/man/SingleCellExperiment.html" class="external-link">colData()</a> of <code>sce</code>
+<a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData()</a> of <code>sce</code>
 that defines the group of interest.</p></dd>
 <dt>assay</dt>
-<dd><p>A <code>character(1)</code> specifying the name of the <code>assay()</code> in the
+<dd><p>A <code>character(1)</code> specifying the name of the
+<a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay()</a> in the
 <code>sce</code> object to use to rank expression values. Defaults to <code>logcounts</code> since
 it typically contains the normalized expression values.</p></dd>
 </dl></div>
@@ -91,7 +92,7 @@ it typically contains the normalized expression values.</p></dd>
 <span class="r-in"><span class="fu">rank_group</span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_Back</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   g100    g50     g0 gOffOn   gVar </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.0    3.5    5.0    2.0    3.5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      1      4      5      3      2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_Front</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   g100    g50     g0 gOffOn   gVar </span>

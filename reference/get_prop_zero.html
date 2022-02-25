@@ -69,10 +69,10 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>sce</dt>
-<dd><p><a href="https://rdrr.io/pkg/SingleCellExperiment/man/SingleCellExperiment.html" class="external-link">SingleCellExperiment-class</a> object</p></dd>
+<dd><p><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">SummarizedExperiment-class</a> object</p></dd>
 <dt>group_col</dt>
 <dd><p>name of the column in the
-<a href="https://rdrr.io/pkg/SingleCellExperiment/man/SingleCellExperiment.html" class="external-link">colData()</a> of <code>sce</code>
+<a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData()</a> of <code>sce</code>
 that defines the group of interest.</p></dd>
 </dl></div>
     <div id="value">
@@ -84,9 +84,9 @@ groups as columns.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Basic Proportion counts == 0</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu">assays</span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   g100    g50     g0 gOffOn   gVar </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   20.0   10.0    0.0   10.0    9.4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   20.0   10.0    0.0   10.0   10.8 </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Get proportion by cell type</span></span>
 <span class="r-in"><span class="fu">get_prop_zero</span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span></span>
@@ -95,7 +95,7 @@ groups as columns.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g50    0.48 0.52</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g0     0.00 0.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> gOffOn 0.50 0.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> gVar   0.52 0.42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gVar   0.68 0.40</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Get proportion by defined group</span></span>
 <span class="r-in"><span class="fu">get_prop_zero</span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
@@ -104,7 +104,7 @@ groups as columns.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g50      0.48    0.48   0.52    0.52</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g0       0.00    0.00   0.00    0.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> gOffOn   0.60    0.40   0.60    0.40</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> gVar     0.48    0.56   0.48    0.36</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gVar     0.68    0.68   0.44    0.36</span>
 </code></pre></div>
     </div>
   </div>

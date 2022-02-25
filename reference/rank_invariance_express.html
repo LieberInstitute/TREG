@@ -69,14 +69,15 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>sce</dt>
-<dd><p><a href="https://rdrr.io/pkg/SingleCellExperiment/man/SingleCellExperiment.html" class="external-link">SingleCellExperiment::SingleCellExperiment</a> object with
+<dd><p><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">SummarizedExperiment::SummarizedExperiment</a> object with
 the <code>assay</code> (defaults to <code>logcounts</code>).</p></dd>
 <dt>group_col</dt>
 <dd><p>name of the column in the
-<a href="https://rdrr.io/pkg/SingleCellExperiment/man/SingleCellExperiment.html" class="external-link">colData()</a> of <code>sce</code>
+<a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData()</a> of <code>sce</code>
 that defines the group of interest.</p></dd>
 <dt>assay</dt>
-<dd><p>A <code>character(1)</code> specifying the name of the <code>assay()</code> in the
+<dd><p>A <code>character(1)</code> specifying the name of the
+<a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay()</a> in the
 <code>sce</code> object to use to rank expression values. Defaults to <code>logcounts</code> since
 it typically contains the normalized expression values.</p></dd>
 </dl></div>
@@ -96,10 +97,10 @@ represent TODO.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Calculate RI for the sce object</span></span>
 <span class="r-in"><span class="fu">rank_invariance_express</span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   g100    g50     g0 gOffOn   gVar </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      4      3      5      2      1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      4      1      5      3      2 </span>
 <span class="r-in"><span class="fu">rank_invariance_express</span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"cellType"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   g100    g50     g0 gOffOn   gVar </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      4      2      5      3      1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    4.0    1.0    5.0    2.5    2.5 </span>
 </code></pre></div>
     </div>
   </div>
