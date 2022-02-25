@@ -34,21 +34,21 @@ Depends:
     R (>= 4.1),
     SingleCellExperiment
 Suggests:
+    BiocFileCache,
+    BiocStyle,
     dplyr,
-    rmarkdown,
+    ggplot2,
     knitr,
-    testthat (>= 3.0.0),
     pheatmap,
     RefManageR,
-    ggplot2,
-    BiocFileCache,
-    tidyr,
+    rmarkdown,
+    testthat (>= 3.0.0),
     tibble,
-    BiocStyle
+    tidyr
 Config/testthat/edition: 3
 Imports: 
-    rafalib,
-    purrr,
-    SummarizedExperiment,
     Matrix
+    purrr,
+    rafalib,
+    SummarizedExperiment
 VignetteBuilder: knitr
