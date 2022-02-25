@@ -69,20 +69,22 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>prop_zero_df</dt>
-<dd><p>data.frame containing proportion of zero counts, genes as rows, groups as columns</p></dd>
+<dd><p>data.frame containing proportion of zero counts, genes as
+rows, groups as columns.</p></dd>
 <dt>cutoff</dt>
-<dd><p>Cutoff Value for Maximum Prop</p></dd>
+<dd><p>Cutoff Value for Maximum Proprotion Zero.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>list of gene names that are under the cutoff</p>
+    <p>A <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> of gene names that are under the cutoff.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Get proportion zero df</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Get proportion zero data.frame</span></span>
 <span class="r-in"><span class="va">prop_zero</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_prop_zero.html">get_prop_zero</a></span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">## Filter with cutoff = 0.9</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## Filter with max proportion zero cutoff = 0.59</span></span>
 <span class="r-in"><span class="fu">filter_prop_zero</span><span class="op">(</span><span class="va">prop_zero</span>, cutoff <span class="op">=</span> <span class="fl">0.59</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g50"  "g0"   "gVar"</span>
 </code></pre></div>
