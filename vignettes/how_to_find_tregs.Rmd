@@ -123,7 +123,6 @@ TODO describe a bit more what the example will cover
 
 ```{r "load_packages"}
 library("pheatmap")
-library("SingleCellExperiment")
 library("dplyr")
 library("ggplot2")
 library("tidyr")
