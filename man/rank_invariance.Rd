@@ -16,7 +16,7 @@ A \code{numeric()} with the rank of invariance for each gene. High values
 represent TODO.
 }
 \description{
-TODO description
+TODO description.
 }
 \examples{
 ## Get the rank of the gene in each group

@@ -1,6 +1,6 @@
 #' Calculate the Rank Invariance of Each Gene from Cell and Group Ranks
 #'
-#' TODO description
+#' TODO description.
 #'
 #' @param group_rank A `data.frame()` created with `rank_group()`.
 #' @param cell_rank A `data.frame()` created with `rank_cells()`.

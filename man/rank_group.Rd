@@ -14,7 +14,8 @@ the \code{assay} (defaults to \code{logcounts}).}
 \link[SingleCellExperiment:SingleCellExperiment]{colData()} of \code{sce}
 that defines the group of interest.}
 
-\item{assay}{A \code{character(1)} specifying the name of the \code{assay()} in the
+\item{assay}{A \code{character(1)} specifying the name of the
+\link[SingleCellExperiment:SingleCellExperiment]{assay()} in the
 \code{sce} object to use to rank expression values. Defaults to \code{logcounts} since
 it typically contains the normalized expression values.}
 }
