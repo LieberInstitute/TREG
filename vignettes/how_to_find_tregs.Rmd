@@ -106,7 +106,7 @@ citation("TREG")
 
 # Overview
 
-The `r Biocpkg('TREG')` `r Citep(bib[['TREG']])` package was developed for identifying candidate TREGs for TODO by researchers at the Lieber Institute for Brain Development (LIBD) `r Citep(bib[['TREGpaper']])`. 
+The `r Biocpkg('TREG')` `r Citep(bib[['TREG']])` package was developed for identifying candidate **Total RNA Expression Genes (TREGs)** for estimating RNA abundance for individual cells in an snFISH experiment by researchers at the Lieber Institute for Brain Development (LIBD) `r Citep(bib[['TREGpaper']])`. 
 
 In this vignette we'll showcase how you can use the R functions provided by `r Biocpkg('TREG')` `r Citep(bib[['TREG']])` with the snRNA-seq dataset that was recently published by our LIBD collaborators `r Citep(bib[['tran2021']])`.
 
@@ -118,16 +118,23 @@ library("TREG")
 
 # Example TREG use
 
-TODO describe a bit more what the example will cover
+In this example we will apply our data driven process for TREG discovery to a
+snRNA-seq dataset. This process has three main steps:  
+1. Data prep   
+2. Gene filtering (dropping genes with low expression and high proportion zeros)  
+3. Rank Invariance Calculation  
 
 ```{r "load_packages"}
 library("pheatmap")
 library("dplyr")
 library("ggplot2")
 library("tidyr")
+library("tibble")
 ```
 
-Here we download a public data single nucleus RNA-seq (snRNA-seq) data that we'll use as our example `r Citep(bib[['tran2021']])`. It takes 1.01 GB of RAM memory to load this object.
+Here we download a public data single nucleus RNA-seq (snRNA-seq) data that 
+we'll use as our example `r Citep(bib[['tran2021']])`. It takes 1.01 GB of RAM 
+memory to load this object.
 
 
 ```{r "download_DLPFC_data"}
@@ -150,9 +157,22 @@ load(local_data, verbose = TRUE)
 
 ## Prep Data
 
-Filter and refine data to cell types of interest. We are combining all of the
-Excit, Inhib subtypes (TODO define acronyms). 
+```{r "acronyms", echo=FALSE}
 
+ct_names <- tibble("Cell Type" = c("Astrocyte", 
+                       "Excitatory Neurons", 
+                       "Microglia",
+                       "Oligodendrocytes",
+                       "Oligodendrocyte Progenitor Cells",
+                       "Inhibitory Neurons"),
+       "Acronym" = c("Astro", "Excit", "Micro", "Oligo", "OPC", "Inhib"))
+
+knitr::kable(ct_names, caption = "Cell Type names and corresponding acromyms used in this dataset")
+
+```
+
+Filter and refine data to cell types of interest. We are combining all of the
+Excit, Inhib subtypes.
 ```{r "define_cell_types"}
 ## Explore the dimensions and cell type annotations
 dim(sce.dlpfc.tran)
@@ -241,7 +261,7 @@ proportions by group (Figure \@ref(fig:prop_zero_distribution)).
 ```{r "prop_zero_distribution", fig.cap = "TODO."}
 # Need to pivot data
 prop_zero_long <- prop_zeros %>%
-    tibble::rownames_to_column("Gene") %>%
+    rownames_to_column("Gene") %>%
     pivot_longer(!Gene, names_to = "Group", values_to = "prop_zero")
 
 # Plot histograms
