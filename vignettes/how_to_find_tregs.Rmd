@@ -125,7 +125,7 @@ snRNA-seq dataset. This process has three main steps:
 3. Rank Invariance Calculation  
 
 ```{r "load_packages"}
-library("SummarizedExperiment")
+library("SingleCellExperiment")
 library("pheatmap")
 library("dplyr")
 library("ggplot2")
