@@ -1,6 +1,7 @@
 #' Get the Proportion of Zero Counts for Each Gene in Each Group
 #'
-#' TODO add description.
+#' This function calculates the Proportion Zero for each gene in each user defined group.
+#' Proportion Zero = number of zero counts for a gene for a group of cells/number of cells in the group
 #'
 #' @param sce [SummarizedExperiment-class][SummarizedExperiment::SummarizedExperiment-class] object
 #' @param group_col name of the column in the

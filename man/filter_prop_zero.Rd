@@ -16,7 +16,9 @@ rows, groups as columns.}
 A \code{character()} of gene names that are under the cutoff.
 }
 \description{
-TODO add description.
+This function uses the \code{data.frame()} generated to find the maximum Proportion
+Zero across groups, then filter to a set of genes that pass the max Prop Zero
+cutoff defined by the user.
 }
 \examples{
 ## Get proportion zero data.frame

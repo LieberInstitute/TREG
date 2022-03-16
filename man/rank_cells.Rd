@@ -2,7 +2,7 @@
 % Please edit documentation in R/rank_cells.R
 \name{rank_cells}
 \alias{rank_cells}
-\title{Get the Rank of the Mean expression for each Gene in each Cell}
+\title{Get the Rank of the Expression for each Gene in each Cell}
 \usage{
 rank_cells(sce, group_col = "cellType", assay = "logcounts")
 }
@@ -20,10 +20,13 @@ that defines the group of interest.}
 it typically contains the normalized expression values.}
 }
 \value{
-A \code{list()} of \code{list()} objects. TODO.
+A named \code{list()} of \code{matrix()} objects. Each \code{matrix()} contains the
+rank values for the cells belonging to one group.
 }
 \description{
-TODO add a description
+This function finds the rank of each gene's expression for each cell,
+grouped by the user defined variable. This data is used to compute the rank
+invariance value for each gene later with \code{rank_invariance}.
 }
 \examples{
 ## Rank the genes for each cell, organized by "group" column

@@ -21,10 +21,13 @@ it typically contains the normalized expression values.}
 }
 \value{
 A \code{numeric()} with the rank of invariance for each gene. High values
-represent TODO.
+represent low Rank Invariance, these genes are considered good candidate TREGs.
 }
 \description{
-Description TODO.
+This function computes the Rank Invariance value for each gene, over the
+groups defined by the user. This function computes the same RI values as running
+\code{rank_cells} + \code{rank_group} + \code{rank_invariance}.
+Genes with high RI values are considered good candidate TREGs.
 }
 \examples{
 ## Calculate RI for the sce object

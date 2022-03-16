@@ -1,11 +1,14 @@
 #' Calculate the Rank Invariance of Each Gene from SCE object
 #'
-#' Description TODO.
+#' This function computes the Rank Invariance value for each gene, over the 
+#' groups defined by the user. This function computes the same RI values as running
+#' `rank_cells` + `rank_group` + `rank_invariance`.
+#' Genes with high RI values are considered good candidate TREGs.
 #'
 #' @inheritParams rank_cells
 #'
 #' @return A `numeric()` with the rank of invariance for each gene. High values
-#' represent TODO.
+#' represent low Rank Invariance, these genes are considered good candidate TREGs.
 #' @export
 #'
 #' @examples

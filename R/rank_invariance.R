@@ -1,12 +1,14 @@
 #' Calculate the Rank Invariance of Each Gene from Cell and Group Ranks
 #'
-#' TODO description.
+#' This function computes the Rank Invariance value for each gene, from the cell
+#' and group ranks  computed by `rank_cells` and `rank_group` respectively. 
+#' Genes with high RI values are considered good candidate TREGs.
 #'
 #' @param group_rank A `data.frame()` created with `rank_group()`.
 #' @param cell_rank A `data.frame()` created with `rank_cells()`.
 #'
 #' @return A `numeric()` with the rank of invariance for each gene. High values
-#' represent TODO.
+#' represent low Rank Invariance, these genes are considered good candidate TREGs.
 #' @export
 #'
 #' @examples

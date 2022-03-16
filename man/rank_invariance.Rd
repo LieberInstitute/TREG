@@ -13,10 +13,12 @@ rank_invariance(group_rank, cell_rank)
 }
 \value{
 A \code{numeric()} with the rank of invariance for each gene. High values
-represent TODO.
+represent low Rank Invariance, these genes are considered good candidate TREGs.
 }
 \description{
-TODO description.
+This function computes the Rank Invariance value for each gene, from the cell
+and group ranks  computed by \code{rank_cells} and \code{rank_group} respectively.
+Genes with high RI values are considered good candidate TREGs.
 }
 \examples{
 ## Get the rank of the gene in each group

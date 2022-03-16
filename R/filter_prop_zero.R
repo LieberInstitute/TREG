@@ -1,6 +1,8 @@
 #' Filter Genes for by Max Proportion Zero Among Groups
 #'
-#' TODO add description.
+#' This function uses the `data.frame()` generated to find the maximum Proportion 
+#' Zero across groups, then filter to a set of genes that pass the max Prop Zero
+#' cutoff defined by the user. 
 #'
 #' @param prop_zero_df data.frame containing proportion of zero counts, genes as
 #' rows, groups as columns.

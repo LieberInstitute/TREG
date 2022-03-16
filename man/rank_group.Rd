@@ -23,7 +23,9 @@ it typically contains the normalized expression values.}
 Named \code{list()} of ranks for each gene
 }
 \description{
-TODO description.
+This function finds the rank of each gene's mean expression all cells in a
+group. This data is used to compute the rank invariance value for each gene
+later with \code{rank_invariance}.
 }
 \examples{
 ## Rank the genes for each group defined by "group" column

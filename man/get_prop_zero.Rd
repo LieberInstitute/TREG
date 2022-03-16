@@ -18,7 +18,8 @@ A \code{data.frame()} containing proportion of zero counts, genes as rows,
 groups as columns.
 }
 \description{
-TODO add description.
+This function calculates the Proportion Zero for each gene in each user defined group.
+Proportion Zero = number of zero counts for a gene for a group of cells/number of cells in the group
 }
 \examples{
 ## Basic Proportion counts == 0
