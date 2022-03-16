@@ -53,7 +53,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -100,7 +100,7 @@
 <p>In a smFISH experiment the number of TREG puncta can be used to infer the total RNA expression of the cell. The shape defined by the TREG puncta would help define the shape and size of a cell.</p>
 <p>The motivation of this work is to collect data via smFISH in to help build better deconvolution algorithms. But may be many other application for TREGs in experimental design!</p>
 <p align="center">
-<img src="reference/figures/TREG_concept.png" title="fig:" style="width:50.0%" alt="The Expression of a TREG can inform total RNA content of a cell"></p>
+<img src="reference/figures/TREG_cartoon.png" title="fig:" style="width:50.0%" alt="The Expression of a TREG can inform total RNA content of a cell"></p>
 </div>
 <div class="section level3">
 <h3 id="what-makes-a-gene-a-good-treg">What makes a gene a good TREG?<a class="anchor" aria-label="anchor" href="#what-makes-a-gene-a-good-treg"></a>
@@ -143,7 +143,10 @@
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Load packages</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/LieberInstitute/TREG" class="external-link">"TREG"</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/LieberInstitute/TREG" class="external-link">"TREG"</a></span><span class="op">)</span>
+<span class="co">#&gt; Warning: package 'MatrixGenerics' was built under R version 4.1.1</span>
+<span class="co">#&gt; Warning: package 'S4Vectors' was built under R version 4.1.1</span>
+<span class="co">#&gt; Warning: package 'GenomeInfoDb' was built under R version 4.1.1</span></code></pre></div>
 <div class="section level3">
 <h3 id="proportion-zero-filtering">Proportion Zero Filtering<a class="anchor" aria-label="anchor" href="#proportion-zero-filtering"></a>
 </h3>
@@ -156,7 +159,7 @@
 <span class="co">#&gt; g50    0.48 0.52</span>
 <span class="co">#&gt; g0     0.00 0.00</span>
 <span class="co">#&gt; gOffOn 0.50 0.50</span>
-<span class="co">#&gt; gVar   0.52 0.42</span>
+<span class="co">#&gt; gVar   0.68 0.40</span>
 
 <span class="co">## Get list of genes that pass the max proportion zero filter</span>
 <span class="op">(</span><span class="va">filtered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/filter_prop_zero.html">filter_prop_zero</a></span><span class="op">(</span><span class="va">prop_zero</span>, cutoff <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span>
@@ -228,14 +231,14 @@
 <h2 id="development-tools">Development tools<a class="anchor" aria-label="anchor" href="#development-tools"></a>
 </h2>
 <ul>
-<li>Continuous code testing is possible thanks to <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">GitHub actions</a> through <em><a href="https://CRAN.R-project.org/package=usethis" class="external-link">usethis</a></em>, <em><a href="https://CRAN.R-project.org/package=remotes" class="external-link">remotes</a></em>, and <em><a href="https://CRAN.R-project.org/package=rcmdcheck" class="external-link">rcmdcheck</a></em> customized to use <a href="https://www.bioconductor.org/help/docker/" class="external-link">Bioconductor’s docker containers</a> and <em><a href="https://bioconductor.org/packages/3.14/BiocCheck" class="external-link">BiocCheck</a></em>.</li>
+<li>Continuous code testing is possible thanks to <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">GitHub actions</a> through <em><a href="https://CRAN.R-project.org/package=usethis" class="external-link">usethis</a></em>, <em><a href="https://CRAN.R-project.org/package=remotes" class="external-link">remotes</a></em>, and <em><a href="https://CRAN.R-project.org/package=rcmdcheck" class="external-link">rcmdcheck</a></em> customized to use <a href="https://www.bioconductor.org/help/docker/" class="external-link">Bioconductor’s docker containers</a> and <em><a href="https://bioconductor.org/packages/3.13/BiocCheck" class="external-link">BiocCheck</a></em>.</li>
 <li>Code coverage assessment is possible thanks to <a href="https://codecov.io/gh" class="external-link">codecov</a> and <em><a href="https://CRAN.R-project.org/package=covr" class="external-link">covr</a></em>.</li>
 <li>The <a href="http://LieberInstitute.github.io/TREG" class="external-link">documentation website</a> is automatically updated thanks to <em><a href="https://CRAN.R-project.org/package=pkgdown" class="external-link">pkgdown</a></em>.</li>
 <li>The code is styled automatically thanks to <em><a href="https://CRAN.R-project.org/package=styler" class="external-link">styler</a></em>.</li>
 <li>The documentation is formatted thanks to <em><a href="https://CRAN.R-project.org/package=devtools" class="external-link">devtools</a></em> and <em><a href="https://CRAN.R-project.org/package=roxygen2" class="external-link">roxygen2</a></em>.</li>
 </ul>
 <p>For more details, check the <code>dev</code> directory.</p>
-<p>This package was developed using <em><a href="https://bioconductor.org/packages/3.14/biocthis" class="external-link">biocthis</a></em>.</p>
+<p>This package was developed using <em><a href="https://bioconductor.org/packages/3.13/biocthis" class="external-link">biocthis</a></em>.</p>
 </div>
 </div>
   </div>
