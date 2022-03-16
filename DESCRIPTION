@@ -46,7 +46,8 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     tibble,
-    tidyr
+    tidyr,
+    SingleCellExperiment
 Config/testthat/edition: 3
 Imports: 
     Matrix,
