@@ -1,6 +1,6 @@
 #' Get the Rank of the Mean expression for each Gene in each Group
 #'
-#' This function finds the rank of each gene's mean expression all cells in a 
+#' This function finds the rank of each gene's mean expression all cells in a
 #' group. This data is used to compute the rank invariance value for each gene
 #' later with `rank_invariance`.
 #'

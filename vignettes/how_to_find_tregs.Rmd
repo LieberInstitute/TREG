@@ -125,6 +125,7 @@ snRNA-seq dataset. This process has three main steps:
 3. Rank Invariance Calculation  
 
 ```{r "load_packages"}
+library("SummarizedExperiment")
 library("pheatmap")
 library("dplyr")
 library("ggplot2")
@@ -159,16 +160,19 @@ load(local_data, verbose = TRUE)
 
 ```{r "acronyms", echo=FALSE}
 
-ct_names <- tibble("Cell Type" = c("Astrocyte", 
-                       "Excitatory Neurons", 
-                       "Microglia",
-                       "Oligodendrocytes",
-                       "Oligodendrocyte Progenitor Cells",
-                       "Inhibitory Neurons"),
-       "Acronym" = c("Astro", "Excit", "Micro", "Oligo", "OPC", "Inhib"))
+ct_names <- tibble(
+    "Cell Type" = c(
+        "Astrocyte",
+        "Excitatory Neurons",
+        "Microglia",
+        "Oligodendrocytes",
+        "Oligodendrocyte Progenitor Cells",
+        "Inhibitory Neurons"
+    ),
+    "Acronym" = c("Astro", "Excit", "Micro", "Oligo", "OPC", "Inhib")
+)
 
 knitr::kable(ct_names, caption = "Cell Type names and corresponding acromyms used in this dataset")
-
 ```
 
 Filter and refine data to cell types of interest. We are combining all of the

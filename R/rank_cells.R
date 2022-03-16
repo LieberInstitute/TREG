@@ -1,7 +1,7 @@
 #' Get the Rank of the Expression for each Gene in each Cell
 #'
-#' This function finds the rank of each gene's expression for each cell, 
-#' grouped by the user defined variable. This data is used to compute the rank 
+#' This function finds the rank of each gene's expression for each cell,
+#' grouped by the user defined variable. This data is used to compute the rank
 #' invariance value for each gene later with `rank_invariance`.
 #'
 #' @param sce [SummarizedExperiment::SummarizedExperiment-class] object with
@@ -12,8 +12,8 @@
 #' `sce` object to use to rank expression values. Defaults to `logcounts` since
 #' it typically contains the normalized expression values.
 #'
-#' @return A named `list()` of `matrix()` objects. Each `matrix()` contains the 
-#' rank values for the cells belonging to one group. 
+#' @return A named `list()` of `matrix()` objects. Each `matrix()` contains the
+#' rank values for the cells belonging to one group.
 #' @export
 #'
 #' @examples
