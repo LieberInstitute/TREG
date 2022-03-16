@@ -4,7 +4,7 @@
 # TREG
 
 <!-- badges: start -->
-
+[![DOI](https://zenodo.org/badge/391101988.svg)](https://zenodo.org/badge/latestdoi/391101988)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![BioC
