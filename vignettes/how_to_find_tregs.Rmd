@@ -205,7 +205,7 @@ dim(sce.dlpfc.tran)
 Single Nucleus data is often very sparse (lots of zeros in the count data), this 
 dataset is 88% sparse. We can illustrate this in the heat map which is very blue (Figure \@ref(fig:example_sparsity)).
 
-```{r "examine_sparsity", fig.cap = "TODO."}
+```{r "examine_sparsity", fig.cap = "Heatmap of the snRAN-seq counts. Illistrates sparseness of unfiltered data."}
 ## this data is 88% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
@@ -235,7 +235,7 @@ dim(sce.dlpfc.tran)
 After this filter lets check sparsity and make a heatmap of the first 1k genes
 and 500 cells. We are seeing more non-blue (Figure \@ref(fig:top50_filter_heatmap))!
 
-```{r "top50_filter_heatmap", fig.cap = "TODO."}
+```{r "top50_filter_heatmap", fig.cap = "Heatmap of the snRAN-seq counts. With top 50% filtering the data becomes less sparse."}
 ## this data down to 77% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
@@ -262,7 +262,7 @@ head(prop_zeros)
 To determine a good cutoff for filtering lets examine the distribution of these
 proportions by group (Figure \@ref(fig:prop_zero_distribution)).
 
-```{r "prop_zero_distribution", fig.cap = "TODO."}
+```{r "prop_zero_distribution", fig.cap = "Distribution of Proption Zero across cell types and regions."}
 # Need to pivot data
 prop_zero_long <- prop_zeros %>%
     rownames_to_column("Gene") %>%
@@ -279,7 +279,7 @@ prop_zero_long <- prop_zeros %>%
 
 Looks like around 0.9 the densities peak, we'll set that as the cutoff (Figure \@ref(fig:pick_cutoff)).
 
-```{r "pick_cutoff", fig.cap = "TODO."}
+```{r "pick_cutoff", fig.cap = "Show Proption Zero Cutoff on distributions."}
 ## Specify a cutoff, here we use 0.9
 propZero_limit <- 0.9
 
@@ -309,7 +309,7 @@ sce.dlpfc.tran <- sce.dlpfc.tran[filtered_genes, ]
 
 One last check of the sparsity and heatmap (Figure \@ref(fig:prop_zero_filter_heatmap)).
 
-```{r "prop_zero_filter_heatmap", fig.cap = "TODO."}
+```{r "prop_zero_filter_heatmap", fig.cap = "Heatmap of the snRAN-seq counts after Proption Zero filtering."}
 ## this data down to 50% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
@@ -328,7 +328,7 @@ pheatmap::pheatmap(count_test,
 ### Run Rank Invariance
 
 To get the Rank Invariance (RI), the rank of the genes across the cells in a group,
-and between groups is considered. One way to calculate RI is to dine (TODO: dine??) the group 
+and between groups is considered. One way to calculate RI is to find the group 
 rank values, and cell rank values separately, then combine them as shown below.
 The genes with the top RI values are the best candidate TREGs.
 
