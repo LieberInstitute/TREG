@@ -40,7 +40,7 @@ deconvolution algorithms. But may be many other application for TREGs in
 experimental design!
 
 <p align="center">
-![The Expression of a TREG can inform total RNA content of a cell](man/figures/TREG_concept.png){width=50%}
+![The Expression of a TREG can inform total RNA content of a cell](man/figures/TREG_cartoon.png){width=50%}
 </p>
 
 ### What makes a gene a good TREG?  

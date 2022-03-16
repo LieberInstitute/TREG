@@ -33,7 +33,7 @@ build better deconvolution algorithms. But may be many other application
 for TREGs in experimental design!
 
 <p align="center">
-<img src="man/figures/TREG_concept.png" title="fig:" style="width:50.0%" alt="The Expression of a TREG can inform total RNA content of a cell" />
+<img src="man/figures/TREG_cartoon.png" title="fig:" style="width:50.0%" alt="The Expression of a TREG can inform total RNA content of a cell" />
 </p>
 
 ### What makes a gene a good TREG?
@@ -106,6 +106,9 @@ BiocManager::install("LieberInstitute/TREG")
 ``` r
 ## Load packages
 library("TREG")
+#> Warning: package 'MatrixGenerics' was built under R version 4.1.1
+#> Warning: package 'S4Vectors' was built under R version 4.1.1
+#> Warning: package 'GenomeInfoDb' was built under R version 4.1.1
 ```
 
 ### Proportion Zero Filtering
@@ -122,7 +125,7 @@ cells.
 #> g50    0.48 0.52
 #> g0     0.00 0.00
 #> gOffOn 0.50 0.50
-#> gVar   0.52 0.42
+#> gVar   0.68 0.40
 
 ## Get list of genes that pass the max proportion zero filter
 (filtered_genes <- filter_prop_zero(prop_zero, cutoff = 0.9))
@@ -208,7 +211,7 @@ contributing to this project, you agree to abide by its terms.
     *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)*
     customized to use [Bioconductor’s docker
     containers](https://www.bioconductor.org/help/docker/) and
-    *[BiocCheck](https://bioconductor.org/packages/3.14/BiocCheck)*.
+    *[BiocCheck](https://bioconductor.org/packages/3.13/BiocCheck)*.
 -   Code coverage assessment is possible thanks to
     [codecov](https://codecov.io/gh) and
     *[covr](https://CRAN.R-project.org/package=covr)*.
@@ -224,4 +227,4 @@ contributing to this project, you agree to abide by its terms.
 For more details, check the `dev` directory.
 
 This package was developed using
-*[biocthis](https://bioconductor.org/packages/3.14/biocthis)*.
+*[biocthis](https://bioconductor.org/packages/3.13/biocthis)*.
