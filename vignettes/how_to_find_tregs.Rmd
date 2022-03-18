@@ -234,7 +234,7 @@ dim(sce.dlpfc.tran)
 ```
 
 After this filter lets check sparsity and make a heatmap of the first 1k genes
-and 500 cells. We are seeing more non-blue (Figure \@ref(fig:top50_filter_heatmap))!
+and 500 cells. We are seeing more non-blue (Figure \@ref(fig:top50\_filter\_heatmap))!
 
 ```{r "top50_filter_heatmap", fig.cap = "Heatmap of the snRAN-seq counts. With top 50% filtering the data becomes less sparse."}
 ## this data down to 77% sparse
