@@ -158,7 +158,7 @@ considered for the candidate TREGs, and may need to be validated experimentally.
 </p>
 
 1. **Filter for low Proportion Zero genes snRNA-seq dataset:** This is 
-facilitated with the functions `get_prop_zero()` and `filter_prop_zero()`.
+facilitated with the functions `get_prop_zero()` and `filter_prop_zero()` (Equation \@ref(eq:propZero)).
 snRNA-seq data is notoriously sparse, these functions enrich for genes with more
 universal expression.
 
@@ -180,7 +180,7 @@ implemented by: `rank_invariance_express()`.**
 In this example we will apply our data driven process for TREG discovery to a
 snRNA-seq dataset. This process has three main steps:  
 1. Data prep   
-2. Gene filtering (dropping genes with low expression and high Proportion Zeros)  
+2. Gene filtering: dropping genes with low expression and high Proportion Zero (Equation \@ref(eq:propZero))  
 3. Rank Invariance Calculation  
 
 ```{r "load_packages", message=FALSE, warning=FALSE}
@@ -313,9 +313,9 @@ pheatmap::pheatmap(count_test,
 )
 ```
 
-#### Calculate the Proportion of Zeros and Pick Cutoff
+#### Calculate Proportion Zero and Pick Cutoff
 
-For each group (let's use `cellType.broad`) get the proportion of zeros for each gene, where Proportion Zero is defined as (Equation \@ref(eq:propZero)) where $c_{i,j,k,z}$ is the number of snRNA-seq counts for cell/nuclei $z$ for gene $i$, cell type $j$, brain region $k$, and $n_{j, k}$ is the number of cell/nuclei for cell type $j$ and brain region $k$.
+For each group (let's use `cellType.broad`) get the Proportion Zero for each gene, where Proportion Zero is defined in Equation \@ref(eq:propZero) where $c_{i,j,k,z}$ is the number of snRNA-seq counts for cell/nucleus $z$ for gene $i$, cell type $j$, brain region $k$, and $n_{j, k}$ is the number of cells/nuclei for cell type $j$ and brain region $k$.
 
 \begin{equation}
     PZ_{i,j,k} = \sum_{z=1}^{n_{j,k}} I(c_{i,j,k} > 0) / n_{j,k}
@@ -329,7 +329,7 @@ head(prop_zeros)
 ```
 
 To determine a good cutoff for filtering lets examine the distribution of these
-proportions by group (Figure \@ref(fig:prop_zero_distribution)).
+Proportion Zeros by group (Figure \@ref(fig:prop_zero_distribution)).
 
 ```{r "prop_zero_distribution", fig.cap = "Distribution of Proption Zero across cell types and regions."}
 # Need to pivot data
@@ -348,7 +348,7 @@ prop_zero_long <- prop_zeros %>%
 
 Looks like around 0.9 the densities peak, we'll set that as the cutoff (Figure \@ref(fig:pick_cutoff)).
 
-```{r "pick_cutoff", fig.cap = "Show Proption Zero Cutoff on distributions."}
+```{r "pick_cutoff", fig.cap = "Show Proportion Zero Cutoff on distributions."}
 ## Specify a cutoff, here we use 0.9
 propZero_limit <- 0.9
 
@@ -357,7 +357,7 @@ prop_zero_histogram +
     geom_vline(xintercept = propZero_limit, color = "red", linetype = "dashed")
 ```
 
-#### Filter by the Max Proportion of Zeros
+#### Filter by the Max Proportion Zero
 
 Use the cutoff to filter the remaining genes. Only 4k or ~11% of genes pass with 
 this cutoff. Filter the SCE object to this set of genes.
