@@ -274,10 +274,11 @@ this dataset</caption>
 </tr>
 </tbody>
 </table>
-<p><strong>Filter and refine data to cell types of
-interest.</strong><br>
-If there are too few cells in a group there is not enough data to work
-with. First we will combine all of the Excit, Inhib subtypes.</p>
+<div class="section level4">
+<h4 id="filter-and-refine-to-cell-types-of-interest">Filter and Refine to Cell Types of Interest<a class="anchor" aria-label="anchor" href="#filter-and-refine-to-cell-types-of-interest"></a>
+</h4>
+<p>If there are too few cells in a group there is not enough data to
+work with. First we will combine all of the Excit, Inhib subtypes.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Explore the dimensions and cell type annotations</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
@@ -311,12 +312,13 @@ we are interested in.</p>
 
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
 <span class="co">#&gt; [1] 33538 11165</span></code></pre></div>
+</div>
 <div class="section level4">
 <h4 id="filter-genes">Filter Genes<a class="anchor" aria-label="anchor" href="#filter-genes"></a>
 </h4>
 <p>Single Nucleus data is often very sparse (lots of zeros in the count
 data), this dataset is 88% sparse. We can illustrate this in the heat
-map which is very blue (Figure @ref(fig:exampleSparsity)).</p>
+map which is very blue (Figure @ref(fig:examineSparsity)).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data is 88% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
@@ -331,8 +333,8 @@ map which is very blue (Figure @ref(fig:exampleSparsity)).</p>
     show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="how_to_find_tregs_files/figure-html/examine_sparsity-1.png" alt="Heatmap of the snRAN-seq counts. Illistrates sparseness of unfiltered data." width="700"><p class="caption">
-Heatmap of the snRAN-seq counts. Illistrates sparseness of unfiltered
+<img src="how_to_find_tregs_files/figure-html/examineSparsity-1.png" alt="Heatmap of the snRAN-seq counts. Illustrates sparseness of unfiltered data." width="700"><p class="caption">
+Heatmap of the snRAN-seq counts. Illustrates sparseness of unfiltered
 data.
 </p>
 </div>
@@ -580,9 +582,9 @@ and Girlich, 2022)</li>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"TREG.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code><span class="co">#&gt; [1] "2022-03-18 15:24:05 UTC"</span></code></pre>
+<pre><code><span class="co">#&gt; [1] "2022-03-18 15:27:12 UTC"</span></code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code><span class="co">#&gt; Time difference of 1.432 mins</span></code></pre>
+<pre><code><span class="co">#&gt; Time difference of 1.399 mins</span></code></pre>
 <p><code>R</code> session information.</p>
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span>
