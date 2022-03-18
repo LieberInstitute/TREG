@@ -183,6 +183,8 @@ snRNA-seq dataset. This process has three main steps:
 2. Gene filtering: dropping genes with low expression and high Proportion Zero (Equation \@ref(eq:propZero))  
 3. Rank Invariance Calculation  
 
+
+## Load Packages
 ```{r "load_packages", message=FALSE, warning=FALSE}
 library("SingleCellExperiment")
 library("pheatmap")
@@ -192,6 +194,8 @@ library("tidyr")
 library("tibble")
 ```
 
+
+## Download and Prep Data
 Here we download a public single nucleus RNA-seq (snRNA-seq) data from `r Citep(bib[['tran2021']])`
 that we'll use as our example. This data can be accessed on [github](https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data).
 This data is from postmortem human brain in the dorsolateral prefrontal 
@@ -218,10 +222,6 @@ load(local_data, verbose = TRUE)
 # lobstr::obj_size(sce.dlpfc.tran) / 1024^3
 ```
 
-## Prep Data
-Human brain tissue consists of many types of cells, for the porpose of this demo,
-we will focus on the six major cell types listed in \@ref(tab:acronyms). 
-
 ```{r "acronyms", echo=FALSE}
 
 ct_names <- tibble(
@@ -241,8 +241,11 @@ ct_names <- tibble(
                   "Inhib")
 )
 
-knitr::kable(ct_names, caption = "Table 1: Cell type names and corresponding acromyms used in this dataset", label = "acronyms")
+knitr::kable(ct_names, caption = "Cell type names and corresponding acromyms used in this dataset", label = "acronyms")
 ```
+
+Human brain tissue consists of many types of cells, for the porpose of this demo,
+we will focus on the six major cell types listed in \@ref(tab:acronyms). 
 
 ### Filter and Refine to Cell Types of Interest  
 First we will combine all of the Excit, Inhib subtypes, as it is a finer 
@@ -281,9 +284,7 @@ dim(sce.dlpfc.tran)
 
 Single Nucleus data is often very sparse (lots of zeros in the count data), this 
 dataset is 88% sparse. We can illustrate this in the heat map of the first 1k 
-genes and 500 cells. The heatmap is mostly blue, indicating low values
-(Figure \@ref(fig:examineSparsity)).
-
+genes and 500 cells. 
 ```{r "examineSparsity", fig.cap = "Heatmap of the snRNA-seq counts. Illustrates sparseness of unfiltered data."}
 ## this data is 88% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
@@ -297,6 +298,8 @@ pheatmap(count_test,
     show_colnames = FALSE
 )
 ```
+The heatmap is mostly blue, indicating low values
+(Figure \@ref(fig:examineSparsity)).
 
 ### Filter to Top 50% Expression
 
@@ -312,9 +315,9 @@ dim(sce.dlpfc.tran)
 ```
 
 After this filter lets check sparsity and make a heatmap of the first 1k genes
-and 500 cells. We are seeing more non-blue (Figure \@ref(fig:top50FilterHeatmap))!
+and 500 cells. 
 
-```{r "top50FilterHeatmap", fig.cap = "Figure 1: Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes less sparse."}
+```{r "top50FilterHeatmap", fig.cap = "Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes less sparse."}
 ## this data down to 77% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
@@ -327,6 +330,7 @@ pheatmap::pheatmap(count_test,
     show_colnames = FALSE
 )
 ```
+We are seeing more non-blue (Figure \@ref(fig:top50FilterHeatmap))!  
 
 ### Calculate Proportion Zero and Pick Cutoff
 
@@ -344,9 +348,9 @@ head(prop_zeros)
 ```
 
 To determine a good cutoff for filtering lets examine the distribution of these
-Proportion Zeros by group (Figure \@ref(fig:propZeroDistribution)).
+Proportion Zeros by group.
 
-```{r "propZeroDistribution", fig.cap = "Figure 2: Distribution of Proption Zero across cell types and regions."}
+```{r "propZeroDistribution", fig.cap = "Distribution of Proption Zero across cell types and regions."}
 # Pivot data longer for plotting
 prop_zero_long <- prop_zeros %>%
     rownames_to_column("Gene") %>%
@@ -361,7 +365,7 @@ prop_zero_long <- prop_zeros %>%
     facet_wrap(~Group))
 ```
 
-Looks like around 0.9 the densities peak, we'll set that as the cutoff (Figure \@ref(fig:pickCutoff)).
+Looks like around 0.9 the densities peak, we'll set that as the cutoff  (Figure \@ref(fig:propZeroDistribution)).
 
 ```{r "pickCutoff", fig.cap = "Figure 3: Show Proportion Zero Cutoff on distributions."}
 ## Specify a cutoff, here we use 0.9
@@ -371,6 +375,8 @@ propZero_limit <- 0.9
 prop_zero_histogram +
     geom_vline(xintercept = propZero_limit, color = "red", linetype = "dashed")
 ```
+
+The chosen cutoff excludes the peak Proportion Zeros from all groups (Figure \@ref(fig:pickCutoff)).
 
 ### Filter by the Max Proportion Zero
 
@@ -391,7 +397,7 @@ length(filtered_genes) / nrow(sce.dlpfc.tran)
 sce.dlpfc.tran <- sce.dlpfc.tran[filtered_genes, ]
 ```
 
-One last check of the sparsity and heatmap (Figure \@ref(fig:propZeroFilterHeatmap)).
+One last check of the sparsity and heatmap:
 
 ```{r "propZeroFilterHeatmap", fig.cap = "Heatmap of the snRNA-seq counts after Proption Zero filtering."}
 ## this data down to 50% sparse
@@ -406,6 +412,9 @@ pheatmap::pheatmap(count_test,
     show_colnames = FALSE
 )
 ```
+
+More non-blue means more non-zero values for the Rank Invariance calculation,
+which prevents rank ties  (Figure \@ref(fig:propZeroFilterHeatmap)).
 
 ## Run Rank Invariance
 
