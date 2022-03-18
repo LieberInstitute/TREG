@@ -124,7 +124,7 @@ snRNA-seq dataset. This process has three main steps:
 2. Gene filtering (dropping genes with low expression and high proportion zeros)  
 3. Rank Invariance Calculation  
 
-```{r "load_packages"}
+```{r "load_packages", message=FALSE, warning=FALSE}
 library("SingleCellExperiment")
 library("pheatmap")
 library("dplyr")
@@ -172,11 +172,12 @@ ct_names <- tibble(
     "Acronym" = c("Astro", "Excit", "Micro", "Oligo", "OPC", "Inhib")
 )
 
-knitr::kable(ct_names, caption = "Cell Type names and corresponding acromyms used in this dataset")
+knitr::kable(ct_names, caption = "Table 1: Cell Type names and corresponding acromyms used in this dataset", label = "cell_type_acronyms")
 ```
 
-Filter and refine data to cell types of interest. We are combining all of the
-Excit, Inhib subtypes.
+**Filter and refine data to cell types of interest.**  
+If there are too few cells in a group there is not enough data to work with.
+First we will combine all of the Excit, Inhib subtypes.
 ```{r "define_cell_types"}
 ## Explore the dimensions and cell type annotations
 dim(sce.dlpfc.tran)
@@ -187,8 +188,8 @@ sce.dlpfc.tran$cellType.broad <- gsub("_[A-Z]$", "", sce.dlpfc.tran$cellType)
 (cell_type_tab <- table(sce.dlpfc.tran$cellType.broad))
 ```
 
-Drop any groups with < 50 cells.
-
+Next, we will drop any groups with < 50 cells. This excludes any very rare cell types. 
+Now we are working with the cell type resolution we are interested in.
 ```{r "drop_small_cell_types"}
 ## Find cell types with < 50 cells
 ct_drop <- names(cell_type_tab)[cell_type_tab < 50]
@@ -203,7 +204,7 @@ dim(sce.dlpfc.tran)
 ### Filter Genes
 
 Single Nucleus data is often very sparse (lots of zeros in the count data), this 
-dataset is 88% sparse. We can illustrate this in the heat map which is very blue (Figure \@ref(fig:example_sparsity)).
+dataset is 88% sparse. We can illustrate this in the heat map which is very blue (Figure \@ref(fig:exampleSparsity)).
 
 ```{r "examine_sparsity", fig.cap = "Heatmap of the snRAN-seq counts. Illistrates sparseness of unfiltered data."}
 ## this data is 88% sparse
