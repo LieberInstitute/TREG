@@ -233,19 +233,21 @@ ct_names <- tibble(
         "Oligodendrocyte Progenitor Cells",
         "Inhibitory Neurons"
     ),
-    "Acronym" = c("Astro", 
-                  "Excit", 
-                  "Micro", 
-                  "Oligo", 
-                  "OPC", 
-                  "Inhib")
+    "Acronym" = c(
+        "Astro",
+        "Excit",
+        "Micro",
+        "Oligo",
+        "OPC",
+        "Inhib"
+    )
 )
 
-knitr::kable(ct_names, caption = "Cell type names and corresponding acromyms used in this dataset", label = "acronyms")
+knitr::kable(ct_names, caption = "Cell type names and corresponding acronyms used in this dataset", label = "acronyms")
 ```
 
 Human brain tissue consists of many types of cells, for the porpose of this demo,
-we will focus on the six major cell types listed in \@ref(tab:acronyms). 
+we will focus on the six major cell types listed in Table \@ref(tab:acronyms). 
 
 ### Filter and Refine to Cell Types of Interest  
 First we will combine all of the Excit, Inhib subtypes, as it is a finer 
@@ -367,7 +369,7 @@ prop_zero_long <- prop_zeros %>%
 
 Looks like around 0.9 the densities peak, we'll set that as the cutoff  (Figure \@ref(fig:propZeroDistribution)).
 
-```{r "pickCutoff", fig.cap = "Figure 3: Show Proportion Zero Cutoff on distributions."}
+```{r "pickCutoff", fig.cap = "Show Proportion Zero Cutoff on distributions."}
 ## Specify a cutoff, here we use 0.9
 propZero_limit <- 0.9
 
@@ -446,7 +448,7 @@ rank_invar2 <- rank_invariance_express(
     sce.dlpfc.tran,
     group_col = "cellType.broad"
 )
-##Again the top 5 Canidate TREGs:
+## Again the top 5 Canidate TREGs:
 head(sort(rank_invar2, decreasing = TRUE))
 
 ## Check computationally that the results are identical

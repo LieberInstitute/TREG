@@ -15,4 +15,7 @@ test_that("Bad Inputs Throw Error - RI", {
 
     ## differnt group names should throw warning
     expect_warning(rank_invariance(group_rank_test, cell_rank_test_dn))
+
+    ## expect a value for each gene
+    expect_equal(nrow(sce_zero_test), length(rank_invariance(group_rank_test, cell_rank_test)))
 })
