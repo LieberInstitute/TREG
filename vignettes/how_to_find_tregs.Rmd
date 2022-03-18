@@ -175,7 +175,7 @@ ct_names <- tibble(
 knitr::kable(ct_names, caption = "Table 1: Cell Type names and corresponding acromyms used in this dataset", label = "cell_type_acronyms")
 ```
 
-**Filter and refine data to cell types of interest.**  
+### Filter and Refine to Cell Types of Interest  
 If there are too few cells in a group there is not enough data to work with.
 First we will combine all of the Excit, Inhib subtypes.
 ```{r "define_cell_types"}
@@ -204,9 +204,9 @@ dim(sce.dlpfc.tran)
 ### Filter Genes
 
 Single Nucleus data is often very sparse (lots of zeros in the count data), this 
-dataset is 88% sparse. We can illustrate this in the heat map which is very blue (Figure \@ref(fig:exampleSparsity)).
+dataset is 88% sparse. We can illustrate this in the heat map which is very blue (Figure \@ref(fig:examineSparsity)).
 
-```{r "examine_sparsity", fig.cap = "Heatmap of the snRAN-seq counts. Illistrates sparseness of unfiltered data."}
+```{r "examineSparsity", fig.cap = "Heatmap of the snRAN-seq counts. Illustrates sparseness of unfiltered data."}
 ## this data is 88% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
