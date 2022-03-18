@@ -133,7 +133,7 @@ deconvolution algorithms. But may be many other application for TREGs in
 experimental design!
 
 <p align="center">
-![The Expression of a TREG can inform total RNA content of a cell](man/figures/TREG_cartoon.png){width=50%}
+![The Expression of a TREG can inform total RNA content of a cell](http://research.libd.org/TREG/reference/figures/TREG_cartoon.png){width=50%}
 </p>
 
 ## What makes a gene a good TREG?  
@@ -148,13 +148,13 @@ have a dynamic range of puncta when observed in RNAscope. This will need to be
 considered for the candidate TREGs, and may need to be validated experimentally. 
 
 <p align="center">
-![Distribution of ranks of a gene of High and Low Invariance](man/figures/fig1_rank_violin_demo.png){width=30%}
+![Distribution of ranks of a gene of High and Low Invariance](http://research.libd.org/TREG/reference/figures/fig1_rank_violin_demo.png){width=30%}
 </p>
 
 ## How to find candidate TREGs with `TREG`
 
 <p align="center">
-![Overview of the Rank Invariance Process](man/figures/RI_flow.png){width=100%}
+![Overview of the Rank Invariance Process](http://research.libd.org/TREG/reference/figures/RI_flow.png){width=100%}
 </p>
 
 1. **Filter for low Proportion Zero genes snRNA-seq dataset:** This is 
