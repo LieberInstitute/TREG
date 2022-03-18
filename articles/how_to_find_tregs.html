@@ -260,9 +260,10 @@ Invariance</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Filter for low Proportion Zero genes snRNA-seq
 dataset:</strong> This is facilitated with the functions
-<code><a href="../reference/get_prop_zero.html">get_prop_zero()</a></code> and <code><a href="../reference/filter_prop_zero.html">filter_prop_zero()</a></code>.
-snRNA-seq data is notoriously sparse, these functions enrich for genes
-with more universal expression.</p></li>
+<code><a href="../reference/get_prop_zero.html">get_prop_zero()</a></code> and <code><a href="../reference/filter_prop_zero.html">filter_prop_zero()</a></code>
+(Equation @ref(eq:propZero)). snRNA-seq data is notoriously sparse,
+these functions enrich for genes with more universal
+expression.</p></li>
 <li><p><strong>Evaluate genes for Rank Invariance</strong> The nuclei
 are grouped only by cell type. Within each cell type, the mean
 expression for each gene is ranked, the result is a vector (length is
@@ -287,8 +288,8 @@ good candidates as TREGs. <strong>This process is implemented by:
 discovery to a snRNA-seq dataset. This process has three main
 steps:<br>
 1. Data prep<br>
-2. Gene filtering (dropping genes with low expression and high
-Proportion Zeros)<br>
+2. Gene filtering: dropping genes with low expression and high
+Proportion Zero (Equation @ref(eq:propZero))<br>
 3. Rank Invariance Calculation</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"SingleCellExperiment"</span><span class="op">)</span>
@@ -455,14 +456,14 @@ less sparse.
 </div>
 </div>
 <div class="section level5">
-<h5 id="calculate-the-proportion-of-zeros-and-pick-cutoff">Calculate the Proportion of Zeros and Pick Cutoff<a class="anchor" aria-label="anchor" href="#calculate-the-proportion-of-zeros-and-pick-cutoff"></a>
+<h5 id="calculate-proportion-zero-and-pick-cutoff">Calculate Proportion Zero and Pick Cutoff<a class="anchor" aria-label="anchor" href="#calculate-proportion-zero-and-pick-cutoff"></a>
 </h5>
 <p>For each group (let’s use <code>cellType.broad</code>) get the
-proportion of zeros for each gene, where Proportion Zero is defined as
-(Equation @ref(eq:propZero)) where <span class="math inline">\(c_{i,j,k,z}\)</span> is the number of snRNA-seq
-counts for cell/nuclei <span class="math inline">\(z\)</span> for gene
+Proportion Zero for each gene, where Proportion Zero is defined in
+Equation @ref(eq:propZero) where <span class="math inline">\(c_{i,j,k,z}\)</span> is the number of snRNA-seq
+counts for cell/nucleus <span class="math inline">\(z\)</span> for gene
 <span class="math inline">\(i\)</span>, cell type <span class="math inline">\(j\)</span>, brain region <span class="math inline">\(k\)</span>, and <span class="math inline">\(n_{j,
-k}\)</span> is the number of cell/nuclei for cell type <span class="math inline">\(j\)</span> and brain region <span class="math inline">\(k\)</span>.</p>
+k}\)</span> is the number of cells/nuclei for cell type <span class="math inline">\(j\)</span> and brain region <span class="math inline">\(k\)</span>.</p>
 <p><span class="math display">\[\begin{equation}
     PZ_{i,j,k} = \sum_{z=1}^{n_{j,k}} I(c_{i,j,k} &gt; 0) / n_{j,k}
   (\#eq:propZero)
@@ -479,7 +480,7 @@ k}\)</span> is the number of cell/nuclei for cell type <span class="math inline"
 <span class="co">#&gt; KLHL17     0.9859335 0.8986600 0.9360759 0.9922680 0.9963336 0.9877622</span>
 <span class="co">#&gt; HES4       0.8695652 0.7357621 0.6892405 0.9974227 0.9906508 0.9737762</span></code></pre></div>
 <p>To determine a good cutoff for filtering lets examine the
-distribution of these proportions by group (Figure
+distribution of these Proportion Zeros by group (Figure
 @ref(fig:prop_zero_distribution)).</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Need to pivot data</span>
@@ -509,13 +510,13 @@ cutoff (Figure @ref(fig:pick_cutoff)).</p>
 <span class="va">prop_zero_histogram</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">propZero_limit</span>, color <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="how_to_find_tregs_files/figure-html/pick_cutoff-1.png" alt="Show Proption Zero Cutoff on distributions." width="700"><p class="caption">
-Show Proption Zero Cutoff on distributions.
+<img src="how_to_find_tregs_files/figure-html/pick_cutoff-1.png" alt="Show Proportion Zero Cutoff on distributions." width="700"><p class="caption">
+Show Proportion Zero Cutoff on distributions.
 </p>
 </div>
 </div>
 <div class="section level5">
-<h5 id="filter-by-the-max-proportion-of-zeros">Filter by the Max Proportion of Zeros<a class="anchor" aria-label="anchor" href="#filter-by-the-max-proportion-of-zeros"></a>
+<h5 id="filter-by-the-max-proportion-zero">Filter by the Max Proportion Zero<a class="anchor" aria-label="anchor" href="#filter-by-the-max-proportion-zero"></a>
 </h5>
 <p>Use the cutoff to filter the remaining genes. Only 4k or ~11% of
 genes pass with this cutoff. Filter the SCE object to this set of
@@ -670,9 +671,9 @@ and Girlich, 2022)</li>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"TREG.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code><span class="co">#&gt; [1] "2022-03-18 17:49:05 UTC"</span></code></pre>
+<pre><code><span class="co">#&gt; [1] "2022-03-18 17:54:48 UTC"</span></code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code><span class="co">#&gt; Time difference of 1.229 mins</span></code></pre>
+<pre><code><span class="co">#&gt; Time difference of 1.132 mins</span></code></pre>
 <p><code>R</code> session information.</p>
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span>
