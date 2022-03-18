@@ -315,7 +315,12 @@ pheatmap::pheatmap(count_test,
 
 #### Calculate the Proportion of Zeros and Pick Cutoff
 
-For each group (let's use `cellType.broad`) get the proportion of zeros for each gene
+For each group (let's use `cellType.broad`) get the proportion of zeros for each gene, where Proportion Zero is defined as (Equation \@ref(eq:propZero)) where $c_{i,j,k,z}$ is the number of snRNA-seq counts for cell/nucleus $z$ for gene $i$, cell type $j$, and brain region $k$.
+
+\begin{equation}
+    PZ_{i,j,k} = \sum_{z=1}{n_{j,k}} = I(c_{i,j,k} > 0) / n_{j,k}
+  (\#eq:propZero)
+\end{equation}
 
 ```{r "get_prop_zero"}
 # get prop zero for each gene for each cell type
