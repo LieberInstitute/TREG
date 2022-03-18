@@ -32,6 +32,8 @@ rank_invar_test <- rank_invariance(group_rank_test, cell_rank_test)
 }
 \seealso{
 Other invariance functions: 
+\code{\link{rank_cells}()},
+\code{\link{rank_group}()},
 \code{\link{rank_invariance_express}()}
 }
 \concept{invariance functions}

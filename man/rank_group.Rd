@@ -7,7 +7,7 @@
 rank_group(sce, group_col = "cellType", assay = "logcounts")
 }
 \arguments{
-\item{sce}{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment::SummarizedExperiment} object with
+\item{sce}{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment-class} object with
 the \code{assay} (defaults to \code{logcounts}).}
 
 \item{group_col}{name of the column in the
@@ -31,3 +31,10 @@ later with \code{rank_invariance}.
 ## Rank the genes for each group defined by "group" column
 rank_group(sce_zero_test, group_col = "group")
 }
+\seealso{
+Other invariance functions: 
+\code{\link{rank_cells}()},
+\code{\link{rank_invariance_express}()},
+\code{\link{rank_invariance}()}
+}
+\concept{invariance functions}

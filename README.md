@@ -4,9 +4,10 @@
 # TREG
 
 <!-- badges: start -->
+
 [![DOI](https://zenodo.org/badge/391101988.svg)](https://zenodo.org/badge/latestdoi/391101988)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![BioC
 status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/TREG)
 [![R-CMD-check-bioc](https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/LieberInstitute/TREG/actions)
@@ -25,8 +26,7 @@ RNA content in cells in assays where only a few genes can be measured,
 such as single-molecule fluorescent in situ hybridization (smFISH).
 
 In a smFISH experiment the number of TREG puncta can be used to infer
-the total RNA expression of the cell. The shape defined by the TREG
-puncta would help define the shape and size of a cell.
+the total RNA expression of the cell.
 
 The motivation of this work is to collect data via smFISH in to help
 build better deconvolution algorithms. But may be many other application
@@ -47,7 +47,7 @@ for TREGs in experimental design!
 
 3.  Be **measurable as a continuous metric** in the experimental assay,
     for example have a dynamic range of puncta when observed in
-    RANscope. This will need to be considered for the candidate TREGs,
+    RNAscope. This will need to be considered for the candidate TREGs,
     and may need to be validated experimentally.
 
 <p align="center">
@@ -60,9 +60,9 @@ for TREGs in experimental design!
 <img src="man/figures/RI_flow.png" title="fig:" style="width:100.0%" alt="Overview of the Rank Invariance Process" />
 </p>
 
-1.  **Filter for low proportion zero genes snRAN-seq dataset:** This is
-    facilitated with the functions `get_prop_zero` and
-    `filter_prop_zero`. snRNA-seq data is notoriously sparse, these
+1.  **Filter for low Proportion Zero genes snRNA-seq dataset:** This is
+    facilitated with the functions `get_prop_zero()` and
+    `filter_prop_zero()`. snRNA-seq data is notoriously sparse, these
     functions enrich for genes with more universal expression.
 
 2.  **Evaluate genes for Rank Invariance** The nuclei are grouped only
@@ -78,7 +78,7 @@ for TREGs in experimental design!
     gene are reversed ranked, so there is one final value for each gene,
     the “rank invariance” The genes with the highest rank-invariance are
     considered good candidates as TREGs. **This process is implemented
-    by: `rank_invariance_express`.**
+    by: `rank_invariance_express()`.**
 
 ## Installation instructions
 
@@ -106,9 +106,6 @@ BiocManager::install("LieberInstitute/TREG")
 ``` r
 ## Load packages
 library("TREG")
-#> Warning: package 'MatrixGenerics' was built under R version 4.1.1
-#> Warning: package 'S4Vectors' was built under R version 4.1.1
-#> Warning: package 'GenomeInfoDb' was built under R version 4.1.1
 ```
 
 ### Proportion Zero Filtering
@@ -127,7 +124,7 @@ cells.
 #> gOffOn 0.50 0.50
 #> gVar   0.68 0.40
 
-## Get list of genes that pass the max proportion zero filter
+## Get list of genes that pass the max Proportion Zero filter
 (filtered_genes <- filter_prop_zero(prop_zero, cutoff = 0.9))
 #> [1] "g50"    "g0"     "gOffOn" "gVar"
 
@@ -144,9 +141,10 @@ strongest candidate TREG.
 ``` r
 ## Get the Rank Invaraince value for each gene
 ## The higest values are the best TREG candidates
-rank_invariance_express(sce_filter)
-#>    g50     g0 gOffOn   gVar 
-#>      1      4      3      2
+ri <- rank_invariance_express(sce_filter)
+sort(ri, decreasing = TRUE)
+#>     g0 gOffOn   gVar    g50 
+#>      4      3      2      1
 ```
 
 ## Citation
@@ -174,9 +172,9 @@ print(citation("TREG"), bibtex = TRUE)
 #>     doi = {10.18129/B9.bioc.TREG},
 #>   }
 #> 
-#> Huuki-Myers LA, Montgomery KD, Kwon SH, Martinowich K, Hicks SC,
-#> Maynard KR, Collado-Torres L (2022). "Data Driven Identification of
-#> Total RNA Expression Genes "TREGs" for estimation of RNA abundance in
+#> Huuki-Myers LA, Montgomery KD, Kwon SH, Page SC, Hicks SC, Maynard KR,
+#> Collado-Torres L (2022). "Data Driven Identification of Total RNA
+#> Expression Genes "TREGs" for estimation of RNA abundance in
 #> heterogeneous cell types." _bioRxiv_. doi: 10.1101/TODO (URL:
 #> https://doi.org/10.1101/TODO), <URL: https://doi.org/10.1101/TODO>.
 #> 
@@ -184,7 +182,7 @@ print(citation("TREG"), bibtex = TRUE)
 #> 
 #>   @Article{,
 #>     title = {Data Driven Identification of Total RNA Expression Genes "TREGs" for estimation of RNA abundance in heterogeneous cell types},
-#>     author = {Louise A. Huuki-Myers and Kelsey D. Montgomery and Sang Ho. Kwon and Keri Martinowich and Stephanie C. Hicks and Kristen R. Maynard and Leonardo Collado-Torres},
+#>     author = {Louise A. Huuki-Myers and Kelsey D. Montgomery and Sang Ho. Kwon and Stephanie C. Page and Stephanie C. Hicks and Kristen R. Maynard and Leonardo Collado-Torres},
 #>     year = {2022},
 #>     journal = {bioRxiv},
 #>     doi = {10.1101/TODO},

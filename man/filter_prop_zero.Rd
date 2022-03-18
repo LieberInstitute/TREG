@@ -10,10 +10,11 @@ filter_prop_zero(prop_zero_df, cutoff = 0.9)
 \item{prop_zero_df}{data.frame containing proportion of zero counts, genes as
 rows, groups as columns.}
 
-\item{cutoff}{Cutoff Value for Maximum Proportion Zero.}
+\item{cutoff}{cutoff value for maximum Proportion Zero.}
 }
 \value{
 A \code{character()} of gene names that are under the cutoff.
+These names are from the \code{rownames()} of the expression data.
 }
 \description{
 This function uses the \code{data.frame()} generated to find the maximum Proportion
@@ -21,9 +22,9 @@ Zero across groups, then filter to a set of genes that pass the max Prop Zero
 cutoff defined by the user.
 }
 \examples{
-## Get proportion zero data.frame
+## Get Proportion Zero data.frame
 prop_zero <- get_prop_zero(sce_zero_test, group_col = "group")
 
-## Filter with max proportion zero cutoff = 0.59
+## Filter with max Proportion Zero cutoff = 0.59
 filter_prop_zero(prop_zero, cutoff = 0.59)
 }

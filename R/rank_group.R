@@ -12,6 +12,7 @@
 #' @examples
 #' ## Rank the genes for each group defined by "group" column
 #' rank_group(sce_zero_test, group_col = "group")
+#' @family invariance functions
 #' @importFrom purrr map
 #' @importFrom rafalib splitit
 #' @importFrom SummarizedExperiment assays assayNames colData

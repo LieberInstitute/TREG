@@ -4,7 +4,7 @@
 #' grouped by the user defined variable. This data is used to compute the rank
 #' invariance value for each gene later with `rank_invariance`.
 #'
-#' @param sce [SummarizedExperiment::SummarizedExperiment-class] object with
+#' @param sce [SummarizedExperiment-class][SummarizedExperiment::SummarizedExperiment-class] object with
 #' the `assay` (defaults to `logcounts`).
 #' @inheritParams get_prop_zero
 #' @param assay A `character(1)` specifying the name of the
@@ -19,6 +19,7 @@
 #' @examples
 #' ## Rank the genes for each cell, organized by "group" column
 #' rank_cells(sce_zero_test, group_col = "group")
+#' @family invariance functions
 #' @importFrom purrr map
 #' @importFrom rafalib splitit
 #' @importFrom SummarizedExperiment assays assayNames colData

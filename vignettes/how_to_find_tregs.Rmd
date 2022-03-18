@@ -116,12 +116,71 @@ To get started, please load the `r Biocpkg('TREG')` package.
 library("TREG")
 ```
 
+The goal of `TREG` is to help find find candidate **Total RNA Expression Genes (TREGs)**
+in single nucleus (or single cell) RNA-seq data.
+
+## Why are TREGs useful?
+The expression of a TREG is proportional to the the overall RNA expression in a
+cell. This relationship can be used to estimate total RNA content in cells in 
+assays where only a few genes can be measured, such as single-molecule 
+fluorescent in situ hybridization (smFISH). 
+
+In a smFISH experiment the number of TREG puncta can be used to infer the total
+RNA expression of the cell.
+
+The motivation of this work is to collect data via smFISH in to help build better 
+deconvolution algorithms. But may be many other application for TREGs in 
+experimental design!
+
+<p align="center">
+![The Expression of a TREG can inform total RNA content of a cell](man/figures/TREG_cartoon.png){width=50%}
+</p>
+
+## What makes a gene a good TREG?  
+1. The gene must have **non-zero expression in most cells** across different tissue 
+and cell types.
+
+2. A TREG should also be expressed at a constant level in respect to other genes
+across different cell types or have **high rank invariance**. 
+
+3. Be **measurable as a continuous metric** in the experimental assay, for example
+have a dynamic range of puncta when observed in RNAscope. This will need to be
+considered for the candidate TREGs, and may need to be validated experimentally. 
+
+<p align="center">
+![Distribution of ranks of a gene of High and Low Invariance](man/figures/fig1_rank_violin_demo.png){width=30%}
+</p>
+
+## How to find candidate TREGs with `TREG`
+
+<p align="center">
+![Overview of the Rank Invariance Process](man/figures/RI_flow.png){width=100%}
+</p>
+
+1. **Filter for low Proportion Zero genes snRNA-seq dataset:** This is 
+facilitated with the functions `get_prop_zero()` and `filter_prop_zero()`.
+snRNA-seq data is notoriously sparse, these functions enrich for genes with more
+universal expression.
+
+2. **Evaluate genes for Rank Invariance** The nuclei are grouped only by cell 
+type. Within each cell type, the mean expression for each gene is ranked, the 
+result is a vector (length is the number of genes). Then the expression of each 
+gene is ranked for each nucleus, the result is a matrix (the number of nuclei x 
+number of genes). Then the absolute difference between the rank of each nucleus 
+and the mean expression is found, from here the mean of the differences for each
+gene is calculated, then ranked. These steps are repeated for each group, the 
+result is a matrix of ranks, (number of cell types x number of genes). From here
+the sum of the ranks for each gene are reversed ranked, so there is one final 
+value for each gene, the “rank invariance”  The genes with the highest 
+rank-invariance are considered good candidates as TREGs.  **This process is
+implemented by: `rank_invariance_express()`.**
+
 # Example TREG use
 
 In this example we will apply our data driven process for TREG discovery to a
 snRNA-seq dataset. This process has three main steps:  
 1. Data prep   
-2. Gene filtering (dropping genes with low expression and high proportion zeros)  
+2. Gene filtering (dropping genes with low expression and high Proportion Zeros)  
 3. Rank Invariance Calculation  
 
 ```{r "load_packages", message=FALSE, warning=FALSE}
@@ -135,7 +194,8 @@ library("tibble")
 
 Here we download a public data single nucleus RNA-seq (snRNA-seq) data that 
 we'll use as our example `r Citep(bib[['tran2021']])`. It takes 1.01 GB of RAM 
-memory to load this object.
+memory to load this object. This data is available from Tran, Maynard et al. 2021,
+and  can be accessed from their [github](https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data). 
 
 
 ```{r "download_DLPFC_data"}
@@ -172,7 +232,7 @@ ct_names <- tibble(
     "Acronym" = c("Astro", "Excit", "Micro", "Oligo", "OPC", "Inhib")
 )
 
-knitr::kable(ct_names, caption = "Table 1: Cell Type names and corresponding acromyms used in this dataset", label = "cell_type_acronyms")
+knitr::kable(ct_names, caption = "Table 1: Cell Type names and corresponding acromyms used in this dataset", label = "acronyms")
 ```
 
 ### Filter and Refine to Cell Types of Interest  
@@ -189,7 +249,8 @@ sce.dlpfc.tran$cellType.broad <- gsub("_[A-Z]$", "", sce.dlpfc.tran$cellType)
 ```
 
 Next, we will drop any groups with < 50 cells. This excludes any very rare cell types. 
-Now we are working with the cell type resolution we are interested in.
+Now we are working with the cell type resolution we are interested in, these cell
+types are defined in Table \@ref(tab:acronyms).
 ```{r "drop_small_cell_types"}
 ## Find cell types with < 50 cells
 ct_drop <- names(cell_type_tab)[cell_type_tab < 50]
@@ -204,14 +265,16 @@ dim(sce.dlpfc.tran)
 ### Filter Genes
 
 Single Nucleus data is often very sparse (lots of zeros in the count data), this 
-dataset is 88% sparse. We can illustrate this in the heat map which is very blue (Figure \@ref(fig:examineSparsity)).
+dataset is 88% sparse. We can illustrate this in the heat map of the first 1k 
+genes and 500 cells. The heatmap is mostly blue, indicating low values
+(Figure \@ref(fig:examineSparsity)).
 
-```{r "examineSparsity", fig.cap = "Heatmap of the snRAN-seq counts. Illustrates sparseness of unfiltered data."}
+```{r "examineSparsity", fig.cap = "Heatmap of the snRNA-seq counts. Illustrates sparseness of unfiltered data."}
 ## this data is 88% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## lets make a heatmap of the first 1k genes and 500 cells
-count_test <- as.matrix(assays(sce.dlpfc.tran)$logcounts[1:1000, 1:500])
+count_test <- as.matrix(assays(sce.dlpfc.tran)$logcounts[seq_len(1000), seq_len(500)])
 pheatmap(count_test,
     cluster_rows = FALSE,
     cluster_cols = FALSE,
@@ -236,12 +299,12 @@ dim(sce.dlpfc.tran)
 After this filter lets check sparsity and make a heatmap of the first 1k genes
 and 500 cells. We are seeing more non-blue (Figure \@ref(fig:top50\_filter\_heatmap))!
 
-```{r "top50_filter_heatmap", fig.cap = "Heatmap of the snRAN-seq counts. With top 50% filtering the data becomes less sparse."}
+```{r "top50_filter_heatmap", fig.cap = "Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes less sparse."}
 ## this data down to 77% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## replot heatmap
-count_test <- as.matrix(assays(sce.dlpfc.tran)$logcounts[1:1000, 1:500])
+count_test <- as.matrix(assays(sce.dlpfc.tran)$logcounts[seq_len(1000), seq_len(500)])
 pheatmap::pheatmap(count_test,
     cluster_rows = FALSE,
     cluster_cols = FALSE,
@@ -310,12 +373,12 @@ sce.dlpfc.tran <- sce.dlpfc.tran[filtered_genes, ]
 
 One last check of the sparsity and heatmap (Figure \@ref(fig:prop_zero_filter_heatmap)).
 
-```{r "prop_zero_filter_heatmap", fig.cap = "Heatmap of the snRAN-seq counts after Proption Zero filtering."}
+```{r "prop_zero_filter_heatmap", fig.cap = "Heatmap of the snRNA-seq counts after Proption Zero filtering."}
 ## this data down to 50% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## re-plot heatmap
-count_test <- as.matrix(assays(sce.dlpfc.tran)$logcounts[1:1000, 1:500])
+count_test <- as.matrix(assays(sce.dlpfc.tran)$logcounts[seq_len(1000), seq_len(500)])
 ## Just to help visualization we'll cap the counts at 300
 count_test[count_test > 300] <- 300
 pheatmap::pheatmap(count_test,
@@ -342,7 +405,7 @@ cell_rank <- rank_cells(sce.dlpfc.tran, group_col = "cellType.broad")
 
 ## Use both rankings to calculate rank_invariance()
 rank_invar <- rank_invariance(group_rank, cell_rank)
-head(rank_invar[sort.list(rank_invar, decreasing = TRUE)])
+head(sort(rank_invar, decreasing = TRUE))
 ```
 
 The `rank_invariance_express()` function combines these three steps into one
@@ -354,7 +417,7 @@ rank_invar2 <- rank_invariance_express(
     sce.dlpfc.tran,
     group_col = "cellType.broad"
 )
-head(rank_invar2[sort.list(rank_invar2, decreasing = TRUE)])
+head(sort(rank_invar2, decreasing = TRUE))
 
 ## Check computationally that the results are identical
 stopifnot(identical(rank_invar, rank_invar2))

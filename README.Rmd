@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![DOI](https://zenodo.org/badge/391101988.svg)](https://zenodo.org/badge/latestdoi/391101988)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![BioC status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/TREG)
 [![R-CMD-check-bioc](https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/LieberInstitute/TREG/actions)
 [![Codecov test coverage](https://codecov.io/gh/LieberInstitute/TREG/branch/main/graph/badge.svg)](https://codecov.io/gh/LieberInstitute/TREG?branch=main)
@@ -33,8 +33,7 @@ assays where only a few genes can be measured, such as single-molecule
 fluorescent in situ hybridization (smFISH). 
 
 In a smFISH experiment the number of TREG puncta can be used to infer the total
-RNA expression of the cell. The shape defined by the TREG puncta would help 
-define the shape and size of a cell.
+RNA expression of the cell.
 
 The motivation of this work is to collect data via smFISH in to help build better 
 deconvolution algorithms. But may be many other application for TREGs in 
@@ -52,7 +51,7 @@ and cell types.
 across different cell types or have **high rank invariance**. 
 
 3. Be **measurable as a continuous metric** in the experimental assay, for example
-have a dynamic range of puncta when observed in RANscope. This will need to be
+have a dynamic range of puncta when observed in RNAscope. This will need to be
 considered for the candidate TREGs, and may need to be validated experimentally. 
 
 <p align="center">
@@ -65,8 +64,8 @@ considered for the candidate TREGs, and may need to be validated experimentally.
 ![Overview of the Rank Invariance Process](man/figures/RI_flow.png){width=100%}
 </p>
 
-1. **Filter for low proportion zero genes snRAN-seq dataset:** This is 
-facilitated with the functions `get_prop_zero` and `filter_prop_zero`.
+1. **Filter for low Proportion Zero genes snRNA-seq dataset:** This is 
+facilitated with the functions `get_prop_zero()` and `filter_prop_zero()`.
 snRNA-seq data is notoriously sparse, these functions enrich for genes with more
 universal expression.
 
@@ -81,7 +80,7 @@ result is a matrix of ranks, (number of cell types x number of genes). From here
 the sum of the ranks for each gene are reversed ranked, so there is one final 
 value for each gene, the “rank invariance”  The genes with the highest 
 rank-invariance are considered good candidates as TREGs.  **This process is
-implemented by: `rank_invariance_express`.**
+implemented by: `rank_invariance_express()`.**
 
 ## Installation instructions
 
@@ -102,7 +101,7 @@ BiocManager::install("LieberInstitute/TREG")
 ```
 ## Example
 
-```{r `libraries`, message = FALSE}
+```{r `libraries`, message = FALSE, warning=FALSE}
 ## Load packages
 library("TREG")
 ```
@@ -116,7 +115,7 @@ genes should be filtered by maximum proportion of zeros within a groups of cells
 ## Calculate Proportion Zero ingroups defined by a column in colData
 (prop_zero <- get_prop_zero(sce = sce_zero_test, group_col = "cellType"))
 
-## Get list of genes that pass the max proportion zero filter
+## Get list of genes that pass the max Proportion Zero filter
 (filtered_genes <- filter_prop_zero(prop_zero, cutoff = 0.9))
 
 ## Filter sce object to this list of genes
@@ -130,7 +129,8 @@ In this example the gene *g0* would be the strongest candidate TREG.
 ```{r run_RI, eval = requireNamespace('TREG')}
 ## Get the Rank Invaraince value for each gene
 ## The higest values are the best TREG candidates
-rank_invariance_express(sce_filter)
+ri <- rank_invariance_express(sce_filter)
+sort(ri, decreasing = TRUE)
 ```
 
 
