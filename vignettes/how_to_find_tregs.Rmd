@@ -175,7 +175,7 @@ value for each gene, the “rank invariance”  The genes with the highest
 rank-invariance are considered good candidates as TREGs.  **This process is
 implemented by: `rank_invariance_express()`.**
 
-# Example TREG use
+# Example TREG Application
 
 In this example we will apply our data driven process for TREG discovery to a
 snRNA-seq dataset. This process has three main steps:  
@@ -192,11 +192,13 @@ library("tidyr")
 library("tibble")
 ```
 
-Here we download a public data single nucleus RNA-seq (snRNA-seq) data that 
-we'll use as our example `r Citep(bib[['tran2021']])`. It takes 1.01 GB of RAM 
-memory to load this object. This data is available from Tran, Maynard et al. 2021,
-and  can be accessed from their [github](https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data). 
+Here we download a public single nucleus RNA-seq (snRNA-seq) data from `r Citep(bib[['tran2021']])`
+that we'll use as our example. This data can be accessed on [github](https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data).
+This data is from postmortem human brain in the dorsolateral prefrontal 
+cortex (DLPFC) region, and contains gene expression data for 11k nuclei.
 
+We will use `BiocFileCache()` to cache this data. It is stored as a `SingleCellExperiment` 
+object named `sce.dlpfc.tran`, and takes 1.01 GB of RAM memory to load.  
 
 ```{r "download_DLPFC_data"}
 # Download and save a local cache of the data available at:
@@ -217,6 +219,8 @@ load(local_data, verbose = TRUE)
 ```
 
 ## Prep Data
+Human brain tissue consists of many types of cells, for the porpose of this demo,
+we will focus on the six major cell types listed in \@ref(tab:acronyms). 
 
 ```{r "acronyms", echo=FALSE}
 
@@ -229,15 +233,23 @@ ct_names <- tibble(
         "Oligodendrocyte Progenitor Cells",
         "Inhibitory Neurons"
     ),
-    "Acronym" = c("Astro", "Excit", "Micro", "Oligo", "OPC", "Inhib")
+    "Acronym" = c("Astro", 
+                  "Excit", 
+                  "Micro", 
+                  "Oligo", 
+                  "OPC", 
+                  "Inhib")
 )
 
-knitr::kable(ct_names, caption = "Table 1: Cell Type names and corresponding acromyms used in this dataset", label = "acronyms")
+knitr::kable(ct_names, caption = "Table 1: Cell type names and corresponding acromyms used in this dataset", label = "acronyms")
 ```
 
 ### Filter and Refine to Cell Types of Interest  
-If there are too few cells in a group there is not enough data to work with.
-First we will combine all of the Excit, Inhib subtypes.
+First we will combine all of the Excit, Inhib subtypes, as it is a finer 
+resolution than we want to examine, and combine rare subtypes in to one group.
+If there are too few cells in a group there may not be enough data to 
+get good results. This new cell type classification is stored in `cellType.broad`. 
+
 ```{r "define_cell_types"}
 ## Explore the dimensions and cell type annotations
 dim(sce.dlpfc.tran)
@@ -248,21 +260,24 @@ sce.dlpfc.tran$cellType.broad <- gsub("_[A-Z]$", "", sce.dlpfc.tran$cellType)
 (cell_type_tab <- table(sce.dlpfc.tran$cellType.broad))
 ```
 
-Next, we will drop any groups with < 50 cells. This excludes any very rare cell types. 
-Now we are working with the cell type resolution we are interested in, these cell
-types are defined in Table \@ref(tab:acronyms).
+Next,we will drop any groups with < 50 cells after merging subtypes. 
+This excludes any very rare cell types. Now we are working with the six broad cell 
+type we are interested in.  
 ```{r "drop_small_cell_types"}
 ## Find cell types with < 50 cells
-ct_drop <- names(cell_type_tab)[cell_type_tab < 50]
+(ct_drop <- names(cell_type_tab)[cell_type_tab < 50])
 
 ## Filter columns of sce object
 sce.dlpfc.tran <- sce.dlpfc.tran[, !sce.dlpfc.tran$cellType.broad %in% ct_drop]
+
+## Check new cell type bread down and dimension
+table(sce.dlpfc.tran$cellType.broad)
 
 dim(sce.dlpfc.tran)
 ```
 
 
-### Filter Genes
+## Filter Genes
 
 Single Nucleus data is often very sparse (lots of zeros in the count data), this 
 dataset is 88% sparse. We can illustrate this in the heat map of the first 1k 
@@ -283,7 +298,7 @@ pheatmap(count_test,
 )
 ```
 
-#### Filter to Top 50% Expression
+### Filter to Top 50% Expression
 
 Determine the median expression of genes over all rows, drop all the genes that
 are below this limit.
@@ -297,9 +312,9 @@ dim(sce.dlpfc.tran)
 ```
 
 After this filter lets check sparsity and make a heatmap of the first 1k genes
-and 500 cells. We are seeing more non-blue (Figure \@ref(fig:top50\_filter\_heatmap))!
+and 500 cells. We are seeing more non-blue (Figure \@ref(fig:top50FilterHeatmap))!
 
-```{r "top50_filter_heatmap", fig.cap = "Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes less sparse."}
+```{r "top50FilterHeatmap", fig.cap = "Figure 1: Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes less sparse."}
 ## this data down to 77% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
@@ -313,7 +328,7 @@ pheatmap::pheatmap(count_test,
 )
 ```
 
-#### Calculate Proportion Zero and Pick Cutoff
+### Calculate Proportion Zero and Pick Cutoff
 
 For each group (let's use `cellType.broad`) get the Proportion Zero for each gene, where Proportion Zero is defined in Equation \@ref(eq:propZero) where $c_{i,j,k,z}$ is the number of snRNA-seq counts for cell/nucleus $z$ for gene $i$, cell type $j$, brain region $k$, and $n_{j, k}$ is the number of cells/nuclei for cell type $j$ and brain region $k$.
 
@@ -329,10 +344,10 @@ head(prop_zeros)
 ```
 
 To determine a good cutoff for filtering lets examine the distribution of these
-Proportion Zeros by group (Figure \@ref(fig:prop_zero_distribution)).
+Proportion Zeros by group (Figure \@ref(fig:propZeroDistribution)).
 
-```{r "prop_zero_distribution", fig.cap = "Distribution of Proption Zero across cell types and regions."}
-# Need to pivot data
+```{r "propZeroDistribution", fig.cap = "Figure 2: Distribution of Proption Zero across cell types and regions."}
+# Pivot data longer for plotting
 prop_zero_long <- prop_zeros %>%
     rownames_to_column("Gene") %>%
     pivot_longer(!Gene, names_to = "Group", values_to = "prop_zero")
@@ -346,9 +361,9 @@ prop_zero_long <- prop_zeros %>%
     facet_wrap(~Group))
 ```
 
-Looks like around 0.9 the densities peak, we'll set that as the cutoff (Figure \@ref(fig:pick_cutoff)).
+Looks like around 0.9 the densities peak, we'll set that as the cutoff (Figure \@ref(fig:pickCutoff)).
 
-```{r "pick_cutoff", fig.cap = "Show Proportion Zero Cutoff on distributions."}
+```{r "pickCutoff", fig.cap = "Figure 3: Show Proportion Zero Cutoff on distributions."}
 ## Specify a cutoff, here we use 0.9
 propZero_limit <- 0.9
 
@@ -357,7 +372,7 @@ prop_zero_histogram +
     geom_vline(xintercept = propZero_limit, color = "red", linetype = "dashed")
 ```
 
-#### Filter by the Max Proportion Zero
+### Filter by the Max Proportion Zero
 
 Use the cutoff to filter the remaining genes. Only 4k or ~11% of genes pass with 
 this cutoff. Filter the SCE object to this set of genes.
@@ -376,16 +391,14 @@ length(filtered_genes) / nrow(sce.dlpfc.tran)
 sce.dlpfc.tran <- sce.dlpfc.tran[filtered_genes, ]
 ```
 
-One last check of the sparsity and heatmap (Figure \@ref(fig:prop_zero_filter_heatmap)).
+One last check of the sparsity and heatmap (Figure \@ref(fig:propZeroFilterHeatmap)).
 
-```{r "prop_zero_filter_heatmap", fig.cap = "Heatmap of the snRNA-seq counts after Proption Zero filtering."}
+```{r "propZeroFilterHeatmap", fig.cap = "Heatmap of the snRNA-seq counts after Proption Zero filtering."}
 ## this data down to 50% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
 
 ## re-plot heatmap
 count_test <- as.matrix(assays(sce.dlpfc.tran)$logcounts[seq_len(1000), seq_len(500)])
-## Just to help visualization we'll cap the counts at 300
-count_test[count_test > 300] <- 300
 pheatmap::pheatmap(count_test,
     cluster_rows = FALSE,
     cluster_cols = FALSE,
@@ -394,7 +407,7 @@ pheatmap::pheatmap(count_test,
 )
 ```
 
-### Run Rank Invariance
+## Run Rank Invariance
 
 To get the Rank Invariance (RI), the rank of the genes across the cells in a group,
 and between groups is considered. One way to calculate RI is to find the group 
@@ -410,6 +423,8 @@ cell_rank <- rank_cells(sce.dlpfc.tran, group_col = "cellType.broad")
 
 ## Use both rankings to calculate rank_invariance()
 rank_invar <- rank_invariance(group_rank, cell_rank)
+
+## The top 5 Canidate TREGs:
 head(sort(rank_invar, decreasing = TRUE))
 ```
 
@@ -422,6 +437,7 @@ rank_invar2 <- rank_invariance_express(
     sce.dlpfc.tran,
     group_col = "cellType.broad"
 )
+##Again the top 5 Canidate TREGs:
 head(sort(rank_invar2, decreasing = TRUE))
 
 ## Check computationally that the results are identical
