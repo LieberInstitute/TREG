@@ -292,6 +292,9 @@ steps:<br>
 2. Gene filtering: dropping genes with low expression and high
 Proportion Zero (Equation @ref(eq:propZero))<br>
 3. Rank Invariance Calculation</p>
+<div class="section level3">
+<h3 id="load-packages">Load Packages<a class="anchor" aria-label="anchor" href="#load-packages"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"SingleCellExperiment"</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"pheatmap"</span><span class="op">)</span>
@@ -299,6 +302,10 @@ Proportion Zero (Equation @ref(eq:propZero))<br>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org" class="external-link">"ggplot2"</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyr.tidyverse.org" class="external-link">"tidyr"</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://tibble.tidyverse.org/" class="external-link">"tibble"</a></span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="download-and-prep-data">Download and Prep Data<a class="anchor" aria-label="anchor" href="#download-and-prep-data"></a>
+</h3>
 <p>Here we download a public single nucleus RNA-seq (snRNA-seq) data
 from (Tran, Maynard, Spangler, et al., 2021) that we’ll use as our
 example. This data can be accessed on <a href="https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data" class="external-link">github</a>.
@@ -322,15 +329,9 @@ load.</p>
 <span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="va">local_data</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Loading objects:</span>
 <span class="co">#&gt;   sce.dlpfc.tran</span></code></pre></div>
-<div class="section level3">
-<h3 id="prep-data">Prep Data<a class="anchor" aria-label="anchor" href="#prep-data"></a>
-</h3>
-<p>Human brain tissue consists of many types of cells, for the porpose
-of this demo, we will focus on the six major cell types listed in
-@ref(tab:acronyms).</p>
 <table class="table">
-<caption>Table 1: Cell type names and corresponding acromyms used in
-this dataset</caption>
+<caption>Cell type names and corresponding acromyms used in this
+dataset</caption>
 <thead><tr class="header">
 <th align="left">Cell Type</th>
 <th align="left">Acronym</th>
@@ -362,6 +363,9 @@ this dataset</caption>
 </tr>
 </tbody>
 </table>
+<p>Human brain tissue consists of many types of cells, for the porpose
+of this demo, we will focus on the six major cell types listed in
+@ref(tab:acronyms).</p>
 <div class="section level4">
 <h4 id="filter-and-refine-to-cell-types-of-interest">Filter and Refine to Cell Types of Interest<a class="anchor" aria-label="anchor" href="#filter-and-refine-to-cell-types-of-interest"></a>
 </h4>
@@ -417,8 +421,7 @@ with the six broad cell type we are interested in.</p>
 </h3>
 <p>Single Nucleus data is often very sparse (lots of zeros in the count
 data), this dataset is 88% sparse. We can illustrate this in the heat
-map of the first 1k genes and 500 cells. The heatmap is mostly blue,
-indicating low values (Figure @ref(fig:examineSparsity)).</p>
+map of the first 1k genes and 500 cells.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data is 88% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
@@ -438,6 +441,8 @@ Heatmap of the snRNA-seq counts. Illustrates sparseness of unfiltered
 data.
 </p>
 </div>
+<p>The heatmap is mostly blue, indicating low values (Figure
+@ref(fig:examineSparsity)).</p>
 <div class="section level4">
 <h4 id="filter-to-top-50-expression">Filter to Top 50% Expression<a class="anchor" aria-label="anchor" href="#filter-to-top-50-expression"></a>
 </h4>
@@ -452,8 +457,7 @@ genes that are below this limit.</p>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
 <span class="co">#&gt; [1] 16769 11165</span></code></pre></div>
 <p>After this filter lets check sparsity and make a heatmap of the first
-1k genes and 500 cells. We are seeing more non-blue (Figure
-@ref(fig:top50FilterHeatmap))!</p>
+1k genes and 500 cells.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data down to 77% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
@@ -468,11 +472,13 @@ genes that are below this limit.</p>
     show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="how_to_find_tregs_files/figure-html/top50FilterHeatmap-1.png" alt="Figure 1: Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes less sparse." width="700"><p class="caption">
-Figure 1: Heatmap of the snRNA-seq counts. With top 50% filtering the
-data becomes less sparse.
+<img src="how_to_find_tregs_files/figure-html/top50FilterHeatmap-1.png" alt="Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes less sparse." width="700"><p class="caption">
+Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes
+less sparse.
 </p>
 </div>
+<p>We are seeing more non-blue (Figure
+@ref(fig:top50FilterHeatmap))!</p>
 </div>
 <div class="section level4">
 <h4 id="calculate-proportion-zero-and-pick-cutoff">Calculate Proportion Zero and Pick Cutoff<a class="anchor" aria-label="anchor" href="#calculate-proportion-zero-and-pick-cutoff"></a>
@@ -499,8 +505,7 @@ k}\)</span> is the number of cells/nuclei for cell type <span class="math inline
 <span class="co">#&gt; KLHL17     0.9859335 0.8986600 0.9360759 0.9922680 0.9963336 0.9877622</span>
 <span class="co">#&gt; HES4       0.8695652 0.7357621 0.6892405 0.9974227 0.9906508 0.9737762</span></code></pre></div>
 <p>To determine a good cutoff for filtering lets examine the
-distribution of these Proportion Zeros by group (Figure
-@ref(fig:propZeroDistribution)).</p>
+distribution of these Proportion Zeros by group.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Pivot data longer for plotting</span>
 <span class="va">prop_zero_long</span> <span class="op">&lt;-</span> <span class="va">prop_zeros</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -515,12 +520,12 @@ distribution of these Proportion Zeros by group (Figure
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Group</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="how_to_find_tregs_files/figure-html/propZeroDistribution-1.png" alt="Figure 2: Distribution of Proption Zero across cell types and regions." width="700"><p class="caption">
-Figure 2: Distribution of Proption Zero across cell types and regions.
+<img src="how_to_find_tregs_files/figure-html/propZeroDistribution-1.png" alt="Distribution of Proption Zero across cell types and regions." width="700"><p class="caption">
+Distribution of Proption Zero across cell types and regions.
 </p>
 </div>
 <p>Looks like around 0.9 the densities peak, we’ll set that as the
-cutoff (Figure @ref(fig:pickCutoff)).</p>
+cutoff (Figure @ref(fig:propZeroDistribution)).</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Specify a cutoff, here we use 0.9</span>
 <span class="va">propZero_limit</span> <span class="op">&lt;-</span> <span class="fl">0.9</span>
@@ -533,6 +538,8 @@ cutoff (Figure @ref(fig:pickCutoff)).</p>
 Figure 3: Show Proportion Zero Cutoff on distributions.
 </p>
 </div>
+<p>The chosen cutoff excludes the peak Proportion Zeros from all groups
+(Figure @ref(fig:pickCutoff)).</p>
 </div>
 <div class="section level4">
 <h4 id="filter-by-the-max-proportion-zero">Filter by the Max Proportion Zero<a class="anchor" aria-label="anchor" href="#filter-by-the-max-proportion-zero"></a>
@@ -554,8 +561,7 @@ genes.</p>
 
 <span class="co">## Filter the sce object</span>
 <span class="va">sce.dlpfc.tran</span> <span class="op">&lt;-</span> <span class="va">sce.dlpfc.tran</span><span class="op">[</span><span class="va">filtered_genes</span>, <span class="op">]</span></code></pre></div>
-<p>One last check of the sparsity and heatmap (Figure
-@ref(fig:propZeroFilterHeatmap)).</p>
+<p>One last check of the sparsity and heatmap:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data down to 50% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
@@ -574,6 +580,9 @@ genes.</p>
 Heatmap of the snRNA-seq counts after Proption Zero filtering.
 </p>
 </div>
+<p>More non-blue means more non-zero values for the Rank Invariance
+calculation, which prevents rank ties (Figure
+@ref(fig:propZeroFilterHeatmap)).</p>
 </div>
 </div>
 <div class="section level3">
@@ -690,9 +699,9 @@ and Girlich, 2022)</li>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"TREG.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code><span class="co">#&gt; [1] "2022-03-18 19:12:07 UTC"</span></code></pre>
+<pre><code><span class="co">#&gt; [1] "2022-03-18 20:04:24 UTC"</span></code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code><span class="co">#&gt; Time difference of 1.153 mins</span></code></pre>
+<pre><code><span class="co">#&gt; Time difference of 1.326 mins</span></code></pre>
 <p><code>R</code> session information.</p>
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span>
