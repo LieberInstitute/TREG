@@ -103,8 +103,7 @@ expression in a cell. This relationship can be used to estimate total
 RNA content in cells in assays where only a few genes can be measured,
 such as single-molecule fluorescent in situ hybridization (smFISH).</p>
 <p>In a smFISH experiment the number of TREG puncta can be used to infer
-the total RNA expression of the cell. The shape defined by the TREG
-puncta would help define the shape and size of a cell.</p>
+the total RNA expression of the cell.</p>
 <p>The motivation of this work is to collect data via smFISH in to help
 build better deconvolution algorithms. But may be many other application
 for TREGs in experimental design!</p>
@@ -122,7 +121,7 @@ other genes across different cell types or have <strong>high rank
 invariance</strong>.</p></li>
 <li><p>Be <strong>measurable as a continuous metric</strong> in the
 experimental assay, for example have a dynamic range of puncta when
-observed in RANscope. This will need to be considered for the candidate
+observed in RNAscope. This will need to be considered for the candidate
 TREGs, and may need to be validated experimentally.</p></li>
 </ol>
 <p align="center">
@@ -135,11 +134,11 @@ TREGs, and may need to be validated experimentally.</p></li>
 <p align="center">
 <img src="reference/figures/RI_flow.png" title="fig:" style="width:100.0%" alt="Overview of the Rank Invariance Process"></p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Filter for low proportion zero genes snRAN-seq
+<li><p><strong>Filter for low Proportion Zero genes snRNA-seq
 dataset:</strong> This is facilitated with the functions
-<code>get_prop_zero</code> and <code>filter_prop_zero</code>. snRNA-seq
-data is notoriously sparse, these functions enrich for genes with more
-universal expression.</p></li>
+<code><a href="reference/get_prop_zero.html">get_prop_zero()</a></code> and <code><a href="reference/filter_prop_zero.html">filter_prop_zero()</a></code>.
+snRNA-seq data is notoriously sparse, these functions enrich for genes
+with more universal expression.</p></li>
 <li><p><strong>Evaluate genes for Rank Invariance</strong> The nuclei
 are grouped only by cell type. Within each cell type, the mean
 expression for each gene is ranked, the result is a vector (length is
@@ -153,7 +152,7 @@ number of genes). From here the sum of the ranks for each gene are
 reversed ranked, so there is one final value for each gene, the “rank
 invariance” The genes with the highest rank-invariance are considered
 good candidates as TREGs. <strong>This process is implemented by:
-<code>rank_invariance_express</code>.</strong></p></li>
+<code><a href="reference/rank_invariance_express.html">rank_invariance_express()</a></code>.</strong></p></li>
 </ol>
 </div>
 <div class="section level2">
@@ -176,10 +175,7 @@ good candidates as TREGs. <strong>This process is implemented by:
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Load packages</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/LieberInstitute/TREG" class="external-link">"TREG"</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'MatrixGenerics' was built under R version 4.1.1</span>
-<span class="co">#&gt; Warning: package 'S4Vectors' was built under R version 4.1.1</span>
-<span class="co">#&gt; Warning: package 'GenomeInfoDb' was built under R version 4.1.1</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/LieberInstitute/TREG" class="external-link">"TREG"</a></span><span class="op">)</span></code></pre></div>
 <div class="section level3">
 <h3 id="proportion-zero-filtering">Proportion Zero Filtering<a class="anchor" aria-label="anchor" href="#proportion-zero-filtering"></a>
 </h3>
@@ -196,7 +192,7 @@ of cells.</p>
 <span class="co">#&gt; gOffOn 0.50 0.50</span>
 <span class="co">#&gt; gVar   0.68 0.40</span>
 
-<span class="co">## Get list of genes that pass the max proportion zero filter</span>
+<span class="co">## Get list of genes that pass the max Proportion Zero filter</span>
 <span class="op">(</span><span class="va">filtered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/filter_prop_zero.html">filter_prop_zero</a></span><span class="op">(</span><span class="va">prop_zero</span>, cutoff <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "g50"    "g0"     "gOffOn" "gVar"</span>
 
@@ -212,9 +208,10 @@ strongest candidate TREG.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Get the Rank Invaraince value for each gene</span>
 <span class="co">## The higest values are the best TREG candidates</span>
-<span class="fu"><a href="reference/rank_invariance_express.html">rank_invariance_express</a></span><span class="op">(</span><span class="va">sce_filter</span><span class="op">)</span>
-<span class="co">#&gt;    g50     g0 gOffOn   gVar </span>
-<span class="co">#&gt;      1      4      3      2</span></code></pre></div>
+<span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/rank_invariance_express.html">rank_invariance_express</a></span><span class="op">(</span><span class="va">sce_filter</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">ri</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt;     g0 gOffOn   gVar    g50 </span>
+<span class="co">#&gt;      4      3      2      1</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -243,9 +240,9 @@ in R. Please run this yourself to check for any updates on how to cite
 <span class="co">#&gt;     doi = {10.18129/B9.bioc.TREG},</span>
 <span class="co">#&gt;   }</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Huuki-Myers LA, Montgomery KD, Kwon SH, Martinowich K, Hicks SC,</span>
-<span class="co">#&gt; Maynard KR, Collado-Torres L (2022). "Data Driven Identification of</span>
-<span class="co">#&gt; Total RNA Expression Genes "TREGs" for estimation of RNA abundance in</span>
+<span class="co">#&gt; Huuki-Myers LA, Montgomery KD, Kwon SH, Page SC, Hicks SC, Maynard KR,</span>
+<span class="co">#&gt; Collado-Torres L (2022). "Data Driven Identification of Total RNA</span>
+<span class="co">#&gt; Expression Genes "TREGs" for estimation of RNA abundance in</span>
 <span class="co">#&gt; heterogeneous cell types." _bioRxiv_. doi: 10.1101/TODO (URL:</span>
 <span class="co">#&gt; https://doi.org/10.1101/TODO), &lt;URL: https://doi.org/10.1101/TODO&gt;.</span>
 <span class="co">#&gt; </span>
@@ -253,7 +250,7 @@ in R. Please run this yourself to check for any updates on how to cite
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   @Article{,</span>
 <span class="co">#&gt;     title = {Data Driven Identification of Total RNA Expression Genes "TREGs" for estimation of RNA abundance in heterogeneous cell types},</span>
-<span class="co">#&gt;     author = {Louise A. Huuki-Myers and Kelsey D. Montgomery and Sang Ho. Kwon and Keri Martinowich and Stephanie C. Hicks and Kristen R. Maynard and Leonardo Collado-Torres},</span>
+<span class="co">#&gt;     author = {Louise A. Huuki-Myers and Kelsey D. Montgomery and Sang Ho. Kwon and Stephanie C. Page and Stephanie C. Hicks and Kristen R. Maynard and Leonardo Collado-Torres},</span>
 <span class="co">#&gt;     year = {2022},</span>
 <span class="co">#&gt;     journal = {bioRxiv},</span>
 <span class="co">#&gt;     doi = {10.1101/TODO},</span>
@@ -336,7 +333,7 @@ website</a> is automatically updated thanks to <em><a href="https://CRAN.R-proje
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://zenodo.org/badge/latestdoi/391101988" class="external-link"><img src="https://zenodo.org/badge/391101988.svg" alt="DOI"></a></li>
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 <li><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/TREG" class="external-link"><img src="http://www.bioconductor.org/shields/build/release/bioc/TREG.svg" alt="BioC status"></a></li>
 <li><a href="https://github.com/LieberInstitute/TREG/actions" class="external-link"><img src="https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg" alt="R-CMD-check-bioc"></a></li>
 <li><a href="https://codecov.io/gh/LieberInstitute/TREG?branch=main" class="external-link"><img src="https://codecov.io/gh/LieberInstitute/TREG/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>

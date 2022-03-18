@@ -171,9 +171,9 @@ Thank you!</p>
 <span class="co">#&gt; https://github.com/LieberInstitute/TREG/TREG - R package version</span>
 <span class="co">#&gt; 0.99.0, &lt;URL: http://www.bioconductor.org/packages/TREG&gt;.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Huuki-Myers LA, Montgomery KD, Kwon SH, Martinowich K, Hicks SC,</span>
-<span class="co">#&gt; Maynard KR, Collado-Torres L (2022). "Data Driven Identification of</span>
-<span class="co">#&gt; Total RNA Expression Genes "TREGs" for estimation of RNA abundance in</span>
+<span class="co">#&gt; Huuki-Myers LA, Montgomery KD, Kwon SH, Page SC, Hicks SC, Maynard KR,</span>
+<span class="co">#&gt; Collado-Torres L (2022). "Data Driven Identification of Total RNA</span>
+<span class="co">#&gt; Expression Genes "TREGs" for estimation of RNA abundance in</span>
 <span class="co">#&gt; heterogeneous cell types." _bioRxiv_. doi: 10.1101/TODO (URL:</span>
 <span class="co">#&gt; https://doi.org/10.1101/TODO), &lt;URL: https://doi.org/10.1101/TODO&gt;.</span>
 <span class="co">#&gt; </span>
@@ -190,8 +190,8 @@ Thank you!</p>
 identifying candidate <strong>Total RNA Expression Genes
 (TREGs)</strong> for estimating RNA abundance for individual cells in an
 snFISH experiment by researchers at the Lieber Institute for Brain
-Development (LIBD) (Huuki-Myers, Montgomery, Kwon, Martinowich, Hicks,
-Maynard, and Collado-Torres, 2022).</p>
+Development (LIBD) (Huuki-Myers, Montgomery, Kwon, Page, Hicks, Maynard,
+and Collado-Torres, 2022).</p>
 <p>In this vignette we’ll showcase how you can use the R functions
 provided by <em><a href="https://bioconductor.org/packages/3.15/TREG" class="external-link">TREG</a></em>
 (Huuki-Myers and Collado-Torres, 2022) with the snRNA-seq dataset that
@@ -203,6 +203,82 @@ Hicks, Kleinman, Hyde, Collado-Torres, Jaffe, and Martinowich,
 package.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/LieberInstitute/TREG" class="external-link">"TREG"</a></span><span class="op">)</span></code></pre></div>
+<p>The goal of <code>TREG</code> is to help find find candidate
+<strong>Total RNA Expression Genes (TREGs)</strong> in single nucleus
+(or single cell) RNA-seq data.</p>
+<div class="section level3">
+<h3 id="why-are-tregs-useful">Why are TREGs useful?<a class="anchor" aria-label="anchor" href="#why-are-tregs-useful"></a>
+</h3>
+<p>The expression of a TREG is proportional to the the overall RNA
+expression in a cell. This relationship can be used to estimate total
+RNA content in cells in assays where only a few genes can be measured,
+such as single-molecule fluorescent in situ hybridization (smFISH).</p>
+<p>In a smFISH experiment the number of TREG puncta can be used to infer
+the total RNA expression of the cell.</p>
+<p>The motivation of this work is to collect data via smFISH in to help
+build better deconvolution algorithms. But may be many other application
+for TREGs in experimental design!</p>
+<p align="center">
+</p>
+<div class="figure">
+<img src="http://research.libd.org/TREG/reference/figures/TREG_cartoon.png" style="width:50.0%" alt=""><p class="caption">The Expression of a TREG can inform total RNA content
+of a cell</p>
+</div>
+
+</div>
+<div class="section level3">
+<h3 id="what-makes-a-gene-a-good-treg">What makes a gene a good TREG?<a class="anchor" aria-label="anchor" href="#what-makes-a-gene-a-good-treg"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li><p>The gene must have <strong>non-zero expression in most
+cells</strong> across different tissue and cell types.</p></li>
+<li><p>A TREG should also be expressed at a constant level in respect to
+other genes across different cell types or have <strong>high rank
+invariance</strong>.</p></li>
+<li><p>Be <strong>measurable as a continuous metric</strong> in the
+experimental assay, for example have a dynamic range of puncta when
+observed in RNAscope. This will need to be considered for the candidate
+TREGs, and may need to be validated experimentally.</p></li>
+</ol>
+<p align="center">
+</p>
+<div class="figure">
+<img src="http://research.libd.org/TREG/reference/figures/fig1_rank_violin_demo.png" style="width:30.0%" alt=""><p class="caption">Distribution of ranks of a gene of High and Low
+Invariance</p>
+</div>
+
+</div>
+<div class="section level3">
+<h3 id="how-to-find-candidate-tregs-with-treg">How to find candidate TREGs with <code>TREG</code><a class="anchor" aria-label="anchor" href="#how-to-find-candidate-tregs-with-treg"></a>
+</h3>
+<p align="center">
+</p>
+<div class="figure">
+<img src="http://research.libd.org/TREG/reference/figures/RI_flow.png" style="width:100.0%" alt=""><p class="caption">Overview of the Rank Invariance Process</p>
+</div>
+
+<ol style="list-style-type: decimal">
+<li><p><strong>Filter for low Proportion Zero genes snRNA-seq
+dataset:</strong> This is facilitated with the functions
+<code><a href="../reference/get_prop_zero.html">get_prop_zero()</a></code> and <code><a href="../reference/filter_prop_zero.html">filter_prop_zero()</a></code>.
+snRNA-seq data is notoriously sparse, these functions enrich for genes
+with more universal expression.</p></li>
+<li><p><strong>Evaluate genes for Rank Invariance</strong> The nuclei
+are grouped only by cell type. Within each cell type, the mean
+expression for each gene is ranked, the result is a vector (length is
+the number of genes). Then the expression of each gene is ranked for
+each nucleus, the result is a matrix (the number of nuclei x number of
+genes). Then the absolute difference between the rank of each nucleus
+and the mean expression is found, from here the mean of the differences
+for each gene is calculated, then ranked. These steps are repeated for
+each group, the result is a matrix of ranks, (number of cell types x
+number of genes). From here the sum of the ranks for each gene are
+reversed ranked, so there is one final value for each gene, the “rank
+invariance” The genes with the highest rank-invariance are considered
+good candidates as TREGs. <strong>This process is implemented by:
+<code><a href="../reference/rank_invariance_express.html">rank_invariance_express()</a></code>.</strong></p></li>
+</ol>
+</div>
 </div>
 <div class="section level2">
 <h2 id="example-treg-use">Example TREG use<a class="anchor" aria-label="anchor" href="#example-treg-use"></a>
@@ -212,7 +288,7 @@ discovery to a snRNA-seq dataset. This process has three main
 steps:<br>
 1. Data prep<br>
 2. Gene filtering (dropping genes with low expression and high
-proportion zeros)<br>
+Proportion Zeros)<br>
 3. Rank Invariance Calculation</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"SingleCellExperiment"</span><span class="op">)</span>
@@ -223,7 +299,9 @@ proportion zeros)<br>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://tibble.tidyverse.org/" class="external-link">"tibble"</a></span><span class="op">)</span></code></pre></div>
 <p>Here we download a public data single nucleus RNA-seq (snRNA-seq)
 data that we’ll use as our example (Tran, Maynard, Spangler, et al.,
-2021). It takes 1.01 GB of RAM memory to load this object.</p>
+2021). It takes 1.01 GB of RAM memory to load this object. This data is
+available from Tran, Maynard et al. 2021, and can be accessed from their
+<a href="https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data" class="external-link">github</a>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Download and save a local cache of the data available at:</span>
 <span class="co"># https://github.com/LieberInstitute/10xPilot_snRNAseq-human#processed-data</span>
@@ -302,7 +380,8 @@ work with. First we will combine all of the Excit, Inhib subtypes.</p>
 <span class="co">#&gt;        572          9</span></code></pre></div>
 <p>Next, we will drop any groups with &lt; 50 cells. This excludes any
 very rare cell types. Now we are working with the cell type resolution
-we are interested in.</p>
+we are interested in, these cell types are defined in Table
+@ref(tab:acronyms).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Find cell types with &lt; 50 cells</span>
 <span class="va">ct_drop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cell_type_tab</span><span class="op">)</span><span class="op">[</span><span class="va">cell_type_tab</span> <span class="op">&lt;</span> <span class="fl">50</span><span class="op">]</span>
@@ -318,14 +397,15 @@ we are interested in.</p>
 </h4>
 <p>Single Nucleus data is often very sparse (lots of zeros in the count
 data), this dataset is 88% sparse. We can illustrate this in the heat
-map which is very blue (Figure @ref(fig:examineSparsity)).</p>
+map of the first 1k genes and 500 cells. The heatmap is mostly blue,
+indicating low values (Figure @ref(fig:examineSparsity)).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data is 88% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.8839022</span>
 
 <span class="co">## lets make a heatmap of the first 1k genes and 500 cells</span>
-<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
+<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">500</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">count_test</span>,
     cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,
     cluster_cols <span class="op">=</span> <span class="cn">FALSE</span>,
@@ -333,8 +413,8 @@ map which is very blue (Figure @ref(fig:examineSparsity)).</p>
     show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="how_to_find_tregs_files/figure-html/examineSparsity-1.png" alt="Heatmap of the snRAN-seq counts. Illustrates sparseness of unfiltered data." width="700"><p class="caption">
-Heatmap of the snRAN-seq counts. Illustrates sparseness of unfiltered
+<img src="how_to_find_tregs_files/figure-html/examineSparsity-1.png" alt="Heatmap of the snRNA-seq counts. Illustrates sparseness of unfiltered data." width="700"><p class="caption">
+Heatmap of the snRNA-seq counts. Illustrates sparseness of unfiltered
 data.
 </p>
 </div>
@@ -360,7 +440,7 @@ genes that are below this limit.</p>
 <span class="co">#&gt; [1] 0.7713423</span>
 
 <span class="co">## replot heatmap</span>
-<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
+<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">500</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">count_test</span>,
     cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,
     cluster_cols <span class="op">=</span> <span class="cn">FALSE</span>,
@@ -368,8 +448,8 @@ genes that are below this limit.</p>
     show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="how_to_find_tregs_files/figure-html/top50_filter_heatmap-1.png" alt="Heatmap of the snRAN-seq counts. With top 50% filtering the data becomes less sparse." width="700"><p class="caption">
-Heatmap of the snRAN-seq counts. With top 50% filtering the data becomes
+<img src="how_to_find_tregs_files/figure-html/top50_filter_heatmap-1.png" alt="Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes less sparse." width="700"><p class="caption">
+Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes
 less sparse.
 </p>
 </div>
@@ -378,7 +458,15 @@ less sparse.
 <h5 id="calculate-the-proportion-of-zeros-and-pick-cutoff">Calculate the Proportion of Zeros and Pick Cutoff<a class="anchor" aria-label="anchor" href="#calculate-the-proportion-of-zeros-and-pick-cutoff"></a>
 </h5>
 <p>For each group (let’s use <code>cellType.broad</code>) get the
-proportion of zeros for each gene</p>
+proportion of zeros for each gene, where Proportion Zero is defined as
+(Equation @ref(eq:propZero)) where <span class="math inline">\(c_{i,j,k,z}\)</span> is the number of snRNA-seq
+counts for cell/nuclei <span class="math inline">\(z\)</span> for gene
+<span class="math inline">\(i\)</span>, cell type <span class="math inline">\(j\)</span>, brain region <span class="math inline">\(k\)</span>, and <span class="math inline">\(n_{j,
+k}\)</span> is the number of cell/nuclei for cell type <span class="math inline">\(j\)</span> and brain region <span class="math inline">\(k\)</span>.</p>
+<p><span class="math display">\[\begin{equation}
+    PZ_{i,j,k} = \sum_{z=1}^{n_{j,k}} I(c_{i,j,k} &gt; 0) / n_{j,k}
+  (\#eq:propZero)
+\end{equation}\]</span></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get prop zero for each gene for each cell type</span>
 <span class="va">prop_zeros</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_prop_zero.html">get_prop_zero</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span>, group_col <span class="op">=</span> <span class="st">"cellType.broad"</span><span class="op">)</span>
@@ -454,7 +542,7 @@ genes.</p>
 <span class="co">#&gt; [1] 0.5010587</span>
 
 <span class="co">## re-plot heatmap</span>
-<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>
+<span class="va">count_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">logcounts</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">500</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="co">## Just to help visualization we'll cap the counts at 300</span>
 <span class="va">count_test</span><span class="op">[</span><span class="va">count_test</span> <span class="op">&gt;</span> <span class="fl">300</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">300</span>
 <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span><span class="va">count_test</span>,
@@ -464,8 +552,8 @@ genes.</p>
     show_colnames <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="how_to_find_tregs_files/figure-html/prop_zero_filter_heatmap-1.png" alt="Heatmap of the snRAN-seq counts after Proption Zero filtering." width="700"><p class="caption">
-Heatmap of the snRAN-seq counts after Proption Zero filtering.
+<img src="how_to_find_tregs_files/figure-html/prop_zero_filter_heatmap-1.png" alt="Heatmap of the snRNA-seq counts after Proption Zero filtering." width="700"><p class="caption">
+Heatmap of the snRNA-seq counts after Proption Zero filtering.
 </p>
 </div>
 </div>
@@ -487,7 +575,7 @@ the best candidate TREGs.</p>
 
 <span class="co">## Use both rankings to calculate rank_invariance()</span>
 <span class="va">rank_invar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rank_invariance.html">rank_invariance</a></span><span class="op">(</span><span class="va">group_rank</span>, <span class="va">cell_rank</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rank_invar</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">sort.list</a></span><span class="op">(</span><span class="va">rank_invar</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">rank_invar</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;  MALAT1  CTNND2     FTX    RERE FAM155A    GNAQ </span>
 <span class="co">#&gt;    4005    4004    4003    4002    4001    4000</span></code></pre></div>
 <p>The <code><a href="../reference/rank_invariance_express.html">rank_invariance_express()</a></code> function combines these
@@ -498,7 +586,7 @@ three steps into one function, and achieves the same results.</p>
     <span class="va">sce.dlpfc.tran</span>,
     group_col <span class="op">=</span> <span class="st">"cellType.broad"</span>
 <span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rank_invar2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">sort.list</a></span><span class="op">(</span><span class="va">rank_invar2</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">rank_invar2</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;  MALAT1  CTNND2     FTX    RERE FAM155A    GNAQ </span>
 <span class="co">#&gt;    4005    4004    4003    4002    4001    4000</span>
 
@@ -582,9 +670,9 @@ and Girlich, 2022)</li>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"TREG.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code><span class="co">#&gt; [1] "2022-03-18 15:27:12 UTC"</span></code></pre>
+<pre><code><span class="co">#&gt; [1] "2022-03-18 17:49:05 UTC"</span></code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code><span class="co">#&gt; Time difference of 1.399 mins</span></code></pre>
+<pre><code><span class="co">#&gt; Time difference of 1.229 mins</span></code></pre>
 <p><code>R</code> session information.</p>
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span>
