@@ -31,3 +31,8 @@ get_prop_zero(sce_zero_test)
 ## Get proportion by user defined grouping of the data
 get_prop_zero(sce_zero_test, group_col = "group")
 }
+\seealso{
+Other Proportion Zero functions: 
+\code{\link{filter_prop_zero}()}
+}
+\concept{Proportion Zero functions}

@@ -24,6 +24,7 @@
 #' @importFrom rafalib splitit
 #' @importFrom purrr map_dfc
 #' @importFrom SummarizedExperiment assays assayNames colData
+#' @family Proportion Zero functions
 get_prop_zero <- function(sce, group_col = "cellType") {
     ## Error checks
     stopifnot(inherits(sce, "SummarizedExperiment"))

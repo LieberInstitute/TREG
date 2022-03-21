@@ -29,3 +29,8 @@ prop_zero <- get_prop_zero(sce_zero_test, group_col = "group")
 ## Filter with max Proportion Zero cutoff = 0.59
 filter_prop_zero(prop_zero, cutoff = 0.59)
 }
+\seealso{
+Other Proportion Zero functions: 
+\code{\link{get_prop_zero}()}
+}
+\concept{Proportion Zero functions}

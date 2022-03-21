@@ -19,6 +19,7 @@
 #'
 #' ## Filter with max Proportion Zero cutoff = 0.59
 #' filter_prop_zero(prop_zero, cutoff = 0.59)
+#' @family Proportion Zero functions
 filter_prop_zero <- function(prop_zero_df, cutoff = 0.9) {
     stopifnot(is.data.frame(prop_zero_df))
     stopifnot(!is.null(rownames(prop_zero_df)))
