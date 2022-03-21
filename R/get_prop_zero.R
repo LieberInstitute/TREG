@@ -16,10 +16,10 @@
 #' ## Basic Proportion counts == 0
 #' rowSums(assays(sce_zero_test)$counts == 0) / nrow(sce_zero_test)
 #'
-#' ## Get proportion by cell type
+#' ## Get proportion by the default group "cellType"
 #' get_prop_zero(sce_zero_test)
 #'
-#' ## Get proportion by defined group
+#' ## Get proportion by user defined grouping of the data
 #' get_prop_zero(sce_zero_test, group_col = "group")
 #' @importFrom rafalib splitit
 #' @importFrom purrr map_dfc

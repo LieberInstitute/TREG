@@ -6,7 +6,8 @@
 #'
 #' @param prop_zero_df data.frame containing proportion of zero counts, genes as
 #' rows, groups as columns.
-#' @param cutoff cutoff value for maximum Proportion Zero.
+#' @param cutoff A `numeric()` cutoff value for maximum Proportion Zero.
+#' The cutoff value should be < 1.
 #'
 #' @return A `character()` of gene names that are under the cutoff.
 #' These names are from the `rownames()` of the expression data.
@@ -22,8 +23,13 @@ filter_prop_zero <- function(prop_zero_df, cutoff = 0.9) {
     stopifnot(is.data.frame(prop_zero_df))
     stopifnot(!is.null(rownames(prop_zero_df)))
     stopifnot(is.numeric(unlist(prop_zero_df)))
+    stopifnot(is.numeric(cutoff))
+    stopifnot(cutoff <= 1)
 
     max_prop_zero <- apply(prop_zero_df, 1, max)
     filter_prop <- max_prop_zero[max_prop_zero < cutoff]
+
+    if (length(filter_prop) == 0) warning(paste0("The provided cutoff (", cutoff, ") filters out every gene"))
+
     return(names(filter_prop))
 }
