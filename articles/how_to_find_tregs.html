@@ -268,16 +268,19 @@ expression.</p></li>
 <li><p><strong>Evaluate genes for Rank Invariance</strong> The nuclei
 are grouped only by cell type. Within each cell type, the mean
 expression for each gene is ranked, the result is a vector (length is
-the number of genes). Then the expression of each gene is ranked for
-each nucleus, the result is a matrix (the number of nuclei x number of
-genes). Then the absolute difference between the rank of each nucleus
-and the mean expression is found, from here the mean of the differences
-for each gene is calculated, then ranked. These steps are repeated for
-each group, the result is a matrix of ranks, (number of cell types x
-number of genes). From here the sum of the ranks for each gene are
-reversed ranked, so there is one final value for each gene, the “rank
-invariance” The genes with the highest rank-invariance are considered
-good candidates as TREGs. <strong>This process is implemented by:
+the number of genes), using the function <code>rank_gene()</code>. Then
+the expression of each gene is ranked for each nucleus,the result is a
+matrix (the number of nuclei x number of genes), using the function
+<code><a href="../reference/rank_cells.html">rank_cells()</a></code>.Then the absolute difference between the rank
+of each nucleus and the mean expression is found, from here the mean of
+the differences for each gene is calculated, then ranked. These steps
+are repeated for each group, the result is a matrix of ranks, (number of
+cell types x number of genes). From here the sum of the ranks for each
+gene are reversed ranked, so there is one final value for each gene, the
+“rank invariance” The genes with the highest rank-invariance are
+considered good candidates as TREGs. This is calculated with
+<code><a href="../reference/rank_invariance_express.html">rank_invariance_express()</a></code>. <strong>This full process is
+implemented by:
 <code><a href="../reference/rank_invariance_express.html">rank_invariance_express()</a></code>.</strong></p></li>
 </ol>
 </div>
@@ -373,7 +376,7 @@ of this demo, we will focus on the six major cell types listed in Table
 finer resolution than we want to examine, and combine rare subtypes in
 to one group. If there are too few cells in a group there may not be
 enough data to get good results. This new cell type classification is
-stored in <code>cellType.broad</code>.</p>
+stored in the <code>colData</code> as <code>cellType.broad</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Explore the dimensions and cell type annotations</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
@@ -421,7 +424,8 @@ with the six broad cell type we are interested in.</p>
 </h3>
 <p>Single Nucleus data is often very sparse (lots of zeros in the count
 data), this dataset is 88% sparse. We can illustrate this in the heat
-map of the first 1k genes and 500 cells.</p>
+map of the first 1k genes and 500 cells. The heatmap is mostly blue,
+indicating low values (Figure @ref(fig:examineSparsity)).</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data is 88% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
@@ -441,8 +445,6 @@ Heatmap of the snRNA-seq counts. Illustrates sparseness of unfiltered
 data.
 </p>
 </div>
-<p>The heatmap is mostly blue, indicating low values (Figure
-@ref(fig:examineSparsity)).</p>
 <div class="section level4">
 <h4 id="filter-to-top-50-expression">Filter to Top 50% Expression<a class="anchor" aria-label="anchor" href="#filter-to-top-50-expression"></a>
 </h4>
@@ -457,7 +459,8 @@ genes that are below this limit.</p>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span>
 <span class="co">#&gt; [1] 16769 11165</span></code></pre></div>
 <p>After this filter lets check sparsity and make a heatmap of the first
-1k genes and 500 cells.</p>
+1k genes and 500 cells. We are seeing more non-blue (Figure
+@ref(fig:top50FilterHeatmap))!</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data down to 77% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
@@ -477,8 +480,6 @@ Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes
 less sparse.
 </p>
 </div>
-<p>We are seeing more non-blue (Figure
-@ref(fig:top50FilterHeatmap))!</p>
 </div>
 <div class="section level4">
 <h4 id="calculate-proportion-zero-and-pick-cutoff">Calculate Proportion Zero and Pick Cutoff<a class="anchor" aria-label="anchor" href="#calculate-proportion-zero-and-pick-cutoff"></a>
@@ -534,8 +535,8 @@ cutoff (Figure @ref(fig:propZeroDistribution)).</p>
 <span class="va">prop_zero_histogram</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="va">propZero_limit</span>, color <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="how_to_find_tregs_files/figure-html/pickCutoff-1.png" alt="Show Proportion Zero Cutoff on distributions." width="700"><p class="caption">
-Show Proportion Zero Cutoff on distributions.
+<img src="how_to_find_tregs_files/figure-html/pickCutoff-1.png" alt="Show Proportion Zero Cutoff on Distributions." width="700"><p class="caption">
+Show Proportion Zero Cutoff on Distributions.
 </p>
 </div>
 <p>The chosen cutoff excludes the peak Proportion Zeros from all groups
@@ -561,7 +562,9 @@ genes.</p>
 
 <span class="co">## Filter the sce object</span>
 <span class="va">sce.dlpfc.tran</span> <span class="op">&lt;-</span> <span class="va">sce.dlpfc.tran</span><span class="op">[</span><span class="va">filtered_genes</span>, <span class="op">]</span></code></pre></div>
-<p>One last check of the sparsity and heatmap:</p>
+<p>One last check of the sparsity, more non-blue means more non-zero
+values for the Rank Invariance calculation, which prevents rank ties
+(Figure @ref(fig:propZeroFilterHeatmap)).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## this data down to 50% sparse</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce.dlpfc.tran</span><span class="op">)</span><span class="op">)</span>
@@ -580,9 +583,6 @@ genes.</p>
 Heatmap of the snRNA-seq counts after Proption Zero filtering.
 </p>
 </div>
-<p>More non-blue means more non-zero values for the Rank Invariance
-calculation, which prevents rank ties (Figure
-@ref(fig:propZeroFilterHeatmap)).</p>
 </div>
 </div>
 <div class="section level3">
@@ -627,10 +627,35 @@ three steps into one function, and achieves the same results.</p>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
 </h2>
-<p>TODO: mention how we validated some TREGs in the paper (Huuki-Myers,
-Montgomery, Kwon, et al., 2022), how you might want to consider
-generating this data in your experiments, and how TREGs might be useful
-for future deconvolution algorithms.</p>
+<p>We have identified top candidate TREG genes from this dataset, by
+applying Proportion Zero filtering and calculating the Rank Invariance
+using the <code>TREG</code> package. This provides a list of candidate
+genes that can be useful for estimating total RNA expression in assays
+such as smFISH.</p>
+<p>However, we are unable to assess other important qualities of these
+genes that ensure they are experimentally compatible with the chosen
+assay. For example in with smFISH with RNAscope such as its important
+that a TREG be expressed at a level that individual puncta can be
+accurately counted, and have a dynamic range of puncta. During
+experimental validation we found that <em>MALAT1</em> was too highly
+expresses in the human DLPFC to segment individual puncta, and ruled it
+out as an experimentally useful TREG (Huuki-Myers, Montgomery, Kwon, et
+al., 2022).</p>
+<p>Therefore, we recommend that TREGs be evaluated in the assay or
+analysis of choice you perform a validation experiment with a pilot
+sample before implementing experiments using using it on rare and
+valuable samples.</p>
+<p>If you are designing a sc/snRNA-seq study to use as a reference for
+deconvolution of bulk RNA-seq, we recommend that you generate
+spatially-adjacent dissections in order to use them for RNAscope
+experiments. By doing so, you could identify cell types in your
+sc/snRNA-seq data, then identify candidate TREGs based on those cell
+types, and use these candidate TREGs in your spatially-adjacent
+dissections to quantify size and total RNA amounts for the cell types of
+interest. Furthermore, the RNAscope data alone can be used as a gold
+standard reference for cell fractions.</p>
+<p>TREGs could be useful for other research purposes and other contexts
+than the ones we envisioned.</p>
 </div>
 <div class="section level2">
 <h2 id="reproducibility">Reproducibility<a class="anchor" aria-label="anchor" href="#reproducibility"></a>
@@ -699,9 +724,9 @@ and Girlich, 2022)</li>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"TREG.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code><span class="co">#&gt; [1] "2022-03-21 15:31:33 UTC"</span></code></pre>
+<pre><code><span class="co">#&gt; [1] "2022-03-21 17:45:05 UTC"</span></code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code><span class="co">#&gt; Time difference of 1.466 mins</span></code></pre>
+<pre><code><span class="co">#&gt; Time difference of 1.464 mins</span></code></pre>
 <p><code>R</code> session information.</p>
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span>
