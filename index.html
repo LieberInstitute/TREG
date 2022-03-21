@@ -142,7 +142,7 @@ with more universal expression.</p></li>
 <li><p><strong>Evaluate genes for Rank Invariance</strong> The nuclei
 are grouped only by cell type. Within each cell type, the mean
 expression for each gene is ranked, the result is a vector (length is
-the number of genes), using the function <code>rank_gene()</code>. Then
+the number of genes), using the function <code><a href="reference/rank_group.html">rank_group()</a></code>. Then
 the expression of each gene is ranked for each nucleus,the result is a
 matrix (the number of nuclei x number of genes), using the function
 <code><a href="reference/rank_cells.html">rank_cells()</a></code>.Then the absolute difference between the rank
@@ -151,7 +151,7 @@ the differences for each gene is calculated, then ranked. These steps
 are repeated for each group, the result is a matrix of ranks, (number of
 cell types x number of genes). From here the sum of the ranks for each
 gene are reversed ranked, so there is one final value for each gene, the
-“rank invariance” The genes with the highest rank-invariance are
+“Rank Invariance” The genes with the highest rank-invariance are
 considered good candidates as TREGs. This is calculated with
 <code><a href="reference/rank_invariance_express.html">rank_invariance_express()</a></code>. <strong>This full process is
 implemented by:

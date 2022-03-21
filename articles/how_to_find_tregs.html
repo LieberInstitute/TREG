@@ -268,7 +268,7 @@ expression.</p></li>
 <li><p><strong>Evaluate genes for Rank Invariance</strong> The nuclei
 are grouped only by cell type. Within each cell type, the mean
 expression for each gene is ranked, the result is a vector (length is
-the number of genes), using the function <code>rank_gene()</code>. Then
+the number of genes), using the function <code><a href="../reference/rank_group.html">rank_group()</a></code>. Then
 the expression of each gene is ranked for each nucleus,the result is a
 matrix (the number of nuclei x number of genes), using the function
 <code><a href="../reference/rank_cells.html">rank_cells()</a></code>.Then the absolute difference between the rank
@@ -277,7 +277,7 @@ the differences for each gene is calculated, then ranked. These steps
 are repeated for each group, the result is a matrix of ranks, (number of
 cell types x number of genes). From here the sum of the ranks for each
 gene are reversed ranked, so there is one final value for each gene, the
-“rank invariance” The genes with the highest rank-invariance are
+“Rank Invariance” The genes with the highest rank-invariance are
 considered good candidates as TREGs. This is calculated with
 <code><a href="../reference/rank_invariance_express.html">rank_invariance_express()</a></code>. <strong>This full process is
 implemented by:
@@ -398,9 +398,9 @@ stored in the <code>colData</code> as <code>cellType.broad</code>.</p>
 <span class="co">#&gt;        782       2388       1580         10        388         18       5455 </span>
 <span class="co">#&gt;        OPC      Tcell </span>
 <span class="co">#&gt;        572          9</span></code></pre></div>
-<p>Next,we will drop any groups with &lt; 50 cells after merging
+<p>Next, we will drop any groups with &lt; 50 cells after merging
 subtypes. This excludes any very rare cell types. Now we are working
-with the six broad cell type we are interested in.</p>
+with the six broad cell types we are interested in.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Find cell types with &lt; 50 cells</span>
 <span class="op">(</span><span class="va">ct_drop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cell_type_tab</span><span class="op">)</span><span class="op">[</span><span class="va">cell_type_tab</span> <span class="op">&lt;</span> <span class="fl">50</span><span class="op">]</span><span class="op">)</span>
@@ -724,9 +724,9 @@ and Girlich, 2022)</li>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"TREG.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code><span class="co">#&gt; [1] "2022-03-21 18:07:50 UTC"</span></code></pre>
+<pre><code><span class="co">#&gt; [1] "2022-03-21 18:14:09 UTC"</span></code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code><span class="co">#&gt; Time difference of 1.511 mins</span></code></pre>
+<pre><code><span class="co">#&gt; Time difference of 1.48 mins</span></code></pre>
 <p><code>R</code> session information.</p>
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span>
