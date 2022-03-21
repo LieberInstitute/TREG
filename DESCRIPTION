@@ -1,11 +1,11 @@
 Package: TREG
 Title: Tools for finding Total RNA Expression Genes in single nucleus RNA-seq
     data
-Version: 0.99.0
+Version: 0.99.1
 Date: 2022-03-21
 Authors@R: 
     c(person(given = "Louise",
-           family = "Huuki",
+           family = "Huuki-Myers",
            role = c("aut", "cre"),
            email = "lahuuki@gmail.com",
            comment = c(ORCID = "0000-0001-5148-3602")),
