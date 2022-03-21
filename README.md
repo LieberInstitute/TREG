@@ -68,17 +68,19 @@ for TREGs in experimental design!
 2.  **Evaluate genes for Rank Invariance** The nuclei are grouped only
     by cell type. Within each cell type, the mean expression for each
     gene is ranked, the result is a vector (length is the number of
-    genes). Then the expression of each gene is ranked for each nucleus,
-    the result is a matrix (the number of nuclei x number of genes).
-    Then the absolute difference between the rank of each nucleus and
-    the mean expression is found, from here the mean of the differences
-    for each gene is calculated, then ranked. These steps are repeated
-    for each group, the result is a matrix of ranks, (number of cell
-    types x number of genes). From here the sum of the ranks for each
-    gene are reversed ranked, so there is one final value for each gene,
-    the “rank invariance” The genes with the highest rank-invariance are
-    considered good candidates as TREGs. **This process is implemented
-    by: `rank_invariance_express()`.**
+    genes), using the function `rank_gene()`. Then the expression of
+    each gene is ranked for each nucleus,the result is a matrix (the
+    number of nuclei x number of genes), using the function
+    `rank_cells()`.Then the absolute difference between the rank of each
+    nucleus and the mean expression is found, from here the mean of the
+    differences for each gene is calculated, then ranked. These steps
+    are repeated for each group, the result is a matrix of ranks,
+    (number of cell types x number of genes). From here the sum of the
+    ranks for each gene are reversed ranked, so there is one final value
+    for each gene, the “rank invariance” The genes with the highest
+    rank-invariance are considered good candidates as TREGs. This is
+    calculated with `rank_invariance_express()`. **This full process is
+    implemented by: `rank_invariance_express()`.**
 
 ## Installation instructions
 

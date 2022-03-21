@@ -162,18 +162,20 @@ facilitated with the functions `get_prop_zero()` and `filter_prop_zero()` (Equat
 snRNA-seq data is notoriously sparse, these functions enrich for genes with more
 universal expression.
 
-2. **Evaluate genes for Rank Invariance** The nuclei are grouped only by cell 
-type. Within each cell type, the mean expression for each gene is ranked, the 
-result is a vector (length is the number of genes). Then the expression of each 
-gene is ranked for each nucleus, the result is a matrix (the number of nuclei x 
-number of genes). Then the absolute difference between the rank of each nucleus 
-and the mean expression is found, from here the mean of the differences for each
-gene is calculated, then ranked. These steps are repeated for each group, the 
-result is a matrix of ranks, (number of cell types x number of genes). From here
-the sum of the ranks for each gene are reversed ranked, so there is one final 
-value for each gene, the “rank invariance”  The genes with the highest 
-rank-invariance are considered good candidates as TREGs.  **This process is
-implemented by: `rank_invariance_express()`.**
+2.  **Evaluate genes for Rank Invariance** The nuclei are grouped only
+by cell type. Within each cell type, the mean expression for each
+gene is ranked, the result is a vector (length is the number of
+genes), using the function `rank_gene()`. Then the expression of each gene is 
+ranked for each nucleus,the result is a matrix (the number of nuclei x number
+of genes), using the function `rank_cells()`.Then the absolute difference 
+between the rank of each nucleus and the mean expression is found, from here 
+the mean of the differences for each gene is calculated, then ranked. 
+These steps are repeated for each group, the result is a matrix of ranks, (number of cell
+types x number of genes). From here the sum of the ranks for each
+gene are reversed ranked, so there is one final value for each gene,
+the “rank invariance” The genes with the highest rank-invariance are
+considered good candidates as TREGs. This is calculated with `rank_invariance_express()`.
+**This full process is implemented by: `rank_invariance_express()`.**
 
 # Example TREG Application
 
@@ -253,7 +255,8 @@ we will focus on the six major cell types listed in Table \@ref(tab:acronyms).
 First we will combine all of the Excit, Inhib subtypes, as it is a finer 
 resolution than we want to examine, and combine rare subtypes in to one group.
 If there are too few cells in a group there may not be enough data to 
-get good results. This new cell type classification is stored in `cellType.broad`. 
+get good results. This new cell type classification is stored in the `colData` as
+`cellType.broad`. 
 
 ```{r "define_cell_types"}
 ## Explore the dimensions and cell type annotations
@@ -286,7 +289,8 @@ dim(sce.dlpfc.tran)
 
 Single Nucleus data is often very sparse (lots of zeros in the count data), this 
 dataset is 88% sparse. We can illustrate this in the heat map of the first 1k 
-genes and 500 cells. 
+genes and 500 cells. The heatmap is mostly blue, indicating low values
+(Figure \@ref(fig:examineSparsity)).  
 ```{r "examineSparsity", fig.cap = "Heatmap of the snRNA-seq counts. Illustrates sparseness of unfiltered data."}
 ## this data is 88% sparse
 sum(assays(sce.dlpfc.tran)$counts == 0) / (nrow(sce.dlpfc.tran) * ncol(sce.dlpfc.tran))
@@ -300,8 +304,6 @@ pheatmap(count_test,
     show_colnames = FALSE
 )
 ```
-The heatmap is mostly blue, indicating low values
-(Figure \@ref(fig:examineSparsity)).
 
 ### Filter to Top 50% Expression
 
@@ -317,7 +319,7 @@ dim(sce.dlpfc.tran)
 ```
 
 After this filter lets check sparsity and make a heatmap of the first 1k genes
-and 500 cells. 
+and 500 cells. We are seeing more non-blue (Figure \@ref(fig:top50FilterHeatmap))!  
 
 ```{r "top50FilterHeatmap", fig.cap = "Heatmap of the snRNA-seq counts. With top 50% filtering the data becomes less sparse."}
 ## this data down to 77% sparse
@@ -332,7 +334,6 @@ pheatmap::pheatmap(count_test,
     show_colnames = FALSE
 )
 ```
-We are seeing more non-blue (Figure \@ref(fig:top50FilterHeatmap))!  
 
 ### Calculate Proportion Zero and Pick Cutoff
 
@@ -369,7 +370,7 @@ prop_zero_long <- prop_zeros %>%
 
 Looks like around 0.9 the densities peak, we'll set that as the cutoff  (Figure \@ref(fig:propZeroDistribution)).
 
-```{r "pickCutoff", fig.cap = "Show Proportion Zero Cutoff on distributions."}
+```{r "pickCutoff", fig.cap = "Show Proportion Zero Cutoff on Distributions."}
 ## Specify a cutoff, here we use 0.9
 propZero_limit <- 0.9
 
@@ -399,7 +400,8 @@ length(filtered_genes) / nrow(sce.dlpfc.tran)
 sce.dlpfc.tran <- sce.dlpfc.tran[filtered_genes, ]
 ```
 
-One last check of the sparsity and heatmap:
+One last check of the sparsity, more non-blue means more non-zero values for the Rank Invariance calculation,
+which prevents rank ties  (Figure \@ref(fig:propZeroFilterHeatmap)).
 
 ```{r "propZeroFilterHeatmap", fig.cap = "Heatmap of the snRNA-seq counts after Proption Zero filtering."}
 ## this data down to 50% sparse
@@ -414,9 +416,6 @@ pheatmap::pheatmap(count_test,
     show_colnames = FALSE
 )
 ```
-
-More non-blue means more non-zero values for the Rank Invariance calculation,
-which prevents rank ties  (Figure \@ref(fig:propZeroFilterHeatmap)).
 
 ## Run Rank Invariance
 
@@ -457,8 +456,27 @@ stopifnot(identical(rank_invar, rank_invar2))
 
 # Conclusion
 
-TODO: mention how we validated some TREGs in the paper `r Citep(bib[['TREGpaper']])`, how you might want to consider generating this data in your experiments, and how TREGs might be useful for future deconvolution algorithms.
+We have identified top candidate TREG genes from this dataset, by applying 
+Proportion Zero filtering and calculating the Rank Invariance using the `TREG` package. 
+This provides a list of candidate genes that can be useful for estimating total 
+RNA expression in assays such as smFISH. 
 
+However, we are unable to assess other important qualities of these genes that 
+ensure they are experimentally compatible with the chosen assay.
+For example in with smFISH with RNAscope such as its important that a TREG be 
+expressed at a level that individual puncta can be accurately counted, and have a
+dynamic range of puncta. During experimental validation we found that _MALAT1_ was too highly expresses in the 
+human DLPFC to segment individual puncta, and ruled it out as an experimentally 
+useful TREG `r Citep(bib[['TREGpaper']])`.
+
+Therefore, we recommend that TREGs be evaluated in the assay or
+analysis of choice you perform a validation experiment with a pilot sample before
+implementing experiments using using it on rare and valuable samples. 
+
+
+If you are designing a sc/snRNA-seq study to use as a reference for deconvolution of bulk RNA-seq, we recommend that you generate spatially-adjacent dissections in order to use them for RNAscope experiments. By doing so, you could identify cell types in your sc/snRNA-seq data, then identify candidate TREGs based on those cell types, and use these candidate TREGs in your spatially-adjacent dissections to quantify size and total RNA amounts for the cell types of interest. Furthermore, the RNAscope data alone can be used as a gold standard reference for cell fractions. 
+
+TREGs could be useful for other research purposes and other contexts than the ones we envisioned.
 
 # Reproducibility
 
