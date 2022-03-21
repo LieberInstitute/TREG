@@ -454,6 +454,9 @@ head(sort(rank_invar2, decreasing = TRUE))
 stopifnot(identical(rank_invar, rank_invar2))
 ```
 
+The `rank_invariance_express()` function is more efficient as well, as it loops 
+through the data to rank the genes over cells, and groups at the same time. 
+
 # Conclusion
 
 We have identified top candidate TREG genes from this dataset, by applying 
@@ -463,20 +466,22 @@ RNA expression in assays such as smFISH.
 
 However, we are unable to assess other important qualities of these genes that 
 ensure they are experimentally compatible with the chosen assay.
-For example in with smFISH with RNAscope such as its important that a TREG be 
+For example, in smFISH with RNAscope it is important that a TREG be 
 expressed at a level that individual puncta can be accurately counted, and have a
-dynamic range of puncta. During experimental validation we found that _MALAT1_ was too highly expresses in the 
+dynamic range of puncta. During experimental validation we found that _MALAT1_ was too highly expressed in the 
 human DLPFC to segment individual puncta, and ruled it out as an experimentally 
 useful TREG `r Citep(bib[['TREGpaper']])`.
 
 Therefore, we recommend that TREGs be evaluated in the assay or
 analysis of choice you perform a validation experiment with a pilot sample before
-implementing experiments using using it on rare and valuable samples. 
+implementing experiments using it on rare and valuable samples.  
 
+If you are designing a sc/snRNA-seq study to use as a reference for deconvolution of bulk RNA-seq, we recommend that you generate spatially-adjacent dissections in order to use them for RNAscope experiments. By doing so, you could identify cell types in your sc/snRNA-seq data, then identify candidate TREGs based on those cell types, and use these candidate TREGs in your spatially-adjacent dissections to quantify size and total RNA amounts for the cell types of interest `r Citep(bib[['TREGpaper']])`. Furthermore, the RNAscope data alone can be used as a gold standard reference for cell fractions. 
 
-If you are designing a sc/snRNA-seq study to use as a reference for deconvolution of bulk RNA-seq, we recommend that you generate spatially-adjacent dissections in order to use them for RNAscope experiments. By doing so, you could identify cell types in your sc/snRNA-seq data, then identify candidate TREGs based on those cell types, and use these candidate TREGs in your spatially-adjacent dissections to quantify size and total RNA amounts for the cell types of interest. Furthermore, the RNAscope data alone can be used as a gold standard reference for cell fractions. 
+TREGs could be useful for other research purposes and other contexts than the ones we envisioned!
 
-TREGs could be useful for other research purposes and other contexts than the ones we envisioned.
+Thanks for your interest in TREGs :)  
+
 
 # Reproducibility
 
@@ -506,11 +511,11 @@ Code for creating the vignette
 ```{r createVignette, eval=FALSE}
 ## Create the vignette
 library("rmarkdown")
-system.time(render("TREG.Rmd"))
+system.time(render("how_to_find_tregs.Rmd"))
 
 ## Extract the R code
 library("knitr")
-knit("TREG.Rmd", tangle = TRUE)
+knit("how_to_find_tregs.Rmd", tangle = TRUE)
 ```
 
 
