@@ -622,6 +622,9 @@ three steps into one function, and achieves the same results.</p>
 
 <span class="co">## Check computationally that the results are identical</span>
 <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">rank_invar</span>, <span class="va">rank_invar2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>The <code><a href="../reference/rank_invariance_express.html">rank_invariance_express()</a></code> function is more efficient
+as well, as it loops through the data to rank the genes over cells, and
+groups at the same time.</p>
 </div>
 </div>
 <div class="section level2">
@@ -634,17 +637,17 @@ genes that can be useful for estimating total RNA expression in assays
 such as smFISH.</p>
 <p>However, we are unable to assess other important qualities of these
 genes that ensure they are experimentally compatible with the chosen
-assay. For example in with smFISH with RNAscope such as its important
-that a TREG be expressed at a level that individual puncta can be
-accurately counted, and have a dynamic range of puncta. During
-experimental validation we found that <em>MALAT1</em> was too highly
-expresses in the human DLPFC to segment individual puncta, and ruled it
-out as an experimentally useful TREG (Huuki-Myers, Montgomery, Kwon, et
-al., 2022).</p>
+assay. For example, in smFISH with RNAscope it is important that a TREG
+be expressed at a level that individual puncta can be accurately
+counted, and have a dynamic range of puncta. During experimental
+validation we found that <em>MALAT1</em> was too highly expressed in the
+human DLPFC to segment individual puncta, and ruled it out as an
+experimentally useful TREG (Huuki-Myers, Montgomery, Kwon, et al.,
+2022).</p>
 <p>Therefore, we recommend that TREGs be evaluated in the assay or
 analysis of choice you perform a validation experiment with a pilot
-sample before implementing experiments using using it on rare and
-valuable samples.</p>
+sample before implementing experiments using it on rare and valuable
+samples.</p>
 <p>If you are designing a sc/snRNA-seq study to use as a reference for
 deconvolution of bulk RNA-seq, we recommend that you generate
 spatially-adjacent dissections in order to use them for RNAscope
@@ -652,10 +655,12 @@ experiments. By doing so, you could identify cell types in your
 sc/snRNA-seq data, then identify candidate TREGs based on those cell
 types, and use these candidate TREGs in your spatially-adjacent
 dissections to quantify size and total RNA amounts for the cell types of
-interest. Furthermore, the RNAscope data alone can be used as a gold
-standard reference for cell fractions.</p>
+interest (Huuki-Myers, Montgomery, Kwon, et al., 2022). Furthermore, the
+RNAscope data alone can be used as a gold standard reference for cell
+fractions.</p>
 <p>TREGs could be useful for other research purposes and other contexts
-than the ones we envisioned.</p>
+than the ones we envisioned!</p>
+<p>Thanks for your interest in TREGs :)</p>
 </div>
 <div class="section level2">
 <h2 id="reproducibility">Reproducibility<a class="anchor" aria-label="anchor" href="#reproducibility"></a>
@@ -718,15 +723,15 @@ and Girlich, 2022)</li>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Create the vignette</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/rstudio/rmarkdown" class="external-link">"rmarkdown"</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">render</a></span><span class="op">(</span><span class="st">"TREG.Rmd"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">render</a></span><span class="op">(</span><span class="st">"how_to_find_tregs.Rmd"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co">## Extract the R code</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"TREG.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"how_to_find_tregs.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code><span class="co">#&gt; [1] "2022-03-21 18:14:09 UTC"</span></code></pre>
+<pre><code><span class="co">#&gt; [1] "2022-03-21 18:24:51 UTC"</span></code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code><span class="co">#&gt; Time difference of 1.48 mins</span></code></pre>
+<pre><code><span class="co">#&gt; Time difference of 1.417 mins</span></code></pre>
 <p><code>R</code> session information.</p>
 <pre><code><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span>
