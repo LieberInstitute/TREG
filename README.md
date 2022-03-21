@@ -113,11 +113,10 @@ library("TREG")
 ### Proportion Zero Filtering
 
 A TREG gene should be expressed in almost every cell. The set of genes
-should be filtered by maximum proportion of zeros within a groups of
-cells.
+should be filtered by maximum Proportion Zero within a groups of cells.
 
 ``` r
-## Calculate Proportion Zero ingroups defined by a column in colData
+## Calculate Proportion Zero in groups defined by a column in colData
 (prop_zero <- get_prop_zero(sce = sce_zero_test, group_col = "cellType"))
 #>           A    B
 #> g100   1.00 1.00
@@ -136,13 +135,13 @@ sce_filter <- sce_zero_test[filtered_genes, ]
 
 ### Evaluate RI for Filtered SCE Data
 
-The genes with the highest rank-invariance are considered good
+The genes with the highest Rank Invariance are considered good
 candidates as TREGs. In this example the gene *g0* would be the
 strongest candidate TREG.
 
 ``` r
-## Get the Rank Invaraince value for each gene
-## The higest values are the best TREG candidates
+## Get the Rank Invariance value for each gene
+## The highest values are the best TREG candidates
 ri <- rank_invariance_express(sce_filter)
 sort(ri, decreasing = TRUE)
 #>     g0 gOffOn   gVar    g50 
