@@ -4,7 +4,7 @@
 #' Zero across groups, then filter to a set of genes that pass the max Prop Zero
 #' cutoff defined by the user.
 #'
-#' @param prop_zero_df data.frame containing proportion of zero counts, genes as
+#' @param prop_zero_df `data.frame()` containing proportion of zero counts, genes as
 #' rows, groups as columns.
 #' @param cutoff A `numeric()` cutoff value for maximum Proportion Zero.
 #' The cutoff value should be < 1.

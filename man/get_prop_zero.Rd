@@ -19,7 +19,11 @@ groups as columns.
 }
 \description{
 This function calculates the Proportion Zero for each gene in each user defined group.
-Proportion Zero = number of zero counts for a gene for a group of cells/number of cells in the group
+Proportion Zero = number of zero counts for a gene for a group of cells/number of cells in the group.
+}
+\details{
+For more information about calculating Proportion Zero, check equation 1 from
+the vignette in section "Calculate Proportion Zero and Pick Cutoff".
 }
 \examples{
 ## Basic Proportion counts == 0

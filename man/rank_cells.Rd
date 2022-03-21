@@ -26,7 +26,7 @@ rank values for the cells belonging to one group.
 \description{
 This function finds the rank of each gene's expression for each cell,
 grouped by the user defined variable. This data is used to compute the rank
-invariance value for each gene later with \code{rank_invariance}.
+invariance value for each gene later with \code{rank_invariance()}.
 }
 \examples{
 ## Rank the genes for each cell, organized by "group" column

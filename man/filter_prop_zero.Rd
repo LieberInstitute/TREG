@@ -7,7 +7,7 @@
 filter_prop_zero(prop_zero_df, cutoff = 0.9)
 }
 \arguments{
-\item{prop_zero_df}{data.frame containing proportion of zero counts, genes as
+\item{prop_zero_df}{\code{data.frame()} containing proportion of zero counts, genes as
 rows, groups as columns.}
 
 \item{cutoff}{A \code{numeric()} cutoff value for maximum Proportion Zero.

@@ -1,7 +1,7 @@
 #' Calculate the Rank Invariance of Each Gene from Cell and Group Ranks
 #'
 #' This function computes the Rank Invariance value for each gene, from the cell
-#' and group ranks  computed by `rank_cells` and `rank_group` respectively.
+#' and group ranks  computed by `rank_cells()` and `rank_group()` respectively.
 #' Genes with high RI values are considered good candidate TREGs.
 #'
 #' @param group_rank A `data.frame()` created with `rank_group()`.
@@ -20,6 +20,8 @@
 #'
 #' ## Use both rankings to calculate rank_invariance
 #' rank_invar_test <- rank_invariance(group_rank_test, cell_rank_test)
+#' ## Highest RI value is best candidate TREG
+#' sort(rank_invar_test, decreasing = TRUE)
 #' @family invariance functions
 #' @importFrom purrr map2 map_dfc
 #' @importFrom Matrix rowMeans

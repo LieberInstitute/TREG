@@ -26,11 +26,13 @@ represent low Rank Invariance, these genes are considered good candidate TREGs.
 \description{
 This function computes the Rank Invariance value for each gene, over the
 groups defined by the user. This function computes the same RI values as running
-\code{rank_cells} + \code{rank_group} + \code{rank_invariance}.
-Genes with high RI values are considered good candidate TREGs.
+\code{rank_cells()} + \code{rank_group()} + \code{rank_invariance()}.
+Genes with high RI values are considered good candidate TREGs. This function is
+more efficient than running the previous three functions.
 }
 \examples{
 ## Calculate RI for the sce object
+## Highest RI value is best candidate TREG, and can change based on the grouping of interest
 rank_invariance_express(sce_zero_test, group_col = "group")
 rank_invariance_express(sce_zero_test, group_col = "cellType")
 }

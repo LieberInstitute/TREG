@@ -2,11 +2,11 @@
 #'
 #' This function finds the rank of each gene's mean expression all cells in a
 #' group. This data is used to compute the rank invariance value for each gene
-#' later with `rank_invariance`.
+#' later with `rank_invariance()`.
 #'
 #' @inheritParams rank_cells
 #'
-#' @return Named `list()` of ranks for each gene
+#' @return Named `list()` of ranks for each gene.
 #' @export
 #'
 #' @examples

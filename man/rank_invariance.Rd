@@ -17,7 +17,7 @@ represent low Rank Invariance, these genes are considered good candidate TREGs.
 }
 \description{
 This function computes the Rank Invariance value for each gene, from the cell
-and group ranks  computed by \code{rank_cells} and \code{rank_group} respectively.
+and group ranks  computed by \code{rank_cells()} and \code{rank_group()} respectively.
 Genes with high RI values are considered good candidate TREGs.
 }
 \examples{
@@ -29,6 +29,8 @@ cell_rank_test <- rank_cells(sce_zero_test, group_col = "group")
 
 ## Use both rankings to calculate rank_invariance
 rank_invar_test <- rank_invariance(group_rank_test, cell_rank_test)
+## Highest RI value is best candidate TREG
+sort(rank_invar_test, decreasing = TRUE)
 }
 \seealso{
 Other invariance functions: 
