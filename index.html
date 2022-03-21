@@ -183,10 +183,10 @@ implemented by:
 <h3 id="proportion-zero-filtering">Proportion Zero Filtering<a class="anchor" aria-label="anchor" href="#proportion-zero-filtering"></a>
 </h3>
 <p>A TREG gene should be expressed in almost every cell. The set of
-genes should be filtered by maximum proportion of zeros within a groups
-of cells.</p>
+genes should be filtered by maximum Proportion Zero within a groups of
+cells.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Calculate Proportion Zero ingroups defined by a column in colData</span>
+<code class="sourceCode R"><span class="co">## Calculate Proportion Zero in groups defined by a column in colData</span>
 <span class="op">(</span><span class="va">prop_zero</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_prop_zero.html">get_prop_zero</a></span><span class="op">(</span>sce <span class="op">=</span> <span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"cellType"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;           A    B</span>
 <span class="co">#&gt; g100   1.00 1.00</span>
@@ -205,12 +205,12 @@ of cells.</p>
 <div class="section level3">
 <h3 id="evaluate-ri-for-filtered-sce-data">Evaluate RI for Filtered SCE Data<a class="anchor" aria-label="anchor" href="#evaluate-ri-for-filtered-sce-data"></a>
 </h3>
-<p>The genes with the highest rank-invariance are considered good
+<p>The genes with the highest Rank Invariance are considered good
 candidates as TREGs. In this example the gene <em>g0</em> would be the
 strongest candidate TREG.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Get the Rank Invaraince value for each gene</span>
-<span class="co">## The higest values are the best TREG candidates</span>
+<code class="sourceCode R"><span class="co">## Get the Rank Invariance value for each gene</span>
+<span class="co">## The highest values are the best TREG candidates</span>
 <span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/rank_invariance_express.html">rank_invariance_express</a></span><span class="op">(</span><span class="va">sce_filter</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">ri</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt;     g0 gOffOn   gVar    g50 </span>
