@@ -90,7 +90,7 @@ groups as columns.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   g100    g50     g0 gOffOn   gVar </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   20.0   10.0    0.0   10.0   10.8 </span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co">## Get proportion by cell type</span></span>
+<span class="r-in"><span class="co">## Get proportion by the default group "cellType"</span></span>
 <span class="r-in"><span class="fu">get_prop_zero</span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           A    B</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g100   1.00 1.00</span>
@@ -99,7 +99,7 @@ groups as columns.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> gOffOn 0.50 0.50</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> gVar   0.68 0.40</span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co">## Get proportion by defined group</span></span>
+<span class="r-in"><span class="co">## Get proportion by user defined grouping of the data</span></span>
 <span class="r-in"><span class="fu">get_prop_zero</span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        A_Back A_Front B_Back B_Front</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g100     1.00    1.00   1.00    1.00</span>
