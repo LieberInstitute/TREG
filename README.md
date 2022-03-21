@@ -15,7 +15,7 @@ status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https:
 coverage](https://codecov.io/gh/LieberInstitute/TREG/branch/main/graph/badge.svg)](https://codecov.io/gh/LieberInstitute/TREG?branch=main)
 <!-- badges: end -->
 
-The goal of `TREG` is to help find find candidate **Total RNA Expression
+The goal of `TREG` is to help find candidate **Total RNA Expression
 Genes (TREGs)** in single nucleus (or single cell) RNA-seq data.
 
 ### Why are TREGs useful?

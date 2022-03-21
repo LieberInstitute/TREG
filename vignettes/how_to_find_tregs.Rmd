@@ -116,7 +116,7 @@ To get started, please load the `r Biocpkg('TREG')` package.
 library("TREG")
 ```
 
-The goal of `TREG` is to help find find candidate **Total RNA Expression Genes (TREGs)**
+The goal of `TREG` is to help find candidate **Total RNA Expression Genes (TREGs)**
 in single nucleus (or single cell) RNA-seq data.
 
 ## Why are TREGs useful?
