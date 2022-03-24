@@ -18,6 +18,12 @@ coverage](https://codecov.io/gh/LieberInstitute/TREG/branch/main/graph/badge.svg
 The goal of `TREG` is to help find candidate **Total RNA Expression
 Genes (TREGs)** in single nucleus (or single cell) RNA-seq data.
 
+***Note**: TREG is pronounced as a single word and fully capitalized,
+unlike [Regulatory T
+cells](https://en.wikipedia.org/wiki/Regulatory_T_cell), which are known
+as “Tregs” (pronounced “T-regs”). The work described here is unrelated
+to regulatory T cells.*
+
 ### Why are TREGs useful?
 
 The expression of a TREG is proportional to the the overall RNA
@@ -210,7 +216,7 @@ contributing to this project, you agree to abide by its terms.
     *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)*
     customized to use [Bioconductor’s docker
     containers](https://www.bioconductor.org/help/docker/) and
-    *[BiocCheck](https://bioconductor.org/packages/3.13/BiocCheck)*.
+    *[BiocCheck](https://bioconductor.org/packages/3.15/BiocCheck)*.
 -   Code coverage assessment is possible thanks to
     [codecov](https://codecov.io/gh) and
     *[covr](https://CRAN.R-project.org/package=covr)*.
@@ -226,4 +232,4 @@ contributing to this project, you agree to abide by its terms.
 For more details, check the `dev` directory.
 
 This package was developed using
-*[biocthis](https://bioconductor.org/packages/3.13/biocthis)*.
+*[biocthis](https://bioconductor.org/packages/3.15/biocthis)*.

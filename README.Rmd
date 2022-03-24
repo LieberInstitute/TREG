@@ -26,6 +26,8 @@ knitr::opts_chunk$set(
 The goal of `TREG` is to help find candidate **Total RNA Expression Genes (TREGs)**
 in single nucleus (or single cell) RNA-seq data.
 
+_**Note**: TREG is pronounced as a single word and fully capitalized, unlike [Regulatory T cells](https://en.wikipedia.org/wiki/Regulatory_T_cell), which are known as "Tregs" (pronounced "T-regs"). The work described here is unrelated to regulatory T cells._
+
 ### Why are TREGs useful?
 The expression of a TREG is proportional to the the overall RNA expression in a
 cell. This relationship can be used to estimate total RNA content in cells in 

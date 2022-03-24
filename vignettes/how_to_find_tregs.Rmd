@@ -68,6 +68,8 @@ bib <- c(
 )
 ```
 
+_**Note**: TREG is pronounced as a single word and fully capitalized, unlike [Regulatory T cells](https://en.wikipedia.org/wiki/Regulatory_T_cell), which are known as "Tregs" (pronounced "T-regs"). The work described here is unrelated to regulatory T cells._
+
 # Basics
 
 ## Install `TREG`
