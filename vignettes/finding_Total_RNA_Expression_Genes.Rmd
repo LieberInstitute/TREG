@@ -513,11 +513,11 @@ Code for creating the vignette
 ```{r createVignette, eval=FALSE}
 ## Create the vignette
 library("rmarkdown")
-system.time(render("finding_Total_RNA_Expression_Genes.Rmd"))
+system.time(render("how_to_find_tregs.Rmd"))
 
 ## Extract the R code
 library("knitr")
-knit("finding_Total_RNA_Expression_Genes.Rmd", tangle = TRUE)
+knit("how_to_find_tregs.Rmd", tangle = TRUE)
 ```
 
 
