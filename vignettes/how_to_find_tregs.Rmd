@@ -1,5 +1,5 @@
 ---
-title: "How to Find Total RNA Expression Genes (TREGs)"
+title: "How to find Total RNA Expression Genes (TREGs)"
 author: 
   - name: Louise A. Huuki-Myers
     affiliation:
@@ -14,7 +14,7 @@ package: "`r pkg_ver('TREG')`"
 output: 
   BiocStyle::html_document
 vignette: >
-  %\VignetteIndexEntry{How to Find Total RNA Expression Genes (TREGs)}
+  %\VignetteIndexEntry{How to find Total RNA Expression Genes (TREGs)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
