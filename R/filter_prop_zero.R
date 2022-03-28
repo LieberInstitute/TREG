@@ -30,7 +30,7 @@ filter_prop_zero <- function(prop_zero_df, cutoff = 0.9) {
     max_prop_zero <- apply(prop_zero_df, 1, max)
     filter_prop <- max_prop_zero[max_prop_zero < cutoff]
 
-    if (length(filter_prop) == 0) warning(paste0("The provided cutoff (", cutoff, ") filters out every gene"))
+    if (length(filter_prop) == 0) warning("The provided cutoff (", cutoff, ") filters out every gene")
 
     return(names(filter_prop))
 }

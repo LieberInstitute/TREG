@@ -1,7 +1,7 @@
 Package: TREG
 Title: Tools for finding Total RNA Expression Genes in single nucleus RNA-seq
     data
-Version: 0.99.1
+Version: 0.99.2
 Date: 2022-03-25
 Authors@R: 
     c(person(given = "Louise",
@@ -28,7 +28,6 @@ BugReports: https://support.bioconductor.org/t/TREG
 biocViews: Software, SingleCell, RNASeq, GeneExpression, Transcriptomics,
     Transcription, Sequencing
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Depends: 
