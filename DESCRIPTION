@@ -28,6 +28,7 @@ BugReports: https://support.bioconductor.org/t/TREG
 biocViews: Software, SingleCell, RNASeq, GeneExpression, Transcriptomics,
     Transcription, Sequencing
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Depends: 
