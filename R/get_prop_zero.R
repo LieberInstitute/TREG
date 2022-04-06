@@ -33,6 +33,11 @@ get_prop_zero <- function(sce, group_col = "cellType") {
     stopifnot(inherits(sce, "SummarizedExperiment"))
     stopifnot("counts" %in% SummarizedExperiment::assayNames(sce))
     stopifnot(group_col %in% colnames(colData(sce)))
+    
+    ## Check for empty levels in grouping col
+    if (is.factor(sce[[group_col]]) & any(table(sce[[group_col]]) == 0)) {
+        warning("Empty Levels in group_col: ", group_col)
+    }
 
     gene_propZero <- purrr::map_dfc(rafalib::splitit(sce[[group_col]]), function(indx) {
         sce_group <- sce[, indx, drop = FALSE]

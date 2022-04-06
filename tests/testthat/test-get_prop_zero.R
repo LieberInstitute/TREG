@@ -20,3 +20,9 @@ test_that("Output is good", {
     expect_true(all(output["g100", ] == 1))
     expect_true(all(output["g0", ] == 0))
 })
+
+
+test_that("Empty Levels Warn", {
+    sce_zero_test$cellType <- factor(sce_zero_test$cellType, levels = c("A", "B", "C"))
+    expect_warning(get_prop_zero(sce_zero_test))
+})
