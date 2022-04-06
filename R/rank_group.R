@@ -21,6 +21,12 @@ rank_group <- function(sce, group_col = "cellType", assay = "logcounts") {
     stopifnot(group_col %in% colnames(colData(sce)))
     stopifnot(assay %in% assayNames(sce))
 
+    ## Check for empty levels in grouping col
+    if (is.factor(sce[[group_col]]) & any(table(sce[[group_col]]) == 0)) {
+        warning("Dropping Empty Levels in group_col: ", group_col)
+        sce[[group_col]] <- droplevels(sce[[group_col]])
+    }
+
     group_gene_rank <- purrr::map(rafalib::splitit(sce[[group_col]]), function(indx) {
         sce_group <- sce[, indx, drop = FALSE]
         group_ranks <- rank(Matrix::rowMeans(assay(sce_group, assay)))

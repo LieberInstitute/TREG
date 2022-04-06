@@ -16,3 +16,10 @@ test_that("Bad Inputs Throw Error - RI Express", {
     ## stepwise and express process should have the same output
     expect_equal(rank_invar_test, rank_invariance_express(sce = sce_zero_test, group_col = "group"))
 })
+
+
+
+test_that("Empty Levels are Dropped", {
+    sce_zero_test$cellType <- factor(sce_zero_test$cellType, levels = c("A", "B", "C"))
+    expect_warning(rank_invariance_express(sce_zero_test))
+})
