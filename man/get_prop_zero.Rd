@@ -27,7 +27,7 @@ the vignette in section "Calculate Proportion Zero and Pick Cutoff".
 }
 \examples{
 ## Basic Proportion counts == 0
-rowSums(assays(sce_zero_test)$counts == 0) / nrow(sce_zero_test)
+rowSums(assays(sce_zero_test)$counts == 0) / ncol(sce_zero_test)
 
 ## Get proportion by the default group "cellType"
 get_prop_zero(sce_zero_test)

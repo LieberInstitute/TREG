@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' ## Basic Proportion counts == 0
-#' rowSums(assays(sce_zero_test)$counts == 0) / nrow(sce_zero_test)
+#' rowSums(assays(sce_zero_test)$counts == 0) / ncol(sce_zero_test)
 #'
 #' ## Get proportion by the default group "cellType"
 #' get_prop_zero(sce_zero_test)
@@ -33,7 +33,7 @@ get_prop_zero <- function(sce, group_col = "cellType") {
     stopifnot(inherits(sce, "SummarizedExperiment"))
     stopifnot("counts" %in% SummarizedExperiment::assayNames(sce))
     stopifnot(group_col %in% colnames(colData(sce)))
-    
+
     ## Check for empty levels in grouping col
     if (is.factor(sce[[group_col]]) & any(table(sce[[group_col]]) == 0)) {
         warning("Empty Levels in group_col: ", group_col)

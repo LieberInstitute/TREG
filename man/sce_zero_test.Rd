@@ -12,7 +12,23 @@ object with 5 rows and 100 columns.
 sce_zero_test
 }
 \description{
-A dataset with a range of Proportion Zeros across groups for different
-genes which is used as a test and example dataset throughout this package.
+A simulated \link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment-class}
+object representing the expression of 100 cells across 5 genes.
+This object is used as an example dataset throughout \code{TREG}.
+}
+\details{
+The \code{colData} of the object contains demo sample information about the cell,
+that were designed to be used as \code{group_col}, (such as \code{cell_type}, \code{donor}, and  \code{region}).
+
+The expression of the 5 genes were designed to show a range of
+Proportion Zeros across groups for different genes.
+The overall \code{prop_zero} for these theoretical genes are:
+\itemize{
+\item g100: \code{prop_zero = 1.00}
+\item g50: \code{prop_zero = 0.50}
+\item g0: \code{prop_zero = 0.00}
+\item gOffOn: \code{prop_zero = 0.50}
+\item gVar: \code{prop_zero = 0.54}
+}
 }
 \keyword{datasets}
