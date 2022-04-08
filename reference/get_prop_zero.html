@@ -96,9 +96,9 @@ the vignette in section "Calculate Proportion Zero and Pick Cutoff".</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Basic Proportion counts == 0</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span><span class="op">$</span><span class="va">counts</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   g100    g50     g0 gOffOn   gVar </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   20.0   10.0    0.0   10.0   10.8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1.00   0.50   0.00   0.50   0.54 </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Get proportion by the default group "cellType"</span></span>
 <span class="r-in"><span class="fu">get_prop_zero</span><span class="op">(</span><span class="va">sce_zero_test</span><span class="op">)</span></span>
