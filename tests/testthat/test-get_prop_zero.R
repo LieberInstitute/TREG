@@ -23,6 +23,5 @@ test_that("Output is good", {
 
 
 test_that("Empty Levels Warn", {
-    sce_zero_test$cellType <- factor(sce_zero_test$cellType, levels = c("A", "B", "C"))
-    expect_warning(get_prop_zero(sce_zero_test))
+    expect_warning(get_prop_zero(sce_zero_test, group_col = "cellType_na"))
 })
