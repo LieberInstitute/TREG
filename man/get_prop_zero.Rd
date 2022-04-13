@@ -34,6 +34,9 @@ get_prop_zero(sce_zero_test)
 
 ## Get proportion by user defined grouping of the data
 get_prop_zero(sce_zero_test, group_col = "group")
+
+## Groups with missing levels will be dropped
+get_prop_zero(sce_zero_test, group_col = "cellType_na")
 }
 \seealso{
 Other Proportion Zero functions: 

@@ -24,7 +24,7 @@
 #'
 #' ## Get proportion by user defined grouping of the data
 #' get_prop_zero(sce_zero_test, group_col = "group")
-#' 
+#'
 #' ## Groups with missing levels will be dropped
 #' get_prop_zero(sce_zero_test, group_col = "cellType_na")
 #' @importFrom rafalib splitit
@@ -41,7 +41,7 @@ get_prop_zero <- function(sce, group_col = "cellType") {
     # if (is.factor(sce[[group_col]]) & any(table(sce[[group_col]]) == 0)) {
     #     warning("Empty Levels in group_col: ", group_col)
     # }
-    
+
     ## Check for empty levels in grouping col
     if (is.factor(sce[[group_col]]) & any(table(sce[[group_col]]) == 0)) {
         warning("Dropping Empty Levels in group_col: ", group_col)

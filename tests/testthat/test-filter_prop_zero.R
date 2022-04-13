@@ -24,3 +24,9 @@ test_that("Output Makes Sense", {
     # Check output with test data
     expect_equal(filter_prop_zero(prop_zero_df = test_prop_zero, cutoff = 0.59), c("g50", "g0"))
 })
+
+test_that("NA handling works", {
+    test_prop_zero[, 1] <- NA
+    expect_true(all(is.na(filter_prop_zero(test_prop_zero, na.rm = FALSE))))
+    expect_true(all(!is.na(filter_prop_zero(test_prop_zero, na.rm = TRUE))))
+})
