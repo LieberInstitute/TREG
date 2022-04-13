@@ -8,7 +8,7 @@
 #' rows, groups as columns.
 #' @param cutoff A `numeric()` cutoff value for maximum Proportion Zero.
 #' The cutoff value should be < 1.
-#' @param na.rm: a logical indicating whether missing values should be removed
+#' @param na.rm a logical indicating whether missing values should be removed
 #' when max prop_zero is calculated.
 #' @return A `character()` of gene names that are under the cutoff.
 #' These names are from the `rownames()` of the expression data.
@@ -20,11 +20,21 @@
 #'
 #' ## Filter with max Proportion Zero cutoff = 0.59
 #' filter_prop_zero(prop_zero, cutoff = 0.59)
-#' 
-#' ## Include NA values, the gene with max prop_zero = NA will be removed from the final list
-#' prop_zero[1,1] <- NA
+#'
+#' ## NA handling
+#' prop_zero[1, 1] <- NA
+#'
+#' ## If NA are present in the prop_zero_df the user can choose to:
+#'
+#' ## Remove NAs (default)
+#' ## genes with NA counts may be included in the final list
+#' filter_prop_zero(prop_zero, cutoff = 0.59, na.rm = TRUE)
+#'
+#' ## Include NA values
+#' ## any gene with genes with NA counts (so max prop_zero will be NA)
+#' ## will be removed from the final list, this will throw warning
 #' filter_prop_zero(prop_zero, cutoff = 0.59, na.rm = FALSE)
-#' 
+#'
 #' @family Proportion Zero functions
 filter_prop_zero <- function(prop_zero_df, cutoff = 0.9, na.rm = TRUE) {
     stopifnot(is.data.frame(prop_zero_df))
@@ -34,7 +44,7 @@ filter_prop_zero <- function(prop_zero_df, cutoff = 0.9, na.rm = TRUE) {
     stopifnot(cutoff <= 1)
 
     max_prop_zero <- apply(prop_zero_df, 1, max, na.rm = na.rm)
-    if(any(is.na(max_prop_zero))){
+    if (any(is.na(max_prop_zero))) {
         warning("NAs present in Max prop zero")
         max_prop_zero <- max_prop_zero[!is.na(max_prop_zero)]
     }
