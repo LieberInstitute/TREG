@@ -1,6 +1,6 @@
 ## code to prepare `sce_zero_test` dataset goes here
 
-library(SummarizedExperiment)
+library("SummarizedExperiment")
 
 pd <- S4Vectors::DataFrame(
     donor = rep(c("D1", "D2"), each = 50),
@@ -35,5 +35,11 @@ sce_zero_test <- SummarizedExperiment(list(counts = counts),
 assays(sce_zero_test)$logcounts <- log(assays(sce_zero_test)$counts + 1)
 
 sce_zero_test$group <- paste0(sce_zero_test$cellType, "_", sce_zero_test$region)
+
+# Add cell type as factor to test NA handling - missing cell type level "C"
+sce_zero_test$cellType_na <- factor(sce_zero_test$cellType, levels = c("A", "B", "C"))
+table(sce_zero_test$cellType_na)
+# A  B  C 
+# 50 50  0
 
 usethis::use_data(sce_zero_test, overwrite = TRUE)
