@@ -26,7 +26,8 @@ test_that("Output Makes Sense", {
 })
 
 test_that("NA handling works", {
-    test_prop_zero[, 1] <- NA
-    expect_true(all(is.na(filter_prop_zero(test_prop_zero, na.rm = FALSE))))
+    test_prop_zero[1, 1] <- NA
     expect_true(all(!is.na(filter_prop_zero(test_prop_zero, na.rm = TRUE))))
+    expect_warning(na_filter <- filter_prop_zero(test_prop_zero, na.rm = FALSE))
+    expect_equal(length(na_filter), sum(!apply(test_prop_zero, 1, anyNA)))
 })

@@ -31,6 +31,11 @@ prop_zero <- get_prop_zero(sce_zero_test, group_col = "group")
 
 ## Filter with max Proportion Zero cutoff = 0.59
 filter_prop_zero(prop_zero, cutoff = 0.59)
+
+## Include NA values, the gene with max prop_zero = NA will be removed from the final list
+prop_zero[1,1] <- NA
+filter_prop_zero(prop_zero, cutoff = 0.59, na.rm = FALSE)
+
 }
 \seealso{
 Other Proportion Zero functions: 
