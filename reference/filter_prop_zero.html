@@ -19,7 +19,7 @@ cutoff defined by the user."><!-- mathjax --><script src="https://cdnjs.cloudfla
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TREG</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.7</span>
       </span>
     </div>
 
@@ -67,7 +67,7 @@ cutoff defined by the user.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">filter_prop_zero</span><span class="op">(</span><span class="va">prop_zero_df</span>, cutoff <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">filter_prop_zero</span><span class="op">(</span><span class="va">prop_zero_df</span>, cutoff <span class="op">=</span> <span class="fl">0.9</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,6 +78,9 @@ rows, groups as columns.</p></dd>
 <dt>cutoff</dt>
 <dd><p>A <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code> cutoff value for maximum Proportion Zero.
 The cutoff value should be &lt; 1.</p></dd>
+<dt>na.rm</dt>
+<dd><p>a logical indicating whether missing values should be removed
+when max prop_zero is calculated.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -98,6 +101,24 @@ These names are from the <code><a href="https://rdrr.io/r/base/colnames.html" cl
 <span class="r-in"><span class="co">## Filter with max Proportion Zero cutoff = 0.59</span></span>
 <span class="r-in"><span class="fu">filter_prop_zero</span><span class="op">(</span><span class="va">prop_zero</span>, cutoff <span class="op">=</span> <span class="fl">0.59</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g50" "g0" </span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## NA handling</span></span>
+<span class="r-in"><span class="va">prop_zero</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## If NA are present in the prop_zero_df the user can choose to:</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## Remove NAs (default)</span></span>
+<span class="r-in"><span class="co">## genes with NA counts may be included in the final list</span></span>
+<span class="r-in"><span class="fu">filter_prop_zero</span><span class="op">(</span><span class="va">prop_zero</span>, cutoff <span class="op">=</span> <span class="fl">0.59</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g50" "g0" </span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## Include NA values </span></span>
+<span class="r-in"><span class="co">## any gene with genes with NA counts (so max prop_zero will be NA)</span></span>
+<span class="r-in"><span class="co">## will be removed from the final list, this will throw warning</span></span>
+<span class="r-in"><span class="fu">filter_prop_zero</span><span class="op">(</span><span class="va">prop_zero</span>, cutoff <span class="op">=</span> <span class="fl">0.59</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NAs present in Max prop zero</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g50" "g0" </span>
+<span class="r-in"></span>
 </code></pre></div>
     </div>
   </div>

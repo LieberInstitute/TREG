@@ -19,7 +19,7 @@ Genes with high RI values are considered good candidate TREGs."><!-- mathjax -->
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TREG</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.7</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@ represent low Rank Invariance, these genes are considered good candidate TREGs.<
 <span class="r-in"><span class="va">rank_invar_test</span> <span class="op">&lt;-</span> <span class="fu">rank_invariance</span><span class="op">(</span><span class="va">group_rank_test</span>, <span class="va">cell_rank_test</span><span class="op">)</span></span>
 <span class="r-in"><span class="co">## Highest RI value is best candidate TREG</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">rank_invar_test</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     g0   g100 gOffOn   gVar    g50 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     g0    g50   g100   gVar gOffOn </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      5      4      3      2      1 </span>
 </code></pre></div>
     </div>
