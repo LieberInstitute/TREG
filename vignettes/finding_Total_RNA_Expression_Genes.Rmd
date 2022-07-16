@@ -223,7 +223,7 @@ load(local_data, verbose = TRUE)
 
 ```{r "Data Size Check", echo=FALSE}
 ## Using 1.01 GB
-# lobstr::obj_size(sce.dlpfc.tran) / 1024^3
+# lobstr::obj_size(sce.dlpfc.tran) 
 ```
 
 ```{r "acronyms", echo=FALSE}
