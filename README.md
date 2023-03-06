@@ -39,7 +39,14 @@ build better deconvolution algorithms. But may be many other application
 for TREGs in experimental design!
 
 <p align="center">
-<img src="man/figures/TREG_cartoon.png" title="fig:" style="width:50.0%" alt="The Expression of a TREG can inform total RNA content of a cell" />
+
+<figure>
+<img src="man/figures/TREG_cartoon.png" style="width:50.0%"
+alt="The Expression of a TREG can inform total RNA content of a cell" />
+<figcaption aria-hidden="true">The Expression of a TREG can inform total
+RNA content of a cell</figcaption>
+</figure>
+
 </p>
 
 ### What makes a gene a good TREG?
@@ -57,13 +64,27 @@ for TREGs in experimental design!
     and may need to be validated experimentally.
 
 <p align="center">
-<img src="man/figures/fig1_rank_violin_demo.png" title="fig:" style="width:30.0%" alt="Distribution of ranks of a gene of High and Low Invariance" />
+
+<figure>
+<img src="man/figures/fig1_rank_violin_demo.png" style="width:30.0%"
+alt="Distribution of ranks of a gene of High and Low Invariance" />
+<figcaption aria-hidden="true">Distribution of ranks of a gene of High
+and Low Invariance</figcaption>
+</figure>
+
 </p>
 
 ### How to find candidate TREGs with `TREG`
 
 <p align="center">
-<img src="man/figures/RI_flow.png" title="fig:" style="width:100.0%" alt="Overview of the Rank Invariance Process" />
+
+<figure>
+<img src="man/figures/RI_flow.png" style="width:100.0%"
+alt="Overview of the Rank Invariance Process" />
+<figcaption aria-hidden="true">Overview of the Rank Invariance
+Process</figcaption>
+</figure>
+
 </p>
 
 1.  **Filter for low Proportion Zero genes snRNA-seq dataset:** This is
@@ -129,7 +150,7 @@ should be filtered by maximum Proportion Zero within a groups of cells.
 #> g50    0.48 0.52
 #> g0     0.00 0.00
 #> gOffOn 0.50 0.50
-#> gVar   0.68 0.40
+#> gVar   0.58 0.36
 
 ## Get list of genes that pass the max Proportion Zero filter
 (filtered_genes <- filter_prop_zero(prop_zero, cutoff = 0.9))
@@ -162,28 +183,31 @@ run this yourself to check for any updates on how to cite **TREG**.
 ``` r
 print(citation("TREG"), bibtex = TRUE)
 #> 
-#> Huuki-Myers LA, Collado-Torres L (2022). _TREG: a R/Bioconductor
-#> package to identify Total RNA Expression Genes_. doi:
-#> 10.18129/B9.bioc.TREG (URL: https://doi.org/10.18129/B9.bioc.TREG),
-#> https://github.com/LieberInstitute/TREG/TREG - R package version
-#> 0.99.0, <URL: http://www.bioconductor.org/packages/TREG>.
+#> To cite package 'TREG' in publications use:
+#> 
+#>   Huuki-Myers LA, Collado-Torres L (2023). _TREG: a R/Bioconductor
+#>   package to identify Total RNA Expression Genes_.
+#>   doi:10.18129/B9.bioc.TREG <https://doi.org/10.18129/B9.bioc.TREG>,
+#>   https://github.com/LieberInstitute/TREG/TREG - R package version
+#>   1.1.1, <http://www.bioconductor.org/packages/TREG>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
 #>   @Manual{,
 #>     title = {TREG: a R/Bioconductor package to identify Total RNA Expression Genes},
 #>     author = {Louise A. Huuki-Myers and Leonardo Collado-Torres},
-#>     year = {2022},
+#>     year = {2023},
 #>     url = {http://www.bioconductor.org/packages/TREG},
-#>     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 0.99.0},
+#>     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 1.1.1},
 #>     doi = {10.18129/B9.bioc.TREG},
 #>   }
 #> 
-#> Huuki-Myers LA, Montgomery KD, Kwon SH, Page SC, Hicks SC, Maynard KR,
-#> Collado-Torres L (2022). "Data Driven Identification of Total RNA
-#> Expression Genes "TREGs" for estimation of RNA abundance in
-#> heterogeneous cell types." _bioRxiv_. doi: 10.1101/TODO (URL:
-#> https://doi.org/10.1101/TODO), <URL: https://doi.org/10.1101/TODO>.
+#>   Huuki-Myers LA, Montgomery KD, Kwon SH, Page SC, Hicks SC, Maynard
+#>   KR, Collado-Torres L (2022). "Data Driven Identification of Total RNA
+#>   Expression Genes "TREGs" for estimation of RNA abundance in
+#>   heterogeneous cell types." _bioRxiv_. doi:10.1101/2022.04.28.489923
+#>   <https://doi.org/10.1101/2022.04.28.489923>,
+#>   <https://doi.org/10.1101/2022.04.28.489923>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -192,8 +216,8 @@ print(citation("TREG"), bibtex = TRUE)
 #>     author = {Louise A. Huuki-Myers and Kelsey D. Montgomery and Sang Ho. Kwon and Stephanie C. Page and Stephanie C. Hicks and Kristen R. Maynard and Leonardo Collado-Torres},
 #>     year = {2022},
 #>     journal = {bioRxiv},
-#>     doi = {10.1101/TODO},
-#>     url = {https://doi.org/10.1101/TODO},
+#>     doi = {10.1101/2022.04.28.489923},
+#>     url = {https://doi.org/10.1101/2022.04.28.489923},
 #>   }
 ```
 
@@ -209,27 +233,29 @@ contributing to this project, you agree to abide by its terms.
 
 ## Development tools
 
--   Continuous code testing is possible thanks to [GitHub
-    actions](https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/)
-    through *[usethis](https://CRAN.R-project.org/package=usethis)*,
-    *[remotes](https://CRAN.R-project.org/package=remotes)*, and
-    *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)*
-    customized to use [Bioconductor’s docker
-    containers](https://www.bioconductor.org/help/docker/) and
-    *[BiocCheck](https://bioconductor.org/packages/3.15/BiocCheck)*.
--   Code coverage assessment is possible thanks to
-    [codecov](https://codecov.io/gh) and
-    *[covr](https://CRAN.R-project.org/package=covr)*.
--   The [documentation website](http://LieberInstitute.github.io/TREG)
-    is automatically updated thanks to
-    *[pkgdown](https://CRAN.R-project.org/package=pkgdown)*.
--   The code is styled automatically thanks to
-    *[styler](https://CRAN.R-project.org/package=styler)*.
--   The documentation is formatted thanks to
-    *[devtools](https://CRAN.R-project.org/package=devtools)* and
-    *[roxygen2](https://CRAN.R-project.org/package=roxygen2)*.
+- Continuous code testing is possible thanks to [GitHub
+  actions](https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/)
+  through *[usethis](https://CRAN.R-project.org/package=usethis)*,
+  *[remotes](https://CRAN.R-project.org/package=remotes)*, and
+  *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)* customized
+  to use [Bioconductor’s docker
+  containers](https://www.bioconductor.org/help/docker/) and
+  *[BiocCheck](https://bioconductor.org/packages/3.15/BiocCheck)*.
+- Code coverage assessment is possible thanks to
+  [codecov](https://codecov.io/gh) and
+  *[covr](https://CRAN.R-project.org/package=covr)*.
+- The [documentation website](http://LieberInstitute.github.io/TREG) is
+  automatically updated thanks to
+  *[pkgdown](https://CRAN.R-project.org/package=pkgdown)*.
+- The code is styled automatically thanks to
+  *[styler](https://CRAN.R-project.org/package=styler)*.
+- The documentation is formatted thanks to
+  *[devtools](https://CRAN.R-project.org/package=devtools)* and
+  *[roxygen2](https://CRAN.R-project.org/package=roxygen2)*.
 
 For more details, check the `dev` directory.
 
 This package was developed using
 *[biocthis](https://bioconductor.org/packages/3.15/biocthis)*.
+
+:)

@@ -165,4 +165,4 @@ For more details, check the `dev` directory.
 
 This package was developed using `r BiocStyle::Biocpkg('biocthis')`.
 
-
+:)
