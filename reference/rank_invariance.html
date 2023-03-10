@@ -19,7 +19,7 @@ Genes with high RI values are considered good candidate TREGs."><!-- mathjax -->
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TREG</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
       </span>
     </div>
 
@@ -67,19 +67,24 @@ Genes with high RI values are considered good candidate TREGs.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rank_invariance</span><span class="op">(</span><span class="va">group_rank</span>, <span class="va">cell_rank</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rank_invariance</span><span class="op">(</span><span class="va">group_rank</span>, <span class="va">cell_rank</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>group_rank</dt>
 <dd><p>A <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> created with <code><a href="rank_group.html">rank_group()</a></code>.</p></dd>
+
+
 <dt>cell_rank</dt>
 <dd><p>A <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> created with <code><a href="rank_cells.html">rank_cells()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code> with the rank of invariance for each gene. High values
+    
+
+<p>A <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code> with the rank of invariance for each gene. High values
 represent low Rank Invariance, these genes are considered good candidate TREGs.</p>
     </div>
     <div id="see-also">
@@ -92,16 +97,16 @@ represent low Rank Invariance, these genes are considered good candidate TREGs.<
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Get the rank of the gene in each group</span></span>
-<span class="r-in"><span class="va">group_rank_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="rank_group.html">rank_group</a></span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Get the rank of the gene for each cell</span></span>
-<span class="r-in"><span class="va">cell_rank_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="rank_cells.html">rank_cells</a></span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Use both rankings to calculate rank_invariance</span></span>
-<span class="r-in"><span class="va">rank_invar_test</span> <span class="op">&lt;-</span> <span class="fu">rank_invariance</span><span class="op">(</span><span class="va">group_rank_test</span>, <span class="va">cell_rank_test</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">## Highest RI value is best candidate TREG</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">rank_invar_test</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Get the rank of the gene in each group</span></span></span>
+<span class="r-in"><span><span class="va">group_rank_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="rank_group.html">rank_group</a></span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Get the rank of the gene for each cell</span></span></span>
+<span class="r-in"><span><span class="va">cell_rank_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="rank_cells.html">rank_cells</a></span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Use both rankings to calculate rank_invariance</span></span></span>
+<span class="r-in"><span><span class="va">rank_invar_test</span> <span class="op">&lt;-</span> <span class="fu">rank_invariance</span><span class="op">(</span><span class="va">group_rank_test</span>, <span class="va">cell_rank_test</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## Highest RI value is best candidate TREG</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">rank_invar_test</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     g0    g50   g100   gVar gOffOn </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      5      4      3      2      1 </span>
 </code></pre></div>
@@ -118,8 +123,7 @@ represent low Rank Invariance, these genes are considered good candidate TREGs.<
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -19,7 +19,7 @@ invariance value for each gene later with rank_invariance()."><!-- mathjax --><s
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TREG</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
       </span>
     </div>
 
@@ -67,7 +67,7 @@ invariance value for each gene later with <code><a href="rank_invariance.html">r
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rank_cells</span><span class="op">(</span><span class="va">sce</span>, group_col <span class="op">=</span> <span class="st">"cellType"</span>, assay <span class="op">=</span> <span class="st">"logcounts"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rank_cells</span><span class="op">(</span><span class="va">sce</span>, group_col <span class="op">=</span> <span class="st">"cellType"</span>, assay <span class="op">=</span> <span class="st">"logcounts"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -75,19 +75,26 @@ invariance value for each gene later with <code><a href="rank_invariance.html">r
     <dl><dt>sce</dt>
 <dd><p><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">SummarizedExperiment-class</a> object with
 the <code>assay</code> (defaults to <code>logcounts</code>).</p></dd>
+
+
 <dt>group_col</dt>
 <dd><p>name of the column in the
 <a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData()</a> of <code>sce</code>
 that defines the group of interest.</p></dd>
+
+
 <dt>assay</dt>
 <dd><p>A <code>character(1)</code> specifying the name of the
 <a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay()</a> in the
 <code>sce</code> object to use to rank expression values. Defaults to <code>logcounts</code> since
 it typically contains the normalized expression values.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> of <code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code> objects. Each <code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code> contains the
+    
+
+<p>A named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> of <code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code> objects. Each <code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code> contains the
 rank values for the cells belonging to one group.</p>
     </div>
     <div id="see-also">
@@ -100,8 +107,8 @@ rank values for the cells belonging to one group.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Rank the genes for each cell, organized by "group" column</span></span>
-<span class="r-in"><span class="fu">rank_cells</span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Rank the genes for each cell, organized by "group" column</span></span></span>
+<span class="r-in"><span><span class="fu">rank_cells</span><span class="op">(</span><span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"group"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_Back</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        S011 S012 S013 S014 S015 S016 S017 S018 S019 S020 S051 S052 S053 S054</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> g100      1    2  1.5    2    1    2  1.5    2    1    2  1.5    2  1.5  2.5</span>
@@ -172,8 +179,7 @@ rank values for the cells belonging to one group.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">TREG</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.99.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.0</span>
       </span>
     </div>
 
@@ -92,207 +92,162 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of <code>TREG</code> is to help find candidate <strong>Total
-RNA Expression Genes (TREGs)</strong> in single nucleus (or single cell)
-RNA-seq data.</p>
-<p><em><strong>Note</strong>: TREG is pronounced as a single word and
-fully capitalized, unlike <a href="https://en.wikipedia.org/wiki/Regulatory_T_cell" class="external-link">Regulatory T
-cells</a>, which are known as “Tregs” (pronounced “T-regs”). The work
-described here is unrelated to regulatory T cells.</em></p>
+<p>The goal of <code>TREG</code> is to help find candidate <strong>Total RNA Expression Genes (TREGs)</strong> in single nucleus (or single cell) RNA-seq data.</p>
+<p><em><strong>Note</strong>: TREG is pronounced as a single word and fully capitalized, unlike <a href="https://en.wikipedia.org/wiki/Regulatory_T_cell" class="external-link">Regulatory T cells</a>, which are known as “Tregs” (pronounced “T-regs”). The work described here is unrelated to regulatory T cells.</em></p>
 <div class="section level3">
 <h3 id="why-are-tregs-useful">Why are TREGs useful?<a class="anchor" aria-label="anchor" href="#why-are-tregs-useful"></a>
 </h3>
-<p>The expression of a TREG is proportional to the the overall RNA
-expression in a cell. This relationship can be used to estimate total
-RNA content in cells in assays where only a few genes can be measured,
-such as single-molecule fluorescent in situ hybridization (smFISH).</p>
-<p>In a smFISH experiment the number of TREG puncta can be used to infer
-the total RNA expression of the cell.</p>
-<p>The motivation of this work is to collect data via smFISH in to help
-build better deconvolution algorithms. But may be many other application
-for TREGs in experimental design!</p>
+<p>The expression of a TREG is proportional to the the overall RNA expression in a cell. This relationship can be used to estimate total RNA content in cells in assays where only a few genes can be measured, such as single-molecule fluorescent in situ hybridization (smFISH).</p>
+<p>In a smFISH experiment the number of TREG puncta can be used to infer the total RNA expression of the cell.</p>
+<p>The motivation of this work is to collect data via smFISH in to help build better deconvolution algorithms. But may be many other application for TREGs in experimental design!</p>
 <p align="center">
-<img src="reference/figures/TREG_cartoon.png" title="fig:" style="width:50.0%" alt="The Expression of a TREG can inform total RNA content of a cell"></p>
+<figure><img src="reference/figures/TREG_cartoon.png" style="width:50.0%" alt="The Expression of a TREG can inform total RNA content of a cell"><figcaption aria-hidden="true">
+The Expression of a TREG can inform total RNA content of a cell
+</figcaption></figure></p>
 </div>
 <div class="section level3">
 <h3 id="what-makes-a-gene-a-good-treg">What makes a gene a good TREG?<a class="anchor" aria-label="anchor" href="#what-makes-a-gene-a-good-treg"></a>
 </h3>
 <ol style="list-style-type: decimal">
-<li><p>The gene must have <strong>non-zero expression in most
-cells</strong> across different tissue and cell types.</p></li>
-<li><p>A TREG should also be expressed at a constant level in respect to
-other genes across different cell types or have <strong>high rank
-invariance</strong>.</p></li>
-<li><p>Be <strong>measurable as a continuous metric</strong> in the
-experimental assay, for example have a dynamic range of puncta when
-observed in RNAscope. This will need to be considered for the candidate
-TREGs, and may need to be validated experimentally.</p></li>
+<li><p>The gene must have <strong>non-zero expression in most cells</strong> across different tissue and cell types.</p></li>
+<li><p>A TREG should also be expressed at a constant level in respect to other genes across different cell types or have <strong>high rank invariance</strong>.</p></li>
+<li><p>Be <strong>measurable as a continuous metric</strong> in the experimental assay, for example have a dynamic range of puncta when observed in RNAscope. This will need to be considered for the candidate TREGs, and may need to be validated experimentally.</p></li>
 </ol>
 <p align="center">
-<img src="reference/figures/fig1_rank_violin_demo.png" title="fig:" style="width:30.0%" alt="Distribution of ranks of a gene of High and Low Invariance"></p>
+<figure><img src="reference/figures/fig1_rank_violin_demo.png" style="width:30.0%" alt="Distribution of ranks of a gene of High and Low Invariance"><figcaption aria-hidden="true">
+Distribution of ranks of a gene of High and Low Invariance
+</figcaption></figure></p>
 </div>
 <div class="section level3">
 <h3 id="how-to-find-candidate-tregs-with-treg">How to find candidate TREGs with <code>TREG</code>
 <a class="anchor" aria-label="anchor" href="#how-to-find-candidate-tregs-with-treg"></a>
 </h3>
 <p align="center">
-<img src="reference/figures/RI_flow.png" title="fig:" style="width:100.0%" alt="Overview of the Rank Invariance Process"></p>
+<figure><img src="reference/figures/RI_flow.png" style="width:100.0%" alt="Overview of the Rank Invariance Process"><figcaption aria-hidden="true">
+Overview of the Rank Invariance Process
+</figcaption></figure></p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Filter for low Proportion Zero genes snRNA-seq
-dataset:</strong> This is facilitated with the functions
-<code><a href="reference/get_prop_zero.html">get_prop_zero()</a></code> and <code><a href="reference/filter_prop_zero.html">filter_prop_zero()</a></code>.
-snRNA-seq data is notoriously sparse, these functions enrich for genes
-with more universal expression.</p></li>
-<li><p><strong>Evaluate genes for Rank Invariance</strong> The nuclei
-are grouped only by cell type. Within each cell type, the mean
-expression for each gene is ranked, the result is a vector (length is
-the number of genes), using the function <code><a href="reference/rank_group.html">rank_group()</a></code>. Then
-the expression of each gene is ranked for each nucleus,the result is a
-matrix (the number of nuclei x number of genes), using the function
-<code><a href="reference/rank_cells.html">rank_cells()</a></code>.Then the absolute difference between the rank
-of each nucleus and the mean expression is found, from here the mean of
-the differences for each gene is calculated, then ranked. These steps
-are repeated for each group, the result is a matrix of ranks, (number of
-cell types x number of genes). From here the sum of the ranks for each
-gene are reversed ranked, so there is one final value for each gene, the
-“Rank Invariance” The genes with the highest rank-invariance are
-considered good candidates as TREGs. This is calculated with
-<code><a href="reference/rank_invariance_express.html">rank_invariance_express()</a></code>. <strong>This full process is
-implemented by:
-<code><a href="reference/rank_invariance_express.html">rank_invariance_express()</a></code>.</strong></p></li>
+<li><p><strong>Filter for low Proportion Zero genes snRNA-seq dataset:</strong> This is facilitated with the functions <code><a href="reference/get_prop_zero.html">get_prop_zero()</a></code> and <code><a href="reference/filter_prop_zero.html">filter_prop_zero()</a></code>. snRNA-seq data is notoriously sparse, these functions enrich for genes with more universal expression.</p></li>
+<li><p><strong>Evaluate genes for Rank Invariance</strong> The nuclei are grouped only by cell type. Within each cell type, the mean expression for each gene is ranked, the result is a vector (length is the number of genes), using the function <code><a href="reference/rank_group.html">rank_group()</a></code>. Then the expression of each gene is ranked for each nucleus,the result is a matrix (the number of nuclei x number of genes), using the function <code><a href="reference/rank_cells.html">rank_cells()</a></code>.Then the absolute difference between the rank of each nucleus and the mean expression is found, from here the mean of the differences for each gene is calculated, then ranked. These steps are repeated for each group, the result is a matrix of ranks, (number of cell types x number of genes). From here the sum of the ranks for each gene are reversed ranked, so there is one final value for each gene, the “Rank Invariance” The genes with the highest rank-invariance are considered good candidates as TREGs. This is calculated with <code><a href="reference/rank_invariance_express.html">rank_invariance_express()</a></code>. <strong>This full process is implemented by: <code><a href="reference/rank_invariance_express.html">rank_invariance_express()</a></code>.</strong></p></li>
 </ol>
 </div>
 <div class="section level2">
 <h2 id="installation-instructions">Installation instructions<a class="anchor" aria-label="anchor" href="#installation-instructions"></a>
 </h2>
-<p>Get the latest stable <code>R</code> release from <a href="http://cran.r-project.org/" class="external-link">CRAN</a>. Then install
-<code>TREG</code> using from <a href="http://bioconductor.org/" class="external-link">Bioconductor</a> the following code:</p>
+<p>Get the latest stable <code>R</code> release from <a href="http://cran.r-project.org/" class="external-link">CRAN</a>. Then install <code>TREG</code> using from <a href="http://bioconductor.org/" class="external-link">Bioconductor</a> the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"TREG"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"TREG"</span><span class="op">)</span></span></code></pre></div>
 <p>And the development version from <a href="https://github.com/LieberInstitute/TREG" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"LieberInstitute/TREG"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"LieberInstitute/TREG"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Load packages</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/LieberInstitute/TREG" class="external-link">"TREG"</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## Load packages</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/LieberInstitute/TREG" class="external-link">"TREG"</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="proportion-zero-filtering">Proportion Zero Filtering<a class="anchor" aria-label="anchor" href="#proportion-zero-filtering"></a>
 </h3>
-<p>A TREG gene should be expressed in almost every cell. The set of
-genes should be filtered by maximum Proportion Zero within a groups of
-cells.</p>
+<p>A TREG gene should be expressed in almost every cell. The set of genes should be filtered by maximum Proportion Zero within a groups of cells.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Calculate Proportion Zero in groups defined by a column in colData</span>
-<span class="op">(</span><span class="va">prop_zero</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_prop_zero.html">get_prop_zero</a></span><span class="op">(</span>sce <span class="op">=</span> <span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"cellType"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;           A    B</span>
-<span class="co">#&gt; g100   1.00 1.00</span>
-<span class="co">#&gt; g50    0.48 0.52</span>
-<span class="co">#&gt; g0     0.00 0.00</span>
-<span class="co">#&gt; gOffOn 0.50 0.50</span>
-<span class="co">#&gt; gVar   0.68 0.40</span>
-
-<span class="co">## Get list of genes that pass the max Proportion Zero filter</span>
-<span class="op">(</span><span class="va">filtered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/filter_prop_zero.html">filter_prop_zero</a></span><span class="op">(</span><span class="va">prop_zero</span>, cutoff <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "g50"    "g0"     "gOffOn" "gVar"</span>
-
-<span class="co">## Filter sce object to this list of genes</span>
-<span class="va">sce_filter</span> <span class="op">&lt;-</span> <span class="va">sce_zero_test</span><span class="op">[</span><span class="va">filtered_genes</span>, <span class="op">]</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## Calculate Proportion Zero in groups defined by a column in colData</span></span>
+<span><span class="op">(</span><span class="va">prop_zero</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_prop_zero.html">get_prop_zero</a></span><span class="op">(</span>sce <span class="op">=</span> <span class="va">sce_zero_test</span>, group_col <span class="op">=</span> <span class="st">"cellType"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;           A    B</span></span>
+<span><span class="co">#&gt; g100   1.00 1.00</span></span>
+<span><span class="co">#&gt; g50    0.48 0.52</span></span>
+<span><span class="co">#&gt; g0     0.00 0.00</span></span>
+<span><span class="co">#&gt; gOffOn 0.50 0.50</span></span>
+<span><span class="co">#&gt; gVar   0.58 0.36</span></span>
+<span></span>
+<span><span class="co">## Get list of genes that pass the max Proportion Zero filter</span></span>
+<span><span class="op">(</span><span class="va">filtered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/filter_prop_zero.html">filter_prop_zero</a></span><span class="op">(</span><span class="va">prop_zero</span>, cutoff <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "g50"    "g0"     "gOffOn" "gVar"</span></span>
+<span></span>
+<span><span class="co">## Filter sce object to this list of genes</span></span>
+<span><span class="va">sce_filter</span> <span class="op">&lt;-</span> <span class="va">sce_zero_test</span><span class="op">[</span><span class="va">filtered_genes</span>, <span class="op">]</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="evaluate-ri-for-filtered-sce-data">Evaluate RI for Filtered SCE Data<a class="anchor" aria-label="anchor" href="#evaluate-ri-for-filtered-sce-data"></a>
 </h3>
-<p>The genes with the highest Rank Invariance are considered good
-candidates as TREGs. In this example the gene <em>g0</em> would be the
-strongest candidate TREG.</p>
+<p>The genes with the highest Rank Invariance are considered good candidates as TREGs. In this example the gene <em>g0</em> would be the strongest candidate TREG.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Get the Rank Invariance value for each gene</span>
-<span class="co">## The highest values are the best TREG candidates</span>
-<span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/rank_invariance_express.html">rank_invariance_express</a></span><span class="op">(</span><span class="va">sce_filter</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">ri</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt;     g0 gOffOn   gVar    g50 </span>
-<span class="co">#&gt;      4      3      2      1</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## Get the Rank Invariance value for each gene</span></span>
+<span><span class="co">## The highest values are the best TREG candidates</span></span>
+<span><span class="va">ri</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/rank_invariance_express.html">rank_invariance_express</a></span><span class="op">(</span><span class="va">sce_filter</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">ri</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     g0 gOffOn   gVar    g50 </span></span>
+<span><span class="co">#&gt;      4      3      2      1</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>Below is the citation output from using <code>citation('TREG')</code>
-in R. Please run this yourself to check for any updates on how to cite
-<strong>TREG</strong>.</p>
+<p>Below is the citation output from using <code>citation('TREG')</code> in R. Please run this yourself to check for any updates on how to cite <strong>TREG</strong>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"TREG"</span><span class="op">)</span>, bibtex <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Huuki-Myers LA, Collado-Torres L (2022). _TREG: a R/Bioconductor</span>
-<span class="co">#&gt; package to identify Total RNA Expression Genes_. doi:</span>
-<span class="co">#&gt; 10.18129/B9.bioc.TREG (URL: https://doi.org/10.18129/B9.bioc.TREG),</span>
-<span class="co">#&gt; https://github.com/LieberInstitute/TREG/TREG - R package version</span>
-<span class="co">#&gt; 0.99.0, &lt;URL: http://www.bioconductor.org/packages/TREG&gt;.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; A BibTeX entry for LaTeX users is</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   @Manual{,</span>
-<span class="co">#&gt;     title = {TREG: a R/Bioconductor package to identify Total RNA Expression Genes},</span>
-<span class="co">#&gt;     author = {Louise A. Huuki-Myers and Leonardo Collado-Torres},</span>
-<span class="co">#&gt;     year = {2022},</span>
-<span class="co">#&gt;     url = {http://www.bioconductor.org/packages/TREG},</span>
-<span class="co">#&gt;     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 0.99.0},</span>
-<span class="co">#&gt;     doi = {10.18129/B9.bioc.TREG},</span>
-<span class="co">#&gt;   }</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Huuki-Myers LA, Montgomery KD, Kwon SH, Page SC, Hicks SC, Maynard KR,</span>
-<span class="co">#&gt; Collado-Torres L (2022). "Data Driven Identification of Total RNA</span>
-<span class="co">#&gt; Expression Genes "TREGs" for estimation of RNA abundance in</span>
-<span class="co">#&gt; heterogeneous cell types." _bioRxiv_. doi: 10.1101/TODO (URL:</span>
-<span class="co">#&gt; https://doi.org/10.1101/TODO), &lt;URL: https://doi.org/10.1101/TODO&gt;.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; A BibTeX entry for LaTeX users is</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   @Article{,</span>
-<span class="co">#&gt;     title = {Data Driven Identification of Total RNA Expression Genes "TREGs" for estimation of RNA abundance in heterogeneous cell types},</span>
-<span class="co">#&gt;     author = {Louise A. Huuki-Myers and Kelsey D. Montgomery and Sang Ho. Kwon and Stephanie C. Page and Stephanie C. Hicks and Kristen R. Maynard and Leonardo Collado-Torres},</span>
-<span class="co">#&gt;     year = {2022},</span>
-<span class="co">#&gt;     journal = {bioRxiv},</span>
-<span class="co">#&gt;     doi = {10.1101/TODO},</span>
-<span class="co">#&gt;     url = {https://doi.org/10.1101/TODO},</span>
-<span class="co">#&gt;   }</span></code></pre></div>
-<p>Please note that the <code>TREG</code> was only made possible thanks
-to many other R and bioinformatics software authors, which are cited
-either in the vignettes and/or the paper(s) describing this package.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"TREG"</span><span class="op">)</span>, bibtex <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; To cite package 'TREG' in publications use:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Huuki-Myers LA, Collado-Torres L (2023). _TREG: a R/Bioconductor</span></span>
+<span><span class="co">#&gt;   package to identify Total RNA Expression Genes_.</span></span>
+<span><span class="co">#&gt;   doi:10.18129/B9.bioc.TREG &lt;https://doi.org/10.18129/B9.bioc.TREG&gt;,</span></span>
+<span><span class="co">#&gt;   https://github.com/LieberInstitute/TREG/TREG - R package version</span></span>
+<span><span class="co">#&gt;   1.1.1, &lt;http://www.bioconductor.org/packages/TREG&gt;.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   @Manual{,</span></span>
+<span><span class="co">#&gt;     title = {TREG: a R/Bioconductor package to identify Total RNA Expression Genes},</span></span>
+<span><span class="co">#&gt;     author = {Louise A. Huuki-Myers and Leonardo Collado-Torres},</span></span>
+<span><span class="co">#&gt;     year = {2023},</span></span>
+<span><span class="co">#&gt;     url = {http://www.bioconductor.org/packages/TREG},</span></span>
+<span><span class="co">#&gt;     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 1.1.1},</span></span>
+<span><span class="co">#&gt;     doi = {10.18129/B9.bioc.TREG},</span></span>
+<span><span class="co">#&gt;   }</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Huuki-Myers LA, Montgomery KD, Kwon SH, Page SC, Hicks SC, Maynard</span></span>
+<span><span class="co">#&gt;   KR, Collado-Torres L (2022). "Data Driven Identification of Total RNA</span></span>
+<span><span class="co">#&gt;   Expression Genes "TREGs" for estimation of RNA abundance in</span></span>
+<span><span class="co">#&gt;   heterogeneous cell types." _bioRxiv_. doi:10.1101/2022.04.28.489923</span></span>
+<span><span class="co">#&gt;   &lt;https://doi.org/10.1101/2022.04.28.489923&gt;,</span></span>
+<span><span class="co">#&gt;   &lt;https://doi.org/10.1101/2022.04.28.489923&gt;.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   @Article{,</span></span>
+<span><span class="co">#&gt;     title = {Data Driven Identification of Total RNA Expression Genes "TREGs" for estimation of RNA abundance in heterogeneous cell types},</span></span>
+<span><span class="co">#&gt;     author = {Louise A. Huuki-Myers and Kelsey D. Montgomery and Sang Ho. Kwon and Stephanie C. Page and Stephanie C. Hicks and Kristen R. Maynard and Leonardo Collado-Torres},</span></span>
+<span><span class="co">#&gt;     year = {2022},</span></span>
+<span><span class="co">#&gt;     journal = {bioRxiv},</span></span>
+<span><span class="co">#&gt;     doi = {10.1101/2022.04.28.489923},</span></span>
+<span><span class="co">#&gt;     url = {https://doi.org/10.1101/2022.04.28.489923},</span></span>
+<span><span class="co">#&gt;   }</span></span></code></pre></div>
+<p>Please note that the <code>TREG</code> was only made possible thanks to many other R and bioinformatics software authors, which are cited either in the vignettes and/or the paper(s) describing this package.</p>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h2>
-<p>Please note that the <code>TREG</code> project is released with a <a href="http://bioconductor.org/about/code-of-conduct/" class="external-link">Contributor Code
-of Conduct</a>. By contributing to this project, you agree to abide by
-its terms.</p>
+<p>Please note that the <code>TREG</code> project is released with a <a href="http://bioconductor.org/about/code-of-conduct/" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 <div class="section level2">
 <h2 id="development-tools">Development tools<a class="anchor" aria-label="anchor" href="#development-tools"></a>
 </h2>
 <ul>
-<li>Continuous code testing is possible thanks to <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">GitHub
-actions</a> through <em><a href="https://CRAN.R-project.org/package=usethis" class="external-link">usethis</a></em>,
-<em><a href="https://CRAN.R-project.org/package=remotes" class="external-link">remotes</a></em>, and
-<em><a href="https://CRAN.R-project.org/package=rcmdcheck" class="external-link">rcmdcheck</a></em>
-customized to use <a href="https://www.bioconductor.org/help/docker/" class="external-link">Bioconductor’s docker
-containers</a> and <em><a href="https://bioconductor.org/packages/3.15/BiocCheck" class="external-link">BiocCheck</a></em>.</li>
+<li>Continuous code testing is possible thanks to <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">GitHub actions</a> through <em><a href="https://CRAN.R-project.org/package=usethis" class="external-link">usethis</a></em>, <em><a href="https://CRAN.R-project.org/package=remotes" class="external-link">remotes</a></em>, and <em><a href="https://CRAN.R-project.org/package=rcmdcheck" class="external-link">rcmdcheck</a></em> customized to use <a href="https://www.bioconductor.org/help/docker/" class="external-link">Bioconductor’s docker containers</a> and <em><a href="https://bioconductor.org/packages/3.15/BiocCheck" class="external-link">BiocCheck</a></em>.</li>
 <li>Code coverage assessment is possible thanks to <a href="https://codecov.io/gh" class="external-link">codecov</a> and <em><a href="https://CRAN.R-project.org/package=covr" class="external-link">covr</a></em>.</li>
-<li>The <a href="http://LieberInstitute.github.io/TREG" class="external-link">documentation
-website</a> is automatically updated thanks to <em><a href="https://CRAN.R-project.org/package=pkgdown" class="external-link">pkgdown</a></em>.</li>
+<li>The <a href="http://LieberInstitute.github.io/TREG" class="external-link">documentation website</a> is automatically updated thanks to <em><a href="https://CRAN.R-project.org/package=pkgdown" class="external-link">pkgdown</a></em>.</li>
 <li>The code is styled automatically thanks to <em><a href="https://CRAN.R-project.org/package=styler" class="external-link">styler</a></em>.</li>
-<li>The documentation is formatted thanks to <em><a href="https://CRAN.R-project.org/package=devtools" class="external-link">devtools</a></em> and
-<em><a href="https://CRAN.R-project.org/package=roxygen2" class="external-link">roxygen2</a></em>.</li>
+<li>The documentation is formatted thanks to <em><a href="https://CRAN.R-project.org/package=devtools" class="external-link">devtools</a></em> and <em><a href="https://CRAN.R-project.org/package=roxygen2" class="external-link">roxygen2</a></em>.</li>
 </ul>
 <p>For more details, check the <code>dev</code> directory.</p>
 <p>This package was developed using <em><a href="https://bioconductor.org/packages/3.15/biocthis" class="external-link">biocthis</a></em>.</p>
+<p>:)</p>
 </div>
 </div>
   </div>
@@ -359,8 +314,7 @@ website</a> is automatically updated thanks to <em><a href="https://CRAN.R-proje
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
