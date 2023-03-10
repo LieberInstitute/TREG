@@ -8,11 +8,17 @@
 [![DOI](https://zenodo.org/badge/391101988.svg)](https://zenodo.org/badge/latestdoi/391101988)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![BioC
-status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/TREG)
 [![R-CMD-check-bioc](https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/LieberInstitute/TREG/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/LieberInstitute/TREG/branch/main/graph/badge.svg)](https://codecov.io/gh/LieberInstitute/TREG?branch=main)
+[![Bioc release
+status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/TREG)
+[![Bioc devel
+status](http://www.bioconductor.org/shields/build/devel/bioc/TREG.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/TREG)
+[![Bioc downloads
+rank](https://bioconductor.org/shields/downloads/release/TREG.svg)](http://bioconductor.org/packages/stats/bioc/TREG/)
+[![Bioc
+support](https://bioconductor.org/shields/posts/TREG.svg)](https://support.bioconductor.org/tag/TREG)
 <!-- badges: end -->
 
 The goal of `TREG` is to help find candidate **Total RNA Expression
@@ -189,7 +195,7 @@ print(citation("TREG"), bibtex = TRUE)
 #>   package to identify Total RNA Expression Genes_.
 #>   doi:10.18129/B9.bioc.TREG <https://doi.org/10.18129/B9.bioc.TREG>,
 #>   https://github.com/LieberInstitute/TREG/TREG - R package version
-#>   1.1.1, <http://www.bioconductor.org/packages/TREG>.
+#>   1.3.0, <http://www.bioconductor.org/packages/TREG>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -198,7 +204,7 @@ print(citation("TREG"), bibtex = TRUE)
 #>     author = {Louise A. Huuki-Myers and Leonardo Collado-Torres},
 #>     year = {2023},
 #>     url = {http://www.bioconductor.org/packages/TREG},
-#>     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 1.1.1},
+#>     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 1.3.0},
 #>     doi = {10.18129/B9.bioc.TREG},
 #>   }
 #> 
@@ -240,7 +246,7 @@ contributing to this project, you agree to abide by its terms.
   *[rcmdcheck](https://CRAN.R-project.org/package=rcmdcheck)* customized
   to use [Bioconductor’s docker
   containers](https://www.bioconductor.org/help/docker/) and
-  *[BiocCheck](https://bioconductor.org/packages/3.15/BiocCheck)*.
+  *[BiocCheck](https://bioconductor.org/packages/3.16/BiocCheck)*.
 - Code coverage assessment is possible thanks to
   [codecov](https://codecov.io/gh) and
   *[covr](https://CRAN.R-project.org/package=covr)*.
@@ -256,6 +262,6 @@ contributing to this project, you agree to abide by its terms.
 For more details, check the `dev` directory.
 
 This package was developed using
-*[biocthis](https://bioconductor.org/packages/3.15/biocthis)*.
+*[biocthis](https://bioconductor.org/packages/3.16/biocthis)*.
 
 :)
