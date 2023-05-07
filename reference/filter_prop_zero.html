@@ -110,7 +110,7 @@ These names are from the <code><a href="https://rdrr.io/r/base/colnames.html" cl
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g50" "g0" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## NA handling</span></span></span>
-<span class="r-in"><span><span class="va">prop_zero</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
+<span class="r-in"><span><span class="va">prop_zero</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## If NA are present in the prop_zero_df the user can choose to:</span></span></span>
 <span class="r-in"><span></span></span>
@@ -119,7 +119,7 @@ These names are from the <code><a href="https://rdrr.io/r/base/colnames.html" cl
 <span class="r-in"><span><span class="fu">filter_prop_zero</span><span class="op">(</span><span class="va">prop_zero</span>, cutoff <span class="op">=</span> <span class="fl">0.59</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "g50" "g0" </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Include NA values </span></span></span>
+<span class="r-in"><span><span class="co">## Include NA values</span></span></span>
 <span class="r-in"><span><span class="co">## any gene with genes with NA counts (so max prop_zero will be NA)</span></span></span>
 <span class="r-in"><span><span class="co">## will be removed from the final list, this will throw warning</span></span></span>
 <span class="r-in"><span><span class="fu">filter_prop_zero</span><span class="op">(</span><span class="va">prop_zero</span>, cutoff <span class="op">=</span> <span class="fl">0.59</span>, na.rm <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>

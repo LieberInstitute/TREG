@@ -192,14 +192,13 @@ Overview of the Rank Invariance Process
 <p>Below is the citation output from using <code>citation('TREG')</code> in R. Please run this yourself to check for any updates on how to cite <strong>TREG</strong>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"TREG"</span><span class="op">)</span>, bibtex <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; To cite package 'TREG' in publications use:</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Huuki-Myers LA, Collado-Torres L (2023). _TREG: a R/Bioconductor</span></span>
 <span><span class="co">#&gt;   package to identify Total RNA Expression Genes_.</span></span>
 <span><span class="co">#&gt;   doi:10.18129/B9.bioc.TREG &lt;https://doi.org/10.18129/B9.bioc.TREG&gt;,</span></span>
 <span><span class="co">#&gt;   https://github.com/LieberInstitute/TREG/TREG - R package version</span></span>
-<span><span class="co">#&gt;   1.3.0, &lt;http://www.bioconductor.org/packages/TREG&gt;.</span></span>
+<span><span class="co">#&gt;   1.5.0, &lt;http://www.bioconductor.org/packages/TREG&gt;.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -208,7 +207,7 @@ Overview of the Rank Invariance Process
 <span><span class="co">#&gt;     author = {Louise A. Huuki-Myers and Leonardo Collado-Torres},</span></span>
 <span><span class="co">#&gt;     year = {2023},</span></span>
 <span><span class="co">#&gt;     url = {http://www.bioconductor.org/packages/TREG},</span></span>
-<span><span class="co">#&gt;     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 1.3.0},</span></span>
+<span><span class="co">#&gt;     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 1.5.0},</span></span>
 <span><span class="co">#&gt;     doi = {10.18129/B9.bioc.TREG},</span></span>
 <span><span class="co">#&gt;   }</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -240,14 +239,14 @@ Overview of the Rank Invariance Process
 <h2 id="development-tools">Development tools<a class="anchor" aria-label="anchor" href="#development-tools"></a>
 </h2>
 <ul>
-<li>Continuous code testing is possible thanks to <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">GitHub actions</a> through <em><a href="https://CRAN.R-project.org/package=usethis" class="external-link">usethis</a></em>, <em><a href="https://CRAN.R-project.org/package=remotes" class="external-link">remotes</a></em>, and <em><a href="https://CRAN.R-project.org/package=rcmdcheck" class="external-link">rcmdcheck</a></em> customized to use <a href="https://www.bioconductor.org/help/docker/" class="external-link">Bioconductor’s docker containers</a> and <em><a href="https://bioconductor.org/packages/3.16/BiocCheck" class="external-link">BiocCheck</a></em>.</li>
+<li>Continuous code testing is possible thanks to <a href="https://www.tidyverse.org/blog/2020/04/usethis-1-6-0/" class="external-link">GitHub actions</a> through <em><a href="https://CRAN.R-project.org/package=usethis" class="external-link">usethis</a></em>, <em><a href="https://CRAN.R-project.org/package=remotes" class="external-link">remotes</a></em>, and <em><a href="https://CRAN.R-project.org/package=rcmdcheck" class="external-link">rcmdcheck</a></em> customized to use <a href="https://www.bioconductor.org/help/docker/" class="external-link">Bioconductor’s docker containers</a> and <em><a href="https://bioconductor.org/packages/3.17/BiocCheck" class="external-link">BiocCheck</a></em>.</li>
 <li>Code coverage assessment is possible thanks to <a href="https://codecov.io/gh" class="external-link">codecov</a> and <em><a href="https://CRAN.R-project.org/package=covr" class="external-link">covr</a></em>.</li>
 <li>The <a href="http://LieberInstitute.github.io/TREG" class="external-link">documentation website</a> is automatically updated thanks to <em><a href="https://CRAN.R-project.org/package=pkgdown" class="external-link">pkgdown</a></em>.</li>
 <li>The code is styled automatically thanks to <em><a href="https://CRAN.R-project.org/package=styler" class="external-link">styler</a></em>.</li>
 <li>The documentation is formatted thanks to <em><a href="https://CRAN.R-project.org/package=devtools" class="external-link">devtools</a></em> and <em><a href="https://CRAN.R-project.org/package=roxygen2" class="external-link">roxygen2</a></em>.</li>
 </ul>
 <p>For more details, check the <code>dev</code> directory.</p>
-<p>This package was developed using <em><a href="https://bioconductor.org/packages/3.16/biocthis" class="external-link">biocthis</a></em>.</p>
+<p>This package was developed using <em><a href="https://bioconductor.org/packages/3.17/biocthis" class="external-link">biocthis</a></em>.</p>
 <p>:)</p>
 </div>
 </div>
@@ -297,14 +296,19 @@ Overview of the Rank Invariance Process
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://zenodo.org/badge/latestdoi/391101988" class="external-link"><img src="https://zenodo.org/badge/391101988.svg" alt="DOI"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
-<li><a href="https://github.com/LieberInstitute/TREG/actions" class="external-link"><img src="https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg" alt="R-CMD-check-bioc"></a></li>
-<li><a href="https://codecov.io/gh/LieberInstitute/TREG?branch=main" class="external-link"><img src="https://codecov.io/gh/LieberInstitute/TREG/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://bioconductor.org/checkResults/release/bioc-LATEST/TREG" class="external-link"><img src="http://www.bioconductor.org/shields/build/release/bioc/TREG.svg" alt="Bioc release status"></a></li>
 <li><a href="https://bioconductor.org/checkResults/devel/bioc-LATEST/TREG" class="external-link"><img src="http://www.bioconductor.org/shields/build/devel/bioc/TREG.svg" alt="Bioc devel status"></a></li>
 <li><a href="http://bioconductor.org/packages/stats/bioc/TREG/" class="external-link"><img src="https://bioconductor.org/shields/downloads/release/TREG.svg" alt="Bioc downloads rank"></a></li>
 <li><a href="https://support.bioconductor.org/tag/TREG" class="external-link"><img src="https://bioconductor.org/shields/posts/TREG.svg" alt="Bioc support"></a></li>
+<li><a href="https://bioconductor.org/packages/release/bioc/html/TREG.html#since" class="external-link"><img src="https://bioconductor.org/shields/years-in-bioc/TREG.svg" alt="Bioc history"></a></li>
+<li><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/TREG/" class="external-link"><img src="https://bioconductor.org/shields/lastcommit/devel/bioc/TREG.svg" alt="Bioc last commit"></a></li>
+<li><a href="https://bioconductor.org/packages/release/bioc/html/TREG.html#since" class="external-link"><img src="https://bioconductor.org/shields/dependencies/release/TREG.svg" alt="Bioc dependencies"></a></li>
+<li><a href="https://codecov.io/gh/LieberInstitute/TREG?branch=devel" class="external-link"><img src="https://codecov.io/gh/LieberInstitute/TREG/branch/devel/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/LieberInstitute/TREG/actions" class="external-link"><img src="https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/LieberInstitute/TREG/issues" class="external-link"><img src="https://img.shields.io/github/issues/LieberInstitute/TREG" alt="GitHub issues"></a></li>
+<li><a href="https://github.com/LieberInstitute/TREG/pulls" class="external-link"><img src="https://img.shields.io/github/issues-pr/LieberInstitute/TREG" alt="GitHub pulls"></a></li>
+<li><a href="https://zenodo.org/badge/latestdoi/391101988" class="external-link"><img src="https://zenodo.org/badge/391101988.svg" alt="DOI"></a></li>
 </ul>
 </div>
 
