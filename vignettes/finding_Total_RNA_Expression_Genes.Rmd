@@ -223,11 +223,10 @@ load(local_data, verbose = TRUE)
 
 ```{r "Data Size Check", echo=FALSE}
 ## Using 1.01 GB
-# lobstr::obj_size(sce.dlpfc.tran) 
+# lobstr::obj_size(sce.dlpfc.tran)
 ```
 
 ```{r "acronyms", echo=FALSE}
-
 ct_names <- tibble(
     "Cell Type" = c(
         "Astrocyte",

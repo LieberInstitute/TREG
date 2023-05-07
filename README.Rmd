@@ -16,14 +16,19 @@ knitr::opts_chunk$set(
 # TREG
 
 <!-- badges: start -->
-[![DOI](https://zenodo.org/badge/391101988.svg)](https://zenodo.org/badge/latestdoi/391101988)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![R-CMD-check-bioc](https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/LieberInstitute/TREG/actions)
-[![Codecov test coverage](https://codecov.io/gh/LieberInstitute/TREG/branch/main/graph/badge.svg)](https://codecov.io/gh/LieberInstitute/TREG?branch=main)
 [![Bioc release status](http://www.bioconductor.org/shields/build/release/bioc/TREG.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/TREG)
 [![Bioc devel status](http://www.bioconductor.org/shields/build/devel/bioc/TREG.svg)](https://bioconductor.org/checkResults/devel/bioc-LATEST/TREG)
 [![Bioc downloads rank](https://bioconductor.org/shields/downloads/release/TREG.svg)](http://bioconductor.org/packages/stats/bioc/TREG/)
 [![Bioc support](https://bioconductor.org/shields/posts/TREG.svg)](https://support.bioconductor.org/tag/TREG)
+[![Bioc history](https://bioconductor.org/shields/years-in-bioc/TREG.svg)](https://bioconductor.org/packages/release/bioc/html/TREG.html#since)
+[![Bioc last commit](https://bioconductor.org/shields/lastcommit/devel/bioc/TREG.svg)](http://bioconductor.org/checkResults/devel/bioc-LATEST/TREG/)
+[![Bioc dependencies](https://bioconductor.org/shields/dependencies/release/TREG.svg)](https://bioconductor.org/packages/release/bioc/html/TREG.html#since)
+[![Codecov test coverage](https://codecov.io/gh/LieberInstitute/TREG/branch/devel/graph/badge.svg)](https://codecov.io/gh/LieberInstitute/TREG?branch=devel)
+[![R build status](https://github.com/LieberInstitute/TREG/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/LieberInstitute/TREG/actions)
+[![GitHub issues](https://img.shields.io/github/issues/LieberInstitute/TREG)](https://github.com/LieberInstitute/TREG/issues)
+[![GitHub pulls](https://img.shields.io/github/issues-pr/LieberInstitute/TREG)](https://github.com/LieberInstitute/TREG/pulls)
+[![DOI](https://zenodo.org/badge/391101988.svg)](https://zenodo.org/badge/latestdoi/391101988)
 <!-- badges: end -->
 
 The goal of `TREG` is to help find candidate **Total RNA Expression Genes (TREGs)**
