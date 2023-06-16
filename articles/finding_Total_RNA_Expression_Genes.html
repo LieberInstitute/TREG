@@ -660,22 +660,23 @@ both aspects and are practical, ultimately we do encourage users to plot
 their own data.</p>
 <p>For example, making plots like those from <strong>Supplementary
 Figure 2</strong>. <strong>Supplementary Figure 2A</strong> is useful to
-examine where genes you might have expected to pass the filters are
-being dropped, and whether they were just below the filtering cutoffs or
-significantly far away from them. Once you have the candidate TREG
-results, then <strong>Supplementary Figure 2B</strong> is useful to
-examine at what point do the top candidate TREGs have a stronger
-relationship with total RNA expression as measured from the snRNA-seq
-data. That is, where the blue curve jumps up and shows a more clear
-association between the two axes of that plot.</p>
+examine whether genes you might have expected to pass the filters are
+being dropped. You can then check they were just below the filtering
+cutoffs, or significantly far away from them. Once you have the
+candidate TREG results, then <strong>Supplementary Figure 2B</strong> is
+useful to examine at what point do the top candidate TREGs have a
+stronger relationship with total RNA expression as measured from the
+snRNA-seq data. That is, where the blue curve jumps up and shows a more
+clear association between the two axes of that plot.</p>
 <p>Among the top candidate TREGs, there might be practical limitations
-to consider such as availability of RNAscope probes as well as
-measurability of the puncta for a given probe. We showed in
-<strong>Figure 5</strong> how <em>MALAT1</em> could not be reliably
-quantified with RNAscope as the puncta blur into each other. We thus
+to consider for using that TREG in another assay, such as availability
+of RNAscope probes as well as measurability of the puncta for a given
+probe. We showed in <strong>Figure 5</strong> how <em>MALAT1</em> could
+not be reliably quantified with RNAscope due to high expression and
+oversaturation of fluorescent signals. In the case of RNAscope, we
 recommend testing the measurability of candidate TREGs with RNAscope
-data before generating a full dataset with a potentially non-measurable
-probe.</p>
+data before generating a full dataset with a probe that may be difficult
+to accurately quantify.</p>
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
@@ -779,9 +780,9 @@ Vaughan, and Girlich, 2023)</li>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/knit.html" class="external-link">knit</a></span><span class="op">(</span><span class="st">"finding_Total_RNA_Expression_Genes.Rmd"</span>, tangle <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>Date the vignette was generated.</p>
-<pre><code><span><span class="co">#&gt; [1] "2023-06-16 11:31:52 EDT"</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; [1] "2023-06-16 18:08:12 EDT"</span></span></code></pre>
 <p>Wallclock time spent generating the vignette.</p>
-<pre><code><span><span class="co">#&gt; Time difference of 40.302 secs</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; Time difference of 39.821 secs</span></span></code></pre>
 <p><code>R</code> session information.</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #00BBBB; font-weight: bold;">─ Session info ───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt;  <span style="color: #555555; font-style: italic;">setting </span> <span style="color: #555555; font-style: italic;">value</span></span></span>
