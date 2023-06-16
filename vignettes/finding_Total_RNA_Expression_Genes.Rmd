@@ -435,7 +435,7 @@ cell_rank <- rank_cells(sce.dlpfc.tran, group_col = "cellType.broad")
 ## Use both rankings to calculate rank_invariance()
 rank_invar <- rank_invariance(group_rank, cell_rank)
 
-## The top 5 Canidate TREGs:
+## The top 5 Candidate TREGs:
 head(sort(rank_invar, decreasing = TRUE))
 ```
 
@@ -448,7 +448,7 @@ rank_invar2 <- rank_invariance_express(
     sce.dlpfc.tran,
     group_col = "cellType.broad"
 )
-## Again the top 5 Canidate TREGs:
+## Again the top 5 Candidate TREGs:
 head(sort(rank_invar2, decreasing = TRUE))
 
 ## Check computationally that the results are identical
@@ -457,6 +457,20 @@ stopifnot(identical(rank_invar, rank_invar2))
 
 The `rank_invariance_express()` function is more efficient as well, as it loops 
 through the data to rank the genes over cells, and groups at the same time. 
+
+# Selecting thresholds
+
+When identifying candidate TREGs with our software, there are a few thresholds users will select. In our manuscript `r Citep(bib[['TREGpaper']])`, we used a few filters.
+
+1. We focused on genes among the top 50% of genes expressed in the snRNA-seq data. This helped address sparsity inherent to snRNA-seq data.
+2. We used a maximum Proportion Zero filter of 75%. 
+
+Overall it’s a balancing act between the computational requirements (reduce sparsity inherent to snRNA-seq data, reduce expression rank ties) and the biological goal (select a gene expressed in most nuclei from all cell types of interest). If you focus on just genes expressed in all nuclei or above a given threshold as shown in this [figure](https://github.com/LieberInstitute/TREG_paper/blob/master/plots/05_perc_expressed/genes_percent_expressed.pdf), you could be losing too many genes (likely no gene is expressed in all nuclei as [shown in our data](https://github.com/LieberInstitute/TREG_paper/blob/0cdf9fbfbd691764a62f9f0fe8d4a0e31d326d04/code/05_perc_expressed/01_check_for_reviewer.R#L26)) or genes that are not expressed at all in some cell types, given that some cell types are much less frequent than other cell types. While we consider the thresholds we used as those that balance both aspects and are practical, ultimately we do encourage users to plot their own data.
+
+For example, making plots like those from **Supplementary Figure 2**. **Supplementary Figure 2A** is useful to examine where genes you might have expected to pass the filters are being dropped, and whether they were just below the filtering cutoffs or significantly far away from them. Once you have the candidate TREG results, then **Supplementary Figure 2B** is useful to examine at what point do the top candidate TREGs have a stronger relationship with total RNA expression as measured from the snRNA-seq data. That is, where the blue curve jumps up and shows a more clear association between the two axes of that plot.
+
+Among the top candidate TREGs, there might be practical limitations to consider such as availability of RNAscope probes as well as measurability of the puncta for a given probe. We showed in **Figure 5** how _MALAT1_ could not be reliably quantified with RNAscope as the puncta blur into each other. We thus recommend testing the measurability of candidate TREGs with RNAscope data before generating a full dataset with a potentially non-measurable probe.
+
 
 # Conclusion
 

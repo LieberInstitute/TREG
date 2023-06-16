@@ -1,8 +1,8 @@
 Package: TREG
 Title: Tools for finding Total RNA Expression Genes in single nucleus RNA-seq
     data
-Version: 1.5.0
-Date: 2022-05-04
+Version: 1.5.1
+Date: 2023-06-16
 Authors@R: 
     c(person(given = "Louise",
            family = "Huuki-Myers",
