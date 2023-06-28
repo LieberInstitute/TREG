@@ -3,6 +3,8 @@
 
 # TREG
 
+# TREG <a href="http://research.libd.org/TREG/"><img src="man/figures/logo.png" align="right" height="139" alt="TREG website" /></a>
+
 <!-- badges: start -->
 
 [![Lifecycle:
@@ -205,7 +207,7 @@ print(citation("TREG"), bibtex = TRUE)
 #>   package to identify Total RNA Expression Genes_.
 #>   doi:10.18129/B9.bioc.TREG <https://doi.org/10.18129/B9.bioc.TREG>,
 #>   https://github.com/LieberInstitute/TREG/TREG - R package version
-#>   1.5.0, <http://www.bioconductor.org/packages/TREG>.
+#>   1.5.1, <http://www.bioconductor.org/packages/TREG>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -214,7 +216,7 @@ print(citation("TREG"), bibtex = TRUE)
 #>     author = {Louise A. Huuki-Myers and Leonardo Collado-Torres},
 #>     year = {2023},
 #>     url = {http://www.bioconductor.org/packages/TREG},
-#>     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 1.5.0},
+#>     note = {https://github.com/LieberInstitute/TREG/TREG - R package version 1.5.1},
 #>     doi = {10.18129/B9.bioc.TREG},
 #>   }
 #> 
@@ -273,5 +275,3 @@ For more details, check the `dev` directory.
 
 This package was developed using
 *[biocthis](https://bioconductor.org/packages/3.17/biocthis)*.
-
-:)
